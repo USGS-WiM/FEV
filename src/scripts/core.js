@@ -1,5 +1,5 @@
 var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
-//var stnServicesURL = 'https://stntest.wim.usgs.gov/STNServices2'; //test URL
+//var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices2'; //test URL
 var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
 var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
 
@@ -120,6 +120,8 @@ var	met = L.layerGroup();
 var	waveheight = L.layerGroup();
 var hwm = L.layerGroup();
 var peak = L.layerGroup();
+
+var peakLabels = false;
 
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
 var rdg = L.featureGroup();
@@ -435,7 +437,7 @@ $( document ).ready(function() {
 	$.each(fev.layerList, function( index, layer ) {
 		if(layer.Category == 'real-time') realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 		if(layer.Category == 'observed') observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
-		if(layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name] = window[layer.ID];
+		if(layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name + "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></span></label>"] = window[layer.ID];
 		if(layer.Category == 'noaa') noaaOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
@@ -604,7 +606,7 @@ $( document ).ready(function() {
 
 	});
   	/* end basemap controller */
-
+	  
 	/* geocoder control */
 	//import USGS search API
 	var searchScript = document.createElement('script');
@@ -841,3 +843,28 @@ $( document ).ready(function() {
 	}
 	//end latLngScale utility logic/////////
 });
+
+function togglePeakLabels() {
+	if (map.getZoom() < 9) {
+		document.getElementById("peakCheckbox").disabled = true;
+	} else if (map.getZoom() >= 9) {
+		document.getElementById("peakCheckbox").disabled = false;
+		if (peakLabels === false) {
+			peak.eachLayer(function (myMarker) {
+				myMarker.showLabel();
+			});
+			peakLabels = true;
+			console.log('show');
+			return;
+		}
+		if (peakLabels === true) {
+			peak.eachLayer(function (myMarker) {
+				myMarker.hideLabel();
+			});
+			peakLabels = false;
+			console.log('hide');
+			return;
+		}
+	}
+	
+}
