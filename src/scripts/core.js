@@ -800,6 +800,14 @@ $(document).ready(function () {
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
 			$('#rtScaleAlert').show();
+			if (peakLabels === true) {
+				peak.eachLayer(function (myMarker) {
+					myMarker.hideLabel();
+				});
+				$('#peakCheckbox').click();
+				peakLabels = false;
+				return;
+			}
 		}
 
 		if (map.getZoom() >= 9) {
