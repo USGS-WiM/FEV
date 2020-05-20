@@ -213,7 +213,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
             markerCoords.push(latlng);
             var marker = L.marker(latlng, {
                 icon: markerIcon
-            });
+            }).bindLabel("Peak: " + feature.properties.peak_stage.toString());;
             return marker;
         },
         onEachFeature: function (feature, latlng) {
