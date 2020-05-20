@@ -210,10 +210,11 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     peak.clearLayers();
     var currentMarker = L.geoJson(false, {
         pointToLayer: function (feature, latlng) {
+            var labelText = feature.properties.peak_stage !== undefined ? feature.properties.peak_stage.toString() : 'No Value';
             markerCoords.push(latlng);
             var marker = L.marker(latlng, {
                 icon: markerIcon
-            }).bindLabel("Peak: " + feature.properties.peak_stage.toString());;
+            }).bindLabel("Peak: " + labelText);
             return marker;
         },
         onEachFeature: function (feature, latlng) {
