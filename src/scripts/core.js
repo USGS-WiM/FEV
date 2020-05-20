@@ -148,6 +148,9 @@ $.ajax({
 			//noaaService = noaaTrack;
 			console.log("noaa layer added");
 		}
+	},
+	error: function (error) {
+		console.log('Error processing the JSON. The error is:' + error);
 	}
 });
 
@@ -409,7 +412,13 @@ $( document ).ready(function() {
 
 	//display USGS rt gages by default on map load
 	USGSrtGages.addTo(map);
-	noaaService.addTo(map);
+	
+
+	noaaService.metadata(function(err, response) {
+		if (response) {
+			noaaService.addTo(map);
+		}
+	  });
 
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
