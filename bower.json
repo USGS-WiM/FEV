@@ -16,7 +16,8 @@
     "OverlappingMarkerSpiderfier-Leaflet": "http://jawj.github.com/OverlappingMarkerSpiderfier-Leaflet/bin/oms.min.js",
     "highcharts": "^4.2.6",
     "moment": "^2.14.1",
-    "bootstrap-datepicker": "^1.6.4"
+    "bootstrap-datepicker": "^1.6.4",
+    "Leaflet.label": "^0.2.1"
   },
   "overrides": {
     "select2": {
