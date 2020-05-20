@@ -368,7 +368,13 @@ $(document).ready(function () {
 
 	//display USGS rt gages by default on map load
 	USGSrtGages.addTo(map);
-	noaaService.addTo(map);
+
+	// checking to see if service is live
+	noaaService.metadata(function(err, response) {
+		if (response) {
+			noaaService.addTo(map);
+		}
+	  });
 
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
@@ -451,53 +457,6 @@ $(document).ready(function () {
 		}
 	});
 
-<<<<<<< HEAD
-	//add sensor markercluster group to the map
-	//sensorMCG.addTo(map);
-	//add sensor subgroups to the map
-	//baro.addTo(map);
-	//stormTide.addTo(map);
-	//met.addTo(map);
-	//waveHeight.addTo(map);
-	//add hwm markercluster group to the map
-	//hwmMCG.addTo(map);
-	// add hwm subgroup to the map
-	//hwm.addTo(map);
-	//peak.addTo(map);
-	//add USGS rt gages to the map
-	//rdg.addTo(map);
-
-	//display USGS rt gages by default on map load
-	USGSrtGages.addTo(map);
-	
-
-	noaaService.metadata(function(err, response) {
-		if (response) {
-			noaaService.addTo(map);
-		}
-	  });
-
-	//define layer 'overlays' (overlay is a leaflet term)
-	//define the real-time overlay and manually add the NWIS RT gages to it
-	var realTimeOverlays = {
-		"<img class='legendSwatch' src='images/nwis.png'>&nbsp;Real-time Stream Gage" : USGSrtGages,
-		"<img class='legendSwatch' src='images/rainIcon.png'>&nbsp;Real-time Rain Gage" : USGSRainGages
-	};
-	//define observed overlay and interpreted overlay, leave blank at first
-	var observedOverlays = {};
-	var interpretedOverlays = {};
-	var noaaOverlays = {};
-
-	if (noAdvisories) {
-		var div = document.getElementById('noTrackAdvisory');
-		div.innerHTML += "No Active Advisories";
-	} else {
-		noaaOverlays = {
-			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;NOAA Tropical Cyclone Forecast Track" : noaaService
-		};
-	}
-=======
->>>>>>> 33c294fe61beb7a035b29e75b0b43acc954ba1f0
 	
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
