@@ -1,5 +1,5 @@
 var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
-//var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices2'; //test URL
+// var stnServicesURL = 'https://stntest.wim.usgs.gov/stnservices'; //test URL
 var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
 var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
 
@@ -218,9 +218,8 @@ $.ajax({
 // 	}
 // });
 // var hwm = L.featureGroup.subGroup(hwmMCG);
-
+var zoomMargin;
 ///end markercluster code//////////////////////////////////////////////////////////////
-
 //main document ready function
 $(document).ready(function () {
 	//for jshint
@@ -920,7 +919,7 @@ $(document).ready(function () {
 			case 0: return '591,657,550';
 		}
 	}
-	//end latLngScale utility logic/////////
+	//end latLngScale utility logic////////	
 });
 
 function togglePeakLabels() {
@@ -946,4 +945,9 @@ function togglePeakLabels() {
 		}
 	}
 
+}
+
+function enlargeImage() {
+	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
+	$('#imagemodal').modal('show');   
 }
