@@ -37,7 +37,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         if (data[i].filetype_id === 13 ) {
                             containsHydrograph = true;
                             hydrographURL = "https://stn.wim.usgs.gov/STNServices/Files/" + data[i].file_id + "/Item";
-                            hydrographElement = '<br><img title="Click to enlarge" data-toggle="tooltip" class="hydroImage" onclick="enlargeImage()" src=' + hydrographURL + '\>'
+                            hydrographElement = '<br><img title="Click to enlarge" style="cursor: pointer;" data-toggle="tooltip" class="hydroImage" onclick="enlargeImage()" src=' + hydrographURL + '\>'
                         }
                     }
 
