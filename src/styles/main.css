@@ -75,6 +75,16 @@ body {
     border:1px solid #e1ebfc;
 }
 
+#imageModalDialog {
+    width: 60%;
+}
+
+@media (max-width: 768px) {
+    #imageModalDialog {
+      width: 100%;
+    }
+  }
+
 /*
     ===========================
     ===========================
