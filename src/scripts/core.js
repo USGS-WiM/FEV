@@ -1,7 +1,15 @@
 var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
-//var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices2'; //test URL
-var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
-var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
+// var stnServicesURL = 'https://stntest.wim.usgs.gov/stnservices'; //test URL
+
+ // public info PROD urls
+ var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
+ var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
+
+// public info TEST urls
+/* var sensorPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/SensorPage?Site=";
+var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site="; */
+
+
 
 var fev = fev || {
 	data: {
@@ -218,9 +226,8 @@ $.ajax({
 // 	}
 // });
 // var hwm = L.featureGroup.subGroup(hwmMCG);
-
+var zoomMargin;
 ///end markercluster code//////////////////////////////////////////////////////////////
-
 //main document ready function
 $(document).ready(function () {
 	//for jshint
@@ -811,7 +818,9 @@ $(document).ready(function () {
 			$('#rtScaleAlert').show();
 			if (peakLabels === true) {
 				peak.eachLayer(function (myMarker) {
-					myMarker.hideLabel();
+					myMarker.unbindLabel();
+					var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+					myMarker.bindLabel("Peak: " + labelText);
 				});
 				$('#peakCheckbox').click();
 				peakLabels = false;
@@ -920,7 +929,7 @@ $(document).ready(function () {
 			case 0: return '591,657,550';
 		}
 	}
-	//end latLngScale utility logic/////////
+	//end latLngScale utility logic////////	
 });
 
 function togglePeakLabels() {
@@ -930,6 +939,9 @@ function togglePeakLabels() {
 		document.getElementById("peakCheckbox").disabled = false;
 		if (peakLabels === false) {
 			peak.eachLayer(function (myMarker) {
+				myMarker.unbindLabel();
+				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+				myMarker.bindLabel("Peak: " + labelText, {noHide: true});
 				myMarker.showLabel();
 			});
 			peakLabels = true;
@@ -938,7 +950,9 @@ function togglePeakLabels() {
 		}
 		if (peakLabels === true) {
 			peak.eachLayer(function (myMarker) {
-				myMarker.hideLabel();
+				myMarker.unbindLabel();
+				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+				myMarker.bindLabel("Peak: " + labelText);
 			});
 			peakLabels = false;
 			console.log('hide');
@@ -946,4 +960,9 @@ function togglePeakLabels() {
 		}
 	}
 
+}
+
+function enlargeImage() {
+	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
+	$('#imagemodal').modal('show');   
 }
