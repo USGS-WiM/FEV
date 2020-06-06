@@ -1,7 +1,15 @@
 var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
 // var stnServicesURL = 'https://stntest.wim.usgs.gov/stnservices'; //test URL
-var sensorPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/SensorPage?Site=";
-var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site=";
+
+ // public info PROD urls
+ var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
+ var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
+
+// public info TEST urls
+/* var sensorPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/SensorPage?Site=";
+var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site="; */
+
+
 
 var fev = fev || {
 	data: {
