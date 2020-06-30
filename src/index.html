@@ -45,6 +45,10 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+        <!-- search_api 2.1 -->
+        <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css" />
+        <script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
+
     <!--<link rel="stylesheet" href="bower_components/wim-styles/core/css/wim.css">-->
 
     <link rel="stylesheet" href="styles/base.css">
@@ -158,32 +162,42 @@
 </div>
 
 
-<div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title">Geosearch</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div id="sapi_searchTextBoxDiv">Loading Search Bar...</div>
-                        <span class="input-group-btn">
-                        <button id="searchSubmit" class="btn btn-success" type="button">Go!</button>
-                        </span>
-                    </div><!-- /input-group -->
+    <!-- Geosearch Modal - button at top right of navbar, used for a simple location search-->
+    <div class="modal fade overflow-y-hidden" id="geosearchModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Geosearch</h4>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <div class="form-group" align="center">
+                        <div id="search_container">
+                            <div style="margin-left: -120px;" id="searchMap">
+                            </div>
+                        </div>
+                        <div class="search-help" align="center"> </br>
+                            <b>Supported Search Strings:</b> </br>
+                            <code>Geographic Names</code>
+                            <code>Zip Codes</code>
+                            <code>States</code>
+                            <code>Street Address</code>
+                            <br />
+                            <br /> Search provided by
+                            <a href="https://txpub.usgs.gov/dss/search_api/2.0/" target="_blank">USGS Search JavaScript
+                                API</a>
+                        </div>
+                    </div>
                 </div>
                 <form id="geosearch-form" class="form-inline">
-                    <input id="chkExtent" type="checkbox">  Search within current map extent only<br>
+
+                    <button id="btnDismiss" type="submit" class="dismissbutton btn"
+                        data-dismiss="modal">Dismiss</button>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true" style="color:gray;" class="btn btn-default">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
+        </div>
+    </div>
+    <!-- end Geosearch Modal -->
 
 <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" id="imageModalDialog">
