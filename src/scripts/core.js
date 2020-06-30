@@ -9,7 +9,7 @@ var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
 /* var sensorPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/SensorPage?Site=";
 var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site="; */
 
-
+var searchResults;
 
 var fev = fev || {
 	data: {
@@ -625,10 +625,6 @@ $(document).ready(function () {
 	$('.check').on('click', function () {
 		$(this).find('span').toggle();
 	});
-
-	function showGeosearchModal() {
-		$('#geosearchModal').modal('show');
-	}
 	$('#geosearchNav').click(function () {
 		showGeosearchModal();
 	});
@@ -687,92 +683,170 @@ $(document).ready(function () {
 
 	/* geocoder control */
 	//import USGS search API
+	/*
 	var searchScript = document.createElement('script');
 	searchScript.src = 'https://txpub.usgs.gov/DSS/search_api/1.1/api/search_api.min.js';
 	searchScript.onload = function () {
 		setSearchAPI();
 	};
 	document.body.appendChild(searchScript);
+	*/
 
-	function setSearchAPI() {
-		// setup must be done after the search_api is loaded and ready ('load' event triggered)
-		search_api.on('load', function () {
+		// add empty geojson layer that will contain suggested locations on update
+		var suggestion_layer = L.geoJson(null, {
+			pointToLayer: function (feature, latlng) {
+				return (
+					L.marker(latlng, {
+						opacity: 0.4
+					})
+						.bindPopup(
+							// popup content
+							'<div style="text-align:center;">' +
+							'<b>' + feature.properties.Label + '</b><br/>' +
+							feature.properties.Category +
+							'</div>',
+							// options
+							{ autoPan: false } // do not pan map to popup when opens
+						)
+						.on("mouseover", function () {
+							// make marker opaque and open popup when mouse is over marker
+							this.setOpacity(1.0).openPopup();
+						})
+						.on("mouseout", function () {
+							// make marker semi-transparent and close popup when mouse exits marker
+							this.setOpacity(0.4).closePopup();
+						})
+						.on("click", function () {
+							// set result with the marker feature and trigger result event to select the location when the marker is clicked
+							searchObj.result = feature;
+							searchObj.val("").trigger("result");
+						})
+				);
+			}
+		}).addTo(map);
 
-			$('#chkExtent').change(function () {
-				if ($(this).is(':checked')) {
-					console.log('Checked', map.getBounds().getSouth(), map.getBounds().getNorth(), map.getBounds().getWest(), map.getBounds().getEast());
-					var mapBounds = map.getBounds();
+	function showGeosearchModal() {
+		$('#geosearchModal').modal('show');
 
-					search_api.setOpts({
-						'LATmin': mapBounds.getSouth(),
-						'LATmax': mapBounds.getNorth(),
-						'LONmin': mapBounds.getWest(),
-						'LONmax': mapBounds.getEast()
-					});
+		search_api.create("searchMap", {
+
+			// appearance
+			size: "lg", // sizing option, one of "lg" (large), "md" (medium), "sm" (small), "xs" (extra small)
+			width: 500,  // width of the widget [px]
+			placeholder: "Search for a location", // text box placeholder prompt to display when no text is entered
+			/* // search area
+			lat_min       : bounds.getSouth(), // minimum latitude
+			lat_max       : bounds.getNorth(), // maximum latitude
+			lon_min       : bounds.getWest(),  // minimum longitude
+			lon_max       : bounds.getEast(),  // maximum longitude
+			search_states : "tx,ok,nm",        // csv list of 1 or more U.S. States or Territories */
+
+			// suggestion menu
+			menu_min_char: 2,     // minimum number of characters required before attempting to find menu suggestions
+			menu_max_entries: 50,    // maximum number of menu items to display
+			menu_height: 400,   // maximum height of menu [px]
+
+			include_gnis_major: true,  // whether to include GNIS places as suggestions in the menu: major categories (most common)...
+			include_gnis_minor: false,  // ...minor categories (less common)
+
+			include_state: true,  // whether to include U.S. States and Territories as suggestions in the menu
+			include_zip_code: false,  // whether to include 5-digit zip codes as suggestions in the menu
+			include_area_code: false,  // whether to include 3-digit area codes as suggestions in the menu
+
+			include_usgs_sw: false,  // whether to include USGS site numbers as suggestions in the menu: surface water...
+			include_usgs_gw: false,  // ...ground water
+			include_usgs_sp: false,  // ...spring
+			include_usgs_at: false,  // ...atmospheric
+			include_usgs_ot: false,  // ...other
+
+			include_huc2: false,  // whether to include Hydrologic Unit Code (HUC) numbers as suggestions in the menu: 2-digit...
+			include_huc4: false,  // ... 4-digit
+			include_huc6: false,  // ... 6-digit
+			include_huc8: false,  // ... 8-digit
+			include_huc10: false,  // ...10-digit
+			include_huc12: false,  // ...12-digit
+
+			// event callback functions
+			// function argument "o" is widget object
+			// "o.result" is geojson point feature of search result with properties
+
+			// function to execute when a search is started
+			// triggered when the search textbox text changes
+			on_search: function (o) {
+				//console.warn(o.id + ": my 'on_search' callback function - a search is started");
+				map.closePopup(); // close any previous popup when user searches for new location
+			},
+
+			// function to execute when the suggestion menu is updated
+			on_update: function (o) {
+				// update geojson layer with menu suggestions
+				suggestion_layer.clearLayers().addData(o.getSuggestions());
+
+				// zoom to layer if there are any points
+				// pad left so open menu does not cover any points
+				if (suggestion_layer.getBounds().isValid()) {
+					map.fitBounds(suggestion_layer.getBounds().pad(0.4), { paddingTopLeft: [350, 0] });
 				}
-			});
 
-			search_api.setOpts({
-				'textboxPosition': 'user-defined',
-				'theme': 'user-defined',
-				'DbSearchIncludeUsgsSiteSW': true,
-				'DbSearchIncludeUsgsSiteGW': true,
-				'DbSearchIncludeUsgsSiteSP': true,
-				'DbSearchIncludeUsgsSiteAT': true,
-				'DbSearchIncludeUsgsSiteOT': true
-			});
+				// find corresponding map marker by lat-lon when mouse enters a menu item
+				// open the marker popup and set opaque
+				$(".search-api-menu-item").off("mouseenter").on("mouseenter", function () {
+					var Lat = $(this).data("properties").Lat;
+					var Lon = $(this).data("properties").Lon;
+					/*suggestion_layer.eachLayer(function (lyr) {
+						if (Lat === lyr.feature.properties.Lat && Lon === lyr.feature.properties.Lon) {
+							lyr.setOpacity(1.0).openPopup();
+						} else {
+							lyr.setOpacity(0.4).closePopup();
+						} 
+					});*/
+				});
 
-			// define what to do when a location is found
-			search_api.on('location-found', function (lastLocationFound) {
+				// close popups and set markers semi-transparent when mouse leaves a menu item
+				$(".search-api-menu-item").off("mouseleave").on("mouseleave", function () {
+					map.closePopup();
+					suggestion_layer.eachLayer(function (lyr) { lyr.setOpacity(0.4); });
+				});
+			},
 
+			// function to execute when a suggestion is chosen
+			// triggered when a menu item is selected
+			on_result: function (o) {
+				console.warn(o.id + ": my 'on_result' callback function - a menu item was selected");
+				searchResults = o;
 				$('#geosearchModal').modal('hide');
+				geosearchComplete();
+			},
 
-				var zoomlevel = 14;
-				if (lastLocationFound.Category === 'U.S. State or Territory') zoomlevel = 9;
+			// function to execute when no suggestions are found for the typed text
+			// triggered when services return no results or time out
+			on_failure: function (o) {
+				console.warn(o.id + ": my 'on_failure' callback function - the services returned no results or timed out");
+			},
 
-				map.setView([lastLocationFound.y, lastLocationFound.x], zoomlevel);
-
-				L.popup()
-					.setLatLng([lastLocationFound.y, lastLocationFound.x])
-					.setContent(
-						'<p>' +
-						'<b>' + lastLocationFound.label + '</b> ' + '<br/>' +
-						'<br/>' +
-						'<b>NAME:            </b> ' + lastLocationFound.name + '<br/>' +
-						'<b>CATEGORY:        </b> ' + lastLocationFound.category + '<br/>' +
-						'<b>STATE:           </b> ' + lastLocationFound.state + '<br/>' +
-						'<b>COUNTY:          </b> ' + lastLocationFound.county + '<br/>' +
-						'<br/>' +
-						'<b>LATITUDE:        </b> ' + lastLocationFound.y + '<br/>' +
-						'<b>LONGITUDE:       </b> ' + lastLocationFound.x + '<br/>' +
-						'<b>ELEVATION (FEET):</b> ' + lastLocationFound.elevFt + '<br/>' +
-						'<br/>' +
-						'<b>PERCENT MATCH:   </b> ' + lastLocationFound.pctMatch + '<br/>' +
-						'</p>'
-					)
-					.openOn(map);
-
-			});
-
-			// define what to do when no location is found
-			search_api.on('no-result', function () {
-				// show alert dialog
-				console.error('No location matching the entered text could be found.');
-			});
-
-			// define what to do when a search times out
-			search_api.on('timeout', function () {
-				// show alert dialog
-				console.error('The search operation timed out.');
-			});
-		});
-
-
-		$('#searchSubmit').on('click', function () {
-			console.log('in search submit');
-			$('#sapi-searchTextBox').keyup();
+			// miscellaneous
+			verbose: false // whether to set verbose mode on (true) or off (false)
 		});
 	}
+
+		//the geosearch (in the navbar) zooms to the input location and returns a popup with location name, county, state
+		function geosearchComplete() {
+			map
+				.fitBounds([ // zoom to location
+					[searchResults.result.properties.LatMin, searchResults.result.properties.LonMin],
+					[searchResults.result.properties.LatMax, searchResults.result.properties.LonMax]
+				]);
+	
+			//location popup
+			map.openPopup(
+				"<b>" + searchResults.result.properties.Name + "</b><br/>" +
+				searchResults.result.properties.County + ", " + searchResults.result.properties.State,
+				[searchResults.result.properties.Lat, searchResults.result.properties.Lon]
+			);
+	
+		}
+		//end of search api
+
 
 	/* geocoder control */
 
