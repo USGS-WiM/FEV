@@ -211,10 +211,12 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
             return marker;
         },
         onEachFeature: function (feature, latlng) {
+            console.log(feature.properties.is_peak_estimated);
             //add marker to overlapping marker spidifier
             oms.addMarker(latlng);
             //var popupContent = '';
             var currentEvent = fev.vars.currentEventName;
+            if (feature.properties.is_peak_estimated == 0) {
             //set popup content using moment js to pretty format the date value
             var popupContent =
                 '<table class="table table-condensed table-striped table-hover wim-table">' +
@@ -222,6 +224,17 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
                 '<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>' +
                 '<tr><td>' + feature.properties.peak_stage + '</td><td>' + feature.properties.vdatum + '</td><td>' + moment(feature.properties.peak_date).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>' +
                 '</table>';
+            }
+            if (feature.properties.is_peak_estimated == 1) {
+                console.log(feature.properties);
+                            //set popup content using moment js to pretty format the date value
+            var popupContent =
+            '<table class="table table-condensed table-striped table-hover wim-table">' +
+            '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
+            '<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>' +
+            '<tr><td>' + feature.properties.peak_stage + "*" + '</td><td>' + feature.properties.vdatum + '</td><td>' + moment(feature.properties.peak_date).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>' +
+            '</table>' + "*Estimated"; 
+            }
 
             // $.each(feature.properties, function( index, value ) {
             //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
