@@ -26,7 +26,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                 url: url,
                 dataType: 'json',
                 data: data,
-                headers: {'Accept': '*/*'},
+                headers: { 'Accept': '*/*' },
                 success: function (data) {
                     var hydrographURL = '';
                     var hydrographElement;
@@ -34,7 +34,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                     var noHydrograph = '<span style="float: right;padding-right: 15px;">No graph available</span>';
                     var hydroPopupText;
                     for (var i = 0; i < data.length; i++) {
-                        if (data[i].filetype_id === 13 ) {
+                        if (data[i].filetype_id === 13) {
                             containsHydrograph = true;
                             hydrographURL = "https://stn.wim.usgs.gov/STNServices/Files/" + data[i].file_id + "/Item";
                             hydrographElement = '<br><img title="Click to enlarge" style="cursor: pointer;" data-toggle="tooltip" class="hydroImage" onclick="enlargeImage()" src=' + hydrographURL + '\>'
@@ -62,7 +62,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
                         '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
                         '<tr><td colspan="2"><strong>Hydrograph: </strong>' + hydroPopupText
-                        '</table>';
+                    '</table>';
                     latlng.bindPopup(popupContent);
                 },
                 error: function (error) {
@@ -211,17 +211,32 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
             return marker;
         },
         onEachFeature: function (feature, latlng) {
+            console.log(feature.properties.is_peak_estimated);
             //add marker to overlapping marker spidifier
             oms.addMarker(latlng);
             //var popupContent = '';
             var currentEvent = fev.vars.currentEventName;
-            //set popup content using moment js to pretty format the date value
-            var popupContent =
-                '<table class="table table-condensed table-striped table-hover wim-table">' +
-                '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
-                '<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>' +
-                '<tr><td>' + feature.properties.peak_stage + '</td><td>' + feature.properties.vdatum + '</td><td>' + moment(feature.properties.peak_date).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>' +
-                '</table>';
+            //If peak is not estimated, keep the original popup
+            if (feature.properties.is_peak_estimated == 0) {
+                //set popup content using moment js to pretty format the date value
+                var popupContent =
+                    '<table class="table table-condensed table-striped table-hover wim-table">' +
+                    '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
+                    '<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>' +
+                    '<tr><td>' + feature.properties.peak_stage + '</td><td>' + feature.properties.vdatum + '</td><td>' + moment(feature.properties.peak_date).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>' +
+                    '</table>';
+            }
+            //If peak is estimated, indicate that in popup
+            if (feature.properties.is_peak_estimated == 1) {
+                console.log(feature.properties);
+                //set popup content using moment js to pretty format the date value
+                var popupContent =
+                    '<table class="table table-condensed table-striped table-hover wim-table">' +
+                    '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
+                    '<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>' +
+                    '<tr><td>' + feature.properties.peak_stage + "*" + '</td><td>' + feature.properties.vdatum + '</td><td>' + moment(feature.properties.peak_date).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>' +
+                    '</table>' + "*Estimated";
+            }
 
             // $.each(feature.properties, function( index, value ) {
             //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
