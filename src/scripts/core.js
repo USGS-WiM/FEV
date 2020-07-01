@@ -914,6 +914,13 @@ $(document).ready(function () {
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
+			if (map.hasLayer(rdg)) {
+			setTimeout(() => {
+				rdg.clearLayers(map);
+			displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
+		
+			}, 2000);
+		}
 		}
 		if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9 && !foundPopup) {
 			//USGSrtGages.clearLayers();
