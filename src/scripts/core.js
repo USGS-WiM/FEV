@@ -1,9 +1,9 @@
 var stnServicesURL = 'https://stn.wim.usgs.gov/STNServices';
 // var stnServicesURL = 'https://stntest.wim.usgs.gov/stnservices'; //test URL
 
- // public info PROD urls
- var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
- var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
+// public info PROD urls
+var sensorPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/SensorPage?Site=";
+var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
 
 // public info TEST urls
 /* var sensorPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/SensorPage?Site=";
@@ -377,11 +377,11 @@ $(document).ready(function () {
 	USGSrtGages.addTo(map);
 
 	// checking to see if service is live
-	noaaService.metadata(function(err, response) {
+	noaaService.metadata(function (err, response) {
 		if (response) {
 			noaaService.addTo(map);
 		}
-	  });
+	});
 
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
@@ -411,7 +411,7 @@ $(document).ready(function () {
 		if (layer.Category == 'noaa') noaaOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
-	
+
 
 
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
@@ -464,7 +464,7 @@ $(document).ready(function () {
 		}
 	});
 
-	
+
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
 	var realTimeToggle = L.control.layers(null, realTimeOverlays, { collapsed: false });
@@ -498,7 +498,7 @@ $(document).ready(function () {
 		keepSpiderfied: true
 	});
 
-	
+
 	/* map.addLayer(editableLayers);
 
 	var options = {
@@ -692,38 +692,38 @@ $(document).ready(function () {
 	document.body.appendChild(searchScript);
 	*/
 
-		// add empty geojson layer that will contain suggested locations on update
-		var suggestion_layer = L.geoJson(null, {
-			pointToLayer: function (feature, latlng) {
-				return (
-					L.marker(latlng, {
-						opacity: 0.4
+	// add empty geojson layer that will contain suggested locations on update
+	var suggestion_layer = L.geoJson(null, {
+		pointToLayer: function (feature, latlng) {
+			return (
+				L.marker(latlng, {
+					opacity: 0.4
+				})
+					.bindPopup(
+						// popup content
+						'<div style="text-align:center;">' +
+						'<b>' + feature.properties.Label + '</b><br/>' +
+						feature.properties.Category +
+						'</div>',
+						// options
+						{ autoPan: false } // do not pan map to popup when opens
+					)
+					.on("mouseover", function () {
+						// make marker opaque and open popup when mouse is over marker
+						this.setOpacity(1.0).openPopup();
 					})
-						.bindPopup(
-							// popup content
-							'<div style="text-align:center;">' +
-							'<b>' + feature.properties.Label + '</b><br/>' +
-							feature.properties.Category +
-							'</div>',
-							// options
-							{ autoPan: false } // do not pan map to popup when opens
-						)
-						.on("mouseover", function () {
-							// make marker opaque and open popup when mouse is over marker
-							this.setOpacity(1.0).openPopup();
-						})
-						.on("mouseout", function () {
-							// make marker semi-transparent and close popup when mouse exits marker
-							this.setOpacity(0.4).closePopup();
-						})
-						.on("click", function () {
-							// set result with the marker feature and trigger result event to select the location when the marker is clicked
-							searchObj.result = feature;
-							searchObj.val("").trigger("result");
-						})
-				);
-			}
-		}).addTo(map);
+					.on("mouseout", function () {
+						// make marker semi-transparent and close popup when mouse exits marker
+						this.setOpacity(0.4).closePopup();
+					})
+					.on("click", function () {
+						// set result with the marker feature and trigger result event to select the location when the marker is clicked
+						searchObj.result = feature;
+						searchObj.val("").trigger("result");
+					})
+			);
+		}
+	}).addTo(map);
 
 	function showGeosearchModal() {
 		$('#geosearchModal').modal('show');
@@ -829,23 +829,23 @@ $(document).ready(function () {
 		});
 	}
 
-		//the geosearch (in the navbar) zooms to the input location and returns a popup with location name, county, state
-		function geosearchComplete() {
-			map
-				.fitBounds([ // zoom to location
-					[searchResults.result.properties.LatMin, searchResults.result.properties.LonMin],
-					[searchResults.result.properties.LatMax, searchResults.result.properties.LonMax]
-				]);
-	
-			//location popup
-			map.openPopup(
-				"<b>" + searchResults.result.properties.Name + "</b><br/>" +
-				searchResults.result.properties.County + ", " + searchResults.result.properties.State,
-				[searchResults.result.properties.Lat, searchResults.result.properties.Lon]
-			);
-	
-		}
-		//end of search api
+	//the geosearch (in the navbar) zooms to the input location and returns a popup with location name, county, state
+	function geosearchComplete() {
+		map
+			.fitBounds([ // zoom to location
+				[searchResults.result.properties.LatMin, searchResults.result.properties.LonMin],
+				[searchResults.result.properties.LatMax, searchResults.result.properties.LonMax]
+			]);
+
+		//location popup
+		map.openPopup(
+			"<b>" + searchResults.result.properties.Name + "</b><br/>" +
+			searchResults.result.properties.County + ", " + searchResults.result.properties.State,
+			[searchResults.result.properties.Lat, searchResults.result.properties.Lon]
+		);
+
+	}
+	//end of search api
 
 
 	/* geocoder control */
@@ -914,13 +914,14 @@ $(document).ready(function () {
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
+			//put the rdg layer on top
+			//set timeout because if the stream gages finish loading after they rdg gages are loaded, they'll be on top
 			if (map.hasLayer(rdg)) {
-			setTimeout(() => {
-				rdg.clearLayers(map);
-			displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
-		
-			}, 2000);
-		}
+				setTimeout(() => {
+					rdg.bringToFront();
+					//displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
+				}, 2000);
+			}
 		}
 		if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9 && !foundPopup) {
 			//USGSrtGages.clearLayers();
@@ -1022,7 +1023,7 @@ function togglePeakLabels() {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-				myMarker.bindLabel("Peak: " + labelText, {noHide: true});
+				myMarker.bindLabel("Peak: " + labelText, { noHide: true });
 				myMarker.showLabel();
 			});
 			peakLabels = true;
@@ -1045,5 +1046,5 @@ function togglePeakLabels() {
 
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
-	$('#imagemodal').modal('show');   
+	$('#imagemodal').modal('show');
 }
