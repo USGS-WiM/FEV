@@ -919,7 +919,7 @@ $(document).ready(function () {
 			if (map.hasLayer(rdg)) {
 				setTimeout(() => {
 					rdg.bringToFront();
-					//displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
+					displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
 				}, 2000);
 			}
 		}
