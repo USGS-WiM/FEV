@@ -86,9 +86,9 @@
 
 </head>
 
-    <!-- search_api 2.1 -->
-    <link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css" />
-    <script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
+<!-- search_api 2.1 -->
+<link rel="stylesheet" href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css" />
+<script type="text/javascript" src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
 
 
 <body>
@@ -127,6 +127,15 @@
             <!--<span class="icon-bar"></span>-->
             <!--</button>-->
         </div>
+    </div>
+
+    <!-- This application doesn't work with Internet Explorer. If the user tries to use it, tell them not to-->
+    <div id=IEwarningModal>
+        <script>
+            if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
+                alert("Internet Explorer users may experience problems with this application's functionality. We recommend using Edge, Chrome, or Firefox for best results.");
+            }
+        </script>
     </div>
 
     <!-- Welcome modal - only displays when 1)user arrive without event in URL and 2) have not checked "don't show me this again"(preference stored in cookies)-->
