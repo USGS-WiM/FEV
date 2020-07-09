@@ -278,89 +278,60 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     });
 }
 
-/*
+//get NOAA tides gages and plot on map
 function displayTidesGeoJSON(type, name, url, markerIcon) {
     //increment layerCount
     layerCount++;
     useCors: false;
     tides.clearLayers();
+
+    //create a geoJSON to populate with coordinates of NOAA tides gages
+    var noaaTidesGeoJSON = {"features": [{"type": "Feature", "geometry":{"coordinates":[0, 0], "type":"Point"}}]};
     var currentMarker = L.geoJson(false, {
         pointToLayer: function (feature, latlng) {
-            //var labelText = feature.properties.peak_stage !== undefined ? feature.properties.peak_stage.toString() : 'No Value';
             markerCoords.push(latlng);
             var marker = L.marker(latlng, {
                 icon: markerIcon
-            }).bindLabel("Tides");
+            });
             return marker;
         },
     });
 
+    //access the url that contains the tides data
     $.getJSON(url, function (data) {
-        if (data.length == 0) {
+        if (data.stations.length == 0) {
             console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
             return
         }
-        if (data.features.length > 0) {
-            console.log("tides data found");
-            
-            console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
-            //check for bad lat/lon values
-            for (var i = data.features.length - 1; i >= 0; i--) {
-                //check that lat/lng are not NaN
-                if (isNaN(data.features[i].geometry.coordinates[0]) || isNaN(data.features[i].geometry.coordinates[1])) {
-                    console.error("Bad latitude or latitude value for point: ", data.features[i]);
-                    //remove it from array
-                    data.features.splice(i, 1);
+        if (data.stations.length > 0) {       
+            console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            //loop through every gage in the geojson
+            for (var i = data.stations.length - 1; i >= 0; i--) {
+
+                //retrieve lat/lon coordinates
+                var latitude = data.stations[i].lat;
+                var longitude = data.stations[i].lng;
+
+                //check that lat/lng are not NaN or 0 and are within the US
+                if (isNaN(latitude) || isNaN(longitude) || fev.vars.extentSouth <= latitude <= fev.vars.extentNorth && fev.vars.extentWest <= longitude <= fev.vars.extentEast || latitude == 0 || longitude == 0) {
+                    console.error("Bad latitude or latitude value for point: ", data.stations[i]);
                 }
-                //check that lat/lng are within the US and also not 0
-                if (fev.vars.extentSouth <= data.features[i].geometry.coordinates[0] <= fev.vars.extentNorth && fev.vars.extentWest <= data.features[i].geometry.coordinates[1] <= fev.vars.extentEast || data.features[i].geometry.coordinates[0] == 0 || data.features[i].geometry.coordinates[1] == 0) {
-                    console.error("Bad latitude or latitude value for point: ", data.features[i]);
-                    //remove it from array
-                    data.features.splice(i, 1);
+                //if the lat/lng seems good, add the point to the geoJSON
+                else {
+                    noaaTidesGeoJSON.features[i] = {"type":"Feature","geometry":{"coordinates":[longitude, latitude],"type":"Point"}};
                 }
             }
-            currentMarker.addData(data);
+            //get the data from the new geoJSON
+            currentMarker.addData(noaaTidesGeoJSON);
             currentMarker.eachLayer(function (layer) {
                 layer.addTo(tides);
             });
+            //plot tides gages on map
             tides.addTo(map);
             checkLayerCount(layerCount);
-        }
+        }    
     });
 }
-*/
-
-
-//get tide data from NOAA geoJSON
-//link to related NOAA data: https://tidesandcurrents.noaa.gov/api-helper/url-generator.html
-function queryTides() {
-    var tidemarkers = {};
-    var url = "https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json?type=currents&units=english";
-    $.ajax({
-        url: url,
-        //changing dataType from json to jsonp got rid of one error, but produced a different one
-        dataType: "jsonp",
-        data: tidemarkers,
-        accept: {
-            json: 'application/json',
-            xml: 'application/xml'
-        },
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        success: function (tidesjson) {
-            console.log("queryTides success");
-        },
-        error: function(tidesjson) {
-            console.log("queryTides failure");
-        }
-    })
-}
-
-queryTides();
-
-
-
-
-
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
 function populateEventDates(eventID) {
@@ -733,8 +704,7 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
-        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'data/noaaTides.geojson', tidesMarkerIcon);
-        //if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/api/datagetter?date=latest&product=air_temperature&time_zone=gmt&units=english&format=json', tidesMarkerIcon);
+        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
     });
 
 } //end filterMapData function
