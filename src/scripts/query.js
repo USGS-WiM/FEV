@@ -299,6 +299,7 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
 
     //access the url that contains the tides data
     $.getJSON(url, function (data) {
+        console.log(data);
         if (data.stations.length == 0) {
             console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
             return
@@ -312,10 +313,11 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
                 var latitude = data.stations[i].lat;
                 var longitude = data.stations[i].lng;
 
-                //check that lat/lng are not NaN or 0 and are within the US
-                if (isNaN(latitude) || isNaN(longitude) || fev.vars.extentSouth <= latitude <= fev.vars.extentNorth && fev.vars.extentWest <= longitude <= fev.vars.extentEast || latitude == 0 || longitude == 0) {
-                    console.error("Bad latitude or latitude value for point: ", data.stations[i]);
+                //check that there are lat/lng coordinates
+                if (isNaN(latitude) || isNaN(longitude)) {
+                    console.error("latitude or longitude value for point: ", data.stations[i], "is null");
                 }
+
                 //if the lat/lng seems good, add the point to the geoJSON
                 else {
                     noaaTidesGeoJSON.features[i] = {"type":"Feature","geometry":{"coordinates":[longitude, latitude],"type":"Point"}};
