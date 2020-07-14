@@ -2,9 +2,9 @@
  * Created by bdraper on 8/2/2016.
  */
 
-$( document ).ready(function() {
+$(document).ready(function () {
 
-    $('#btnClearFilters').click(function(){
+    $('#btnClearFilters').click(function () {
         //clear all text inputs
         $('.clearable').val('').trigger('change');
         //hide all checkmark icons
@@ -24,7 +24,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/eventtypes.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             data.sort(function (a, b) {
                 var typeA = a.TYPE;
@@ -61,7 +61,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/events.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             data.sort(function (a, b) {
                 // var eventA = a.event_name;
@@ -98,7 +98,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/Sites/States.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             data.sort(function (a, b) {
                 var stateA = a.state_name;
@@ -131,7 +131,7 @@ $( document ).ready(function() {
     });
 
     $('#countySelect').on('select2:select select2:unselect', function (selection) {
-       //will need special treatment for display string creation
+        //will need special treatment for display string creation
     });
 
 
@@ -144,7 +144,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/sensortypes.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             data.sort(function (a, b) {
                 var typeA = a.TYPE;
@@ -178,7 +178,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/statustypes.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $('#sensorStatusSelect').append('<option value="' + data[i].status_type_id + '">' + data[i].status + '</option>');
@@ -199,7 +199,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/InstrCollectConditions.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $('#collectionConditionSelect').append('<option value="' + data[i].id + '">' + data[i].condition + '</option>');
@@ -220,7 +220,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/deploymenttypes.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $('#deployTypeSelect').append('<option value="' + data[i].deployment_type_id + '">' + data[i].method + '</option>');
@@ -241,7 +241,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/hwmtypes.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $('#hwmTypeSelect').append('<option value="' + data[i].hwm_type_id + '">' + data[i].hwm_type + '</option>');
@@ -263,7 +263,7 @@ $( document ).ready(function() {
         dataType: 'json',
         type: 'GET',
         url: 'https://stn.wim.usgs.gov/STNServices/hwmqualities.json',
-        headers: {'Accept': '*/*'},
+        headers: { 'Accept': '*/*' },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 $('#hwmQualitySelect').append('<option value="' + data[i].hwm_quality_id + '">' + data[i].hwm_quality + '</option>');
@@ -276,15 +276,15 @@ $( document ).ready(function() {
         }
     });
 
-    var populateCountiesArray =  function  () {
-        for (var i=0; i<fev.data.states.length; i++) {
+    var populateCountiesArray = function () {
+        for (var i = 0; i < fev.data.states.length; i++) {
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
-                url: 'https://stn.wim.usgs.gov/STNServices/Sites/CountiesByState.json?StateAbbrev=' + fev.data.states[i].state_abbrev ,
-                headers: {'Accept': '*/*'},
+                url: 'https://stn.wim.usgs.gov/STNServices/Sites/CountiesByState.json?StateAbbrev=' + fev.data.states[i].state_abbrev,
+                headers: { 'Accept': '*/*' },
                 currentState: fev.data.states[i].state_abbrev,
-                success: function (data)  {
+                success: function (data) {
                     fev.data.counties[(this.currentState)] = data;
                     //console.log("Loaded counties for: ",this.currentState)
                 },
@@ -392,14 +392,14 @@ $( document ).ready(function() {
     //begin onChange function for state form (updates county options based on state selection)
     $('#stateSelect').on('select2:select select2:unselect', function (evt) {
         var currentSelection = $(this).val();
-        if ( (!currentSelection > 0) || currentSelection === null) {
+        if ((!currentSelection > 0) || currentSelection === null) {
             $('#countySelect').html('');
             $('#countySelect').append('<option value=null>Please select state(s) first </option>');
             return;
         }
         var currentCounties = [];
-        for (var key in fev.data.counties){
-            for(var i=0; i<fev.data.counties[key].length; i++ ){
+        for (var key in fev.data.counties) {
+            for (var i = 0; i < fev.data.counties[key].length; i++) {
 
                 var value = fev.data.counties[key][i].county_name;
                 if (currentSelection.indexOf(key) > -1) {
