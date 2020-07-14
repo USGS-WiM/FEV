@@ -278,6 +278,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     });
 }
 
+<<<<<<< HEAD
 function populateCameraLayer(type, name, url, markerIcon) {
     // USGS Coastal Cameras layer
     var cameraLocations = [{
@@ -382,6 +383,62 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
     cameraFeatures.eachLayer(function (layer) {
         layer.addTo(cameras);
+=======
+//get NOAA tides gages and plot on map
+function displayTidesGeoJSON(type, name, url, markerIcon) {
+    //increment layerCount
+    layerCount++;
+    useCors: false;
+    tides.clearLayers();
+
+    //create a geoJSON to populate with coordinates of NOAA tides gages
+    var noaaTidesGeoJSON = {"features": [{"type": "Feature", "geometry":{"coordinates":[0, 0], "type":"Point"}}]};
+    var currentMarker = L.geoJson(false, {
+        pointToLayer: function (feature, latlng) {
+            markerCoords.push(latlng);
+            var marker = L.marker(latlng, {
+                icon: markerIcon
+            });
+            return marker;
+        },
+    });
+
+    //access the url that contains the tides data
+    $.getJSON(url, function (data) {
+        console.log(data);
+        if (data.stations.length == 0) {
+            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+            return
+        }
+        if (data.stations.length > 0) {       
+            console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            //loop through every gage in the geojson
+            for (var i = data.stations.length - 1; i >= 0; i--) {
+
+                //retrieve lat/lon coordinates
+                var latitude = data.stations[i].lat;
+                var longitude = data.stations[i].lng;
+
+                //check that there are lat/lng coordinates
+                if (isNaN(latitude) || isNaN(longitude)) {
+                    console.error("latitude or longitude value for point: ", data.stations[i], "is null");
+                }
+
+                //if the lat/lng seems good, add the point to the geoJSON
+                else {
+                    noaaTidesGeoJSON.features[i] = {"type":"Feature","geometry":{"coordinates":[longitude, latitude],"type":"Point"}};
+                }
+            }
+            //get the data from the new geoJSON
+            currentMarker.addData(noaaTidesGeoJSON);
+            currentMarker.eachLayer(function (layer) {
+                layer.addTo(tides);
+            });
+            //plot tides gages on map
+            tides.addTo(map);
+            checkLayerCount(layerCount);
+        }    
+>>>>>>> 4b7cfb8a1e2112a372822e68a124bfb3cd38bf86
     });
 }
 
@@ -756,6 +813,7 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
+        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
     });
 
 } //end filterMapData function

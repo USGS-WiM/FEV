@@ -107,11 +107,17 @@ var fev = fev || {
 			"Name": "USGS Coastal Imagery",
 			"Type": "supporting",
 			"Category": "supporting"
+		},
+		{
+			"ID": "tides",
+			"Name": "Tides",
+			"Type": "observed",
+			"Category": "observed"
 		}
 	]
 };
 
-//L.esri.Support.cors = true;
+//L.esri.Support.cors = false;
 
 var map;
 var markerCoords = [];
@@ -124,6 +130,7 @@ var stormtideMarkerIcon = L.icon({ className: 'stormtideMarker', iconUrl: 'image
 var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'images/waveheight.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [12, 12] });
 var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
 
@@ -135,6 +142,7 @@ var waveheight = L.layerGroup();
 var hwm = L.layerGroup();
 var peak = L.layerGroup();
 var cameras = L.layerGroup();
+var tides = L.layerGroup();
 
 var editableLayers = new L.FeatureGroup();
 
