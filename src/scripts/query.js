@@ -278,6 +278,113 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     });
 }
 
+function populateCameraLayer(type, name, url, markerIcon) {
+    // USGS Coastal Cameras layer
+    var cameraLocations = [{
+        "type": "Feature",
+        "properties": { 
+            "name": "Unalakleet, AK", 
+            "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/unalakleet/latest/c1_snap.jpg",
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-unalakleet" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-160.7956, 63.8759]
+        }
+    }, {
+        "type": "Feature",
+        "properties": { 
+            "name": "Santa Cruz, CA", 
+            "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/dreaminn/latest/c1_snap.jpg",
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-santa-cruz-beaches"},
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-122.025166, 36.961271]
+        }
+    }, {
+        "type": "Feature",
+        "properties": { 
+            "name": "Sunset State Beach, CA", 
+            "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/sunset/latest/c1_snap.jpg",
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-sunset-state-beach" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-121.833, 36.887]
+        }
+    },
+    {
+        "type": "Feature",
+        "properties": { 
+            "name": "Tres Palmas, Rincon, Purto Rico", 
+            "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/rincon/latest/c2_snap.jpg",
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-tres-palmas" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-67.263198, 18.348096]
+        }
+    },
+    {
+        "type": "Feature",
+        "properties": { 
+            "name": "Madeira Beach, FL", 
+            "url": "https://coastal.er.usgs.gov/hurricanes/research/images/madbeach.c1.snap.jpg",
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-82.796093, 27.796206]
+        }
+    },
+    {
+        "type": "Feature",
+        "properties": { 
+            "name": "Sand Key, FL", 
+            "url": "https://coastal.er.usgs.gov/hurricanes/research/images/sandkey.c2.snap.jpg",
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-82.839343, 27.939069]
+        }
+    },
+    {
+        "type": "Feature",
+        "properties": { 
+            "name": "Head of the Meadow, MA", 
+            "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/caco-01/latest/c1_snap.jpg",
+            "source": "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-head-meadow-beach" },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-70.07738, 42.05048]
+        }
+    }
+    ];
+
+    var cameraIcon = new L.Icon({
+        iconSize: [15, 15],
+        iconAnchor: [13, 27],
+        popupAnchor: [1, -24],
+        iconUrl: 'images/camera-solid.png'
+    });
+
+    var cameraFeatures = L.geoJson(cameraLocations, {
+        pointToLayer: function (feature, latlng) {
+            console.log(latlng, feature);
+            return L.marker(latlng, {
+                icon: cameraIcon
+            });
+        },
+        onEachFeature: function (feature, latlng) {
+            var popupContent =
+                '<h4> ' + feature.properties.name + ' (latest feed)</h4>' +
+                '<img title="Click to enlarge" style="cursor: pointer;" data-toggle="tooltip" class="hydroImage" onclick="enlargeImage()" src=' + feature.properties.url + '\>' +
+                '<br><span>Source: <a target="_blank" href=' + feature.properties.source + '>' + feature.properties.source + '</a></span>';
+            latlng.bindPopup(popupContent);
+        }
+    });
+
+    cameraFeatures.eachLayer(function (layer) {
+        layer.addTo(cameras);
+    });
+}
+
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
 function populateEventDates(eventID) {
     for (var i = 0; i < fev.data.events.length; i++) {
