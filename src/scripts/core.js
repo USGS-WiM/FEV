@@ -110,9 +110,9 @@ var fev = fev || {
 		},
 		{
 			"ID": "tides",
-			"Name": "Tides",
-			"Type": "observed",
-			"Category": "observed"
+			"Name": "NOAA Stations",
+			"Type": "real-time",
+			"Category": "real-time"
 		}
 	]
 };
@@ -516,8 +516,6 @@ $(document).ready(function () {
 	oms = new OverlappingMarkerSpiderfier(map, {
 		keepSpiderfied: true
 	});
-
-
 	/* map.addLayer(editableLayers);
 
 	var options = {

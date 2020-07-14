@@ -278,7 +278,6 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     });
 }
 
-<<<<<<< HEAD
 function populateCameraLayer(type, name, url, markerIcon) {
     // USGS Coastal Cameras layer
     var cameraLocations = [{
@@ -383,9 +382,17 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
     cameraFeatures.eachLayer(function (layer) {
         layer.addTo(cameras);
-=======
+    });
+}
 //get NOAA tides gages and plot on map
 function displayTidesGeoJSON(type, name, url, markerIcon) {
+    var timeseriesData = [];
+    var tidesIcon = new L.Icon({
+        iconSize: [15, 15],
+        iconAnchor: [13, 27],
+        popupAnchor: [1, -24],
+        iconUrl: 'images/tides.png'
+    });
     //increment layerCount
     layerCount++;
     useCors: false;
@@ -397,10 +404,24 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
         pointToLayer: function (feature, latlng) {
             markerCoords.push(latlng);
             var marker = L.marker(latlng, {
-                icon: markerIcon
+                icon: tidesIcon
             });
             return marker;
         },
+        onEachFeature: function (feature, latlng) {
+            var beginDate = fev.vars.currentEventStartDate_str.replace("-","");
+            var beginDate = beginDate.replace("-","");
+            var endDate = fev.vars.currentEventEndDate_str.replace("-","");
+            var endDate = endDate.replace("-","");
+            var stationId = feature.properties.id;
+            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate='+ endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
+            
+            // url that would be used if we wanted to make our own graphs
+            //var dataUrl = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&begin_date=' + beginDate + '&end_date=' + endDate + '&datum=MLLW&station=' + stationId + '&time_zone=GMT&units=english&format=json&application=NOS.COOPS.TAC.WL';
+            
+            var popupContent ='<span><a target="_blank" href='+ gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
+            latlng.bindPopup(popupContent);
+        }
     });
 
     //access the url that contains the tides data
@@ -418,6 +439,8 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
                 //retrieve lat/lon coordinates
                 var latitude = data.stations[i].lat;
                 var longitude = data.stations[i].lng;
+                var affiliations = data.stations[i].affiliations;
+                var stationId = data.stations[i].id;
 
                 //check that there are lat/lng coordinates
                 if (isNaN(latitude) || isNaN(longitude)) {
@@ -426,7 +449,17 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
 
                 //if the lat/lng seems good, add the point to the geoJSON
                 else {
-                    noaaTidesGeoJSON.features[i] = {"type":"Feature","geometry":{"coordinates":[longitude, latitude],"type":"Point"}};
+                    noaaTidesGeoJSON.features[i] = {
+                        "type":"Feature",
+                        "properties": {
+                            "affiliations": affiliations,
+                            "id": stationId
+                        },
+                        "geometry":{
+                            "coordinates":[longitude, latitude],
+                            "type":"Point"
+                        }
+                    };
                 }
             }
             //get the data from the new geoJSON
@@ -435,10 +468,9 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
                 layer.addTo(tides);
             });
             //plot tides gages on map
-            tides.addTo(map);
+            //.addTo(map);
             checkLayerCount(layerCount);
         }    
->>>>>>> 4b7cfb8a1e2112a372822e68a124bfb3cd38bf86
     });
 }
 
