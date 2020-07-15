@@ -384,6 +384,95 @@ function populateCameraLayer(type, name, url, markerIcon) {
         layer.addTo(cameras);
     });
 }
+//get NOAA tides gages and plot on map
+function displayTidesGeoJSON(type, name, url, markerIcon) {
+    var timeseriesData = [];
+    var tidesIcon = new L.Icon({
+        iconSize: [15, 15],
+        iconAnchor: [13, 27],
+        popupAnchor: [1, -24],
+        iconUrl: 'images/tides.png'
+    });
+    //increment layerCount
+    layerCount++;
+    useCors: false;
+    tides.clearLayers();
+
+    //create a geoJSON to populate with coordinates of NOAA tides gages
+    var noaaTidesGeoJSON = {"features": [{"type": "Feature", "geometry":{"coordinates":[0, 0], "type":"Point"}}]};
+    var currentMarker = L.geoJson(false, {
+        pointToLayer: function (feature, latlng) {
+            markerCoords.push(latlng);
+            var marker = L.marker(latlng, {
+                icon: tidesIcon
+            });
+            return marker;
+        },
+        onEachFeature: function (feature, latlng) {
+            var beginDate = fev.vars.currentEventStartDate_str.replace("-","");
+            var beginDate = beginDate.replace("-","");
+            var endDate = fev.vars.currentEventEndDate_str.replace("-","");
+            var endDate = endDate.replace("-","");
+            var stationId = feature.properties.id;
+            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate='+ endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
+            
+            // url that would be used if we wanted to make our own graphs
+            //var dataUrl = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&begin_date=' + beginDate + '&end_date=' + endDate + '&datum=MLLW&station=' + stationId + '&time_zone=GMT&units=english&format=json&application=NOS.COOPS.TAC.WL';
+            
+            var popupContent ='<span><a target="_blank" href='+ gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
+            latlng.bindPopup(popupContent);
+        }
+    });
+
+    //access the url that contains the tides data
+    $.getJSON(url, function (data) {
+        console.log(data);
+        if (data.stations.length == 0) {
+            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+            return
+        }
+        if (data.stations.length > 0) {       
+            console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            //loop through every gage in the geojson
+            for (var i = data.stations.length - 1; i >= 0; i--) {
+
+                //retrieve lat/lon coordinates
+                var latitude = data.stations[i].lat;
+                var longitude = data.stations[i].lng;
+                var affiliations = data.stations[i].affiliations;
+                var stationId = data.stations[i].id;
+
+                //check that there are lat/lng coordinates
+                if (isNaN(latitude) || isNaN(longitude)) {
+                    console.error("latitude or longitude value for point: ", data.stations[i], "is null");
+                }
+
+                //if the lat/lng seems good, add the point to the geoJSON
+                else {
+                    noaaTidesGeoJSON.features[i] = {
+                        "type":"Feature",
+                        "properties": {
+                            "affiliations": affiliations,
+                            "id": stationId
+                        },
+                        "geometry":{
+                            "coordinates":[longitude, latitude],
+                            "type":"Point"
+                        }
+                    };
+                }
+            }
+            //get the data from the new geoJSON
+            currentMarker.addData(noaaTidesGeoJSON);
+            currentMarker.eachLayer(function (layer) {
+                layer.addTo(tides);
+            });
+            //plot tides gages on map
+            //.addTo(map);
+            checkLayerCount(layerCount);
+        }    
+    });
+}
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
 function populateEventDates(eventID) {
@@ -756,6 +845,7 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
+        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
     });
 
 } //end filterMapData function
@@ -1329,11 +1419,17 @@ var fev = fev || {
 			"Name": "USGS Coastal Imagery",
 			"Type": "supporting",
 			"Category": "supporting"
+		},
+		{
+			"ID": "tides",
+			"Name": "NOAA Tides and Currents Stations",
+			"Type": "real-time",
+			"Category": "real-time"
 		}
 	]
 };
 
-//L.esri.Support.cors = true;
+//L.esri.Support.cors = false;
 
 var map;
 var markerCoords = [];
@@ -1346,6 +1442,7 @@ var stormtideMarkerIcon = L.icon({ className: 'stormtideMarker', iconUrl: 'image
 var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'images/waveheight.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [12, 12] });
 var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
 
@@ -1357,6 +1454,7 @@ var waveheight = L.layerGroup();
 var hwm = L.layerGroup();
 var peak = L.layerGroup();
 var cameras = L.layerGroup();
+var tides = L.layerGroup();
 
 var editableLayers = new L.FeatureGroup();
 
@@ -1387,7 +1485,6 @@ $.ajax({
 		} else {
 			//interpretedOverlays["NOAA Tropical Cyclone Forecast Track"] = "noaaService";
 			//noaaService = noaaTrack;
-			console.log("noaa layer added");
 		}
 	},
 	error: function (error) {
@@ -1626,9 +1723,6 @@ $(document).ready(function () {
 	if (noAdvisories) {
 		var div = document.getElementById('noTrackAdvisory');
 		div.innerHTML += "No Active Advisories";
-		supportingLayers = {
-			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;USGS Coastal Imagery": noaaService
-		};
 	} else {
 		supportingLayers = {
 			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;NOAA Tropical Cyclone Forecast Track": noaaService
@@ -1730,8 +1824,6 @@ $(document).ready(function () {
 	oms = new OverlappingMarkerSpiderfier(map, {
 		keepSpiderfied: true
 	});
-
-
 	/* map.addLayer(editableLayers);
 
 	var options = {
