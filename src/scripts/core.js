@@ -103,10 +103,16 @@ var fev = fev || {
 			"Category": "interpreted"
 		},
 		{
+			"ID": "cameras",
+			"Name": "USGS Coastal Imagery",
+			"Type": "supporting",
+			"Category": "supporting"
+		},
+		{
 			"ID": "tides",
-			"Name": "Tides",
-			"Type": "observed",
-			"Category": "observed"
+			"Name": "NOAA Stations",
+			"Type": "real-time",
+			"Category": "real-time"
 		}
 	]
 };
@@ -135,6 +141,7 @@ var met = L.layerGroup();
 var waveheight = L.layerGroup();
 var hwm = L.layerGroup();
 var peak = L.layerGroup();
+var cameras = L.layerGroup();
 var tides = L.layerGroup();
 
 var editableLayers = new L.FeatureGroup();
@@ -201,7 +208,7 @@ var noaaService = L.esri.dynamicMapLayer({
 	url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/wwa_meteocean_tropicalcyclones_trackintensityfcsts_time/MapServer",
 	opacity: 0.5,
 	f: 'image'
-})
+});
 
 var noAdvisories = false;
 var test;
@@ -452,13 +459,16 @@ $(document).ready(function () {
 	//define observed overlay and interpreted overlay, leave blank at first
 	var observedOverlays = {};
 	var interpretedOverlays = {};
-	var noaaOverlays = {};
-
+	var supportingLayers = {};
+	populateCameraLayer();
 	if (noAdvisories) {
 		var div = document.getElementById('noTrackAdvisory');
 		div.innerHTML += "No Active Advisories";
+		supportingLayers = {
+			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;USGS Coastal Imagery": noaaService
+		};
 	} else {
-		noaaOverlays = {
+		supportingLayers = {
 			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;NOAA Tropical Cyclone Forecast Track": noaaService
 		};
 	}
@@ -468,7 +478,7 @@ $(document).ready(function () {
 		if (layer.Category == 'real-time') realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 		if (layer.Category == 'observed') observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 		if (layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name + "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></span></label>"] = window[layer.ID];
-		if (layer.Category == 'noaa') noaaOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name] = window[layer.ID];
+		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
 
@@ -479,6 +489,7 @@ $(document).ready(function () {
 		$('.data-disclaim').click(function (e) {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
+			//$('.nav-tabs a[href="#liveTabPane"]').tab('show');
 		});
 	});
 
@@ -548,17 +559,15 @@ $(document).ready(function () {
 	$('#interpretedToggleDiv').append(interpretedToggle.onAdd(map));
 	$('.leaflet-top.leaflet-right').hide();
 
-	var noaaToggle = L.control.layers(null, noaaOverlays, { collapsed: false });
-	noaaToggle.addTo(map);
-	$('#noaaToggleDiv').append(noaaToggle.onAdd(map));
+	var supportingLayersToggle = L.control.layers(null, supportingLayers, { collapsed: false });
+	supportingLayersToggle.addTo(map);
+	$('#supportingToggleDiv').append(supportingLayersToggle.onAdd(map));
 	$('.leaflet-top.leaflet-right').hide();
 
 	//overlapping marker spidifier
 	oms = new OverlappingMarkerSpiderfier(map, {
 		keepSpiderfied: true
 	});
-
-
 	/* map.addLayer(editableLayers);
 
 	var options = {
@@ -644,14 +653,14 @@ $(document).ready(function () {
 	// 			}).addTo(map);
 	// 			interpretedOverlays["NOAA Tropical Cyclone Forecast Track"] = "noaaTrack";
 	// 			//below is older logic, for a dedicated NOAA overlays group. replaced in favor of appending NOAA layer to 'Interpreted Data'
-	// 			// var noaaOverlays = {
+	// 			// var supportingLayers = {
 	// 			// 	"NOAA Tropical Cyclone Forecast Track" : noaaTrack
 	// 			// 	//"National Geodetic Survey Imagery": noaaImagery
 	// 			// };
 	// 			// set up toggle for the noaa layers and place within legend div, overriding default behavior
-	// 			// var noaaToggle = L.control.layers(null, noaaOverlays, {collapsed: false});
-	// 			// noaaToggle.addTo(map);
-	// 			// $('#noaaToggleDiv').append(noaaToggle.onAdd(map));
+	// 			// var supportingLayersToggle = L.control.layers(null, supportingLayers, {collapsed: false});
+	// 			// supportingLayersToggle.addTo(map);
+	// 			// $('#noaaToggleDiv').append(supportingLayersToggle.onAdd(map));
 	// 			// $('.leaflet-top.leaflet-right').hide();
 	// 		}
 	// 	})
