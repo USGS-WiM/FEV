@@ -134,6 +134,7 @@ var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.
 var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
 
+
 //sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
 var baro = L.layerGroup();
 var stormtide = L.layerGroup();
@@ -148,7 +149,6 @@ var editableLayers = new L.FeatureGroup();
 
 var peakLabels = false;
 
-// Style for NPS Networks layer
 var watershedStyle = {
 	"color": 'orange',
 	"fillOpacity": 0,
@@ -156,11 +156,12 @@ var watershedStyle = {
 	"weight": 4
 };
 
-var allWatersheds = L.esri.featureGroup({
+var allWatersheds = L.esri.featureLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/1",
 	style: watershedStyle
 });
+
 
 /*
 var watershedRegion = L.esri.featureLayer({
