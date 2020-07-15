@@ -250,8 +250,8 @@
                         </li>
                         <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i
                                     class="fa fa-exclamation-circle"></i>&nbsp;Data Limitations</a></li>
-                        <!-- <li role="presentation"><a id="liveTab" href="#liveTabPane" data-toggle="tab"><i
-                                    class="fa fa-exclamation-circle"></i>&nbsp;Live Images</a></li> -->
+                        <li role="presentation"><a id="liveTab" href="#faqTabPane" data-toggle="tab"><i
+                                    class="fa fa-exclamation-circle"></i>&nbsp;FAQs</a></li>
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="aboutTabPane"></br>
@@ -297,20 +297,30 @@
                             <p>Information concerning the accuracy and appropriate uses of these data or concerning
                                 other hydrologic data may be obtained from the USGS.</p>
                         </div>
-                        <!-- <div role="tabpanel" class="tab-pane" id="liveTabPane"></br>
-                            <h3>Live Coastal Images</h3>
-                            <p>Data are provisional and are subject to revision until thoroughly reviewed and approved.
-                            </p>
-                            <div class="imgsContainer">
-                                <div class="camContainer">
-                                    <img class="camImage"
-                                        src="https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/dreaminn/latest/c1_snap.jpg">
+                        <div role="tabpanel" class="tab-pane" id="faqTabPane"></br>
+                            <h3>Frequently Asked Questions</h3>
+                            <br>
+                            <div class="faq-modal-body">
+                                <div class="faq-header" id="faq1header">1. What is Unfiltered Water Level? <div
+                                        id="angle1" style="display: -webkit-inline-box;"><i
+                                            class="fa fa-angle-right"></i>
+                                    </div>
                                 </div>
-                                <div class="camContainer"><img class="camImage"
-                                        src="https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/dreaminn/latest/c1_snap.jpg">
+                                <div class="faq-body" id="faq1body">
+                                    It is water level calculated using the Hydrostatic Method with no filter applied.
                                 </div>
                             </div>
-                        </div> -->
+                            <div class="faq-modal-body">
+                                <div class="faq-header" id="faq2header">2. What is Storm-Tide (Low-pass Filtered) Water Level? <div
+                                        id="angle2" style="display: -webkit-inline-box;"><i
+                                            class="fa fa-angle-right"></i>
+                                    </div>
+                                </div>
+                                <div class="faq-body" id="faq2body">
+                                    It is water level calculated using the Hydrostatic Method with a Low-pass 4th Order Butterworth Filter applied to 1 minute frequencies and higher.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

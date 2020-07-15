@@ -98,6 +98,46 @@ body {
     }
   }
 
+
+  .faq-modal-body{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 25px;
+}
+.faq-header{
+    display: block;
+    font-size: 12pt;
+    margin-bottom: 8px;
+    background-color: #F5F5F5;
+    color: #555555;
+    box-sizing: border-box;
+    transition: 0.12s;
+    padding: 10px;
+}
+
+.faq-header i{
+    margin-left: 10px;
+}
+.faq-header:hover{
+    cursor: pointer;
+    color: #6184DB;
+    transition: 0.12s;
+}
+
+.faq-body{
+    display: none;
+    line-height: 1.6em;
+    color: #555555;
+    font-size: 10.35pt;
+    box-sizing: border-box;
+    padding: 10px 10px;
+
+}
+.faq-body img{
+    display: block;
+    max-width: 100%;
+    margin: 10px auto;
+}
   /* css for tab in about modal for usgs live images */
   /* .camImage {
       width: 40%;
