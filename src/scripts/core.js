@@ -433,7 +433,7 @@ $(document).ready(function () {
 		$('.data-disclaim').click(function (e) {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
-			//$('.nav-tabs a[href="#liveTabPane"]').tab('show');
+			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
 	});
 
@@ -656,6 +656,20 @@ $(document).ready(function () {
 		$('#evtSelect_filterModal').val([fev.vars.currentEventID_str]).trigger("change");
 		showFiltersModal();
 	});
+
+	// FAQ Modal controls.
+
+	 $('.faq-header').on('click', function (event) {
+		 var div = "#" + event.target.nextElementSibling.id;
+		 var angle = "#" + event.target.children[0].id;
+		$(div).slideToggle(250);
+
+		if ($(angle).css("transform") == 'none') {
+			$(angle).css("transform", "rotate(90deg)");
+		} else {
+			$(angle).css("transform", "");
+		}
+	 });
 
 	/* begin basemap controller */
 	function setBasemap(basemap) {
