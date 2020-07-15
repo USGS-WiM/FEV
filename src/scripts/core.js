@@ -156,19 +156,21 @@ var watershedStyle = {
 	"weight": 4
 };
 
+/*
 var allWatersheds = L.esri.featureLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/1",
 	style: watershedStyle
 });
+*/
 
 
-/*
 var watershedRegion = L.esri.featureLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/2",
 	style: watershedStyle
 });
+
 
 var watershedSubregion = L.esri.featureLayer({
 	useCors: false,
@@ -199,7 +201,7 @@ var watershedSubwatershed = L.esri.featureLayer({
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/7",
 	style: watershedStyle
 });
-*/
+
 
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
 var rdg = L.featureGroup();
@@ -492,7 +494,9 @@ $(document).ready(function () {
 
 	map.on({
 		overlayadd: function (e) {
+	
 			if (e.name.indexOf('Stream Gage') !== -1) {
+		
 				if (map.getZoom() < 9) USGSrtGages.clearLayers();
 				if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9) {
 					//USGSrtGages.clearLayers();
@@ -531,7 +535,6 @@ $(document).ready(function () {
 			if (e.name === 'Cities') alert('removed');
 		}
 	});
-
 
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
@@ -934,9 +937,55 @@ $(document).ready(function () {
 	//     }
 	// });
 
+	//render different HUCs depending on zoom
+	map.on('zoomend zoomlevelschange', function(e) {
+		var hucCheckBox = document.getElementById("hucToggle");
+		if (hucCheckBox.checked == true) {
+			console.log("checkbox is checked");
+		if (map.getZoom() < 6) {
+			watershedSubregion.removeFrom(map);
+			watershedRegion.addTo(map);
+		}
+		if(map.getZoom() == 6) {
+			watershedRegion.removeFrom(map);
+			watershedBasin.removeFrom(map);
+			watershedSubregion.addTo(map);
+		}
+		if(map.getZoom() == 7) {
+			watershedSubregion.removeFrom(map);
+			watershedSubbasin.removeFrom(map);
+			watershedBasin.addTo(map);
+		}
+		if(map.getZoom() == 8) {
+			watershedBasin.removeFrom(map);
+			watershedWatershed.removeFrom(map);
+			watershedSubbasin.addTo(map);
+		}
+		if(map.getZoom() == 9) {
+			watershedSubbasin.removeFrom(map);
+			watershedSubwatershed.removeFrom(map);
+			watershedWatershed.addTo(map);
+		}
+		if(map.getZoom() == 10) {
+			watershedWatershed.removeFrom(map);
+			setTimeout(() => {
+				
+			watershedSubwatershed.addTo(map);
+			}, 1500);
+		}
+	}
+	if (hucCheckBox.checked == false) {
+		watershedRegion.removeFrom(map);
+		watershedSubregion.removeFrom(map);
+		watershedBasin.removeFrom(map);
+		watershedSubbasin.removeFrom(map);
+		watershedWatershed.removeFrom(map);
+	}
+	});
+	
+
 	///fix to prevent re-rendering nwis rt gages on pan
 	map.on('load moveend zoomend', function (e) {
-
 		var foundPopup;
 		$.each(USGSrtGages.getLayers(), function (index, marker) {
 			var popup = marker.getPopup();
@@ -951,8 +1000,10 @@ $(document).ready(function () {
 				foundPopup = popup._isOpen;
 			}
 		})
+
+		
 		//USGSrtGages.clearLayers();
-		if (map.getZoom() < 9) {
+		if (map.getZoom() == 9) {
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
 			$('#rtScaleAlert').show();

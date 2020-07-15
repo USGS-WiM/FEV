@@ -366,7 +366,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
     var cameraFeatures = L.geoJson(cameraLocations, {
         pointToLayer: function (feature, latlng) {
-            console.log(latlng, feature);
+           // console.log(latlng, feature);
             return L.marker(latlng, {
                 icon: cameraIcon
             });
