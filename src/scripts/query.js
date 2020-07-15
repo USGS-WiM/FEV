@@ -282,7 +282,6 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
 function displayTidesGeoJSON(type, name, url, markerIcon) {
     //increment layerCount
     layerCount++;
-    useCors: false;
     tides.clearLayers();
 
     //create a geoJSON to populate with coordinates of NOAA tides gages

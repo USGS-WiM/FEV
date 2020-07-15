@@ -141,6 +141,58 @@ var editableLayers = new L.FeatureGroup();
 
 var peakLabels = false;
 
+// Style for NPS Networks layer
+var watershedStyle = {
+	"color": 'orange',
+	"fillOpacity": 0,
+	"opacity": 0.65,
+	"weight": 4
+};
+
+var allWatersheds = L.esri.featureGroup({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/1",
+	style: watershedStyle
+});
+
+/*
+var watershedRegion = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/2",
+	style: watershedStyle
+});
+
+var watershedSubregion = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/3",
+	style: watershedStyle
+});
+
+var watershedBasin = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/4",
+	style: watershedStyle
+});
+
+var watershedSubbasin = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/5",
+	style: watershedStyle
+});
+
+var watershedWatershed = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/6",
+	style: watershedStyle
+});
+
+var watershedSubwatershed = L.esri.featureLayer({
+	useCors: false,
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/7",
+	style: watershedStyle
+});
+*/
+
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
 var rdg = L.featureGroup();
 var USGSRainGages = L.featureGroup();
