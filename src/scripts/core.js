@@ -110,7 +110,7 @@ var fev = fev || {
 		},
 		{
 			"ID": "tides",
-			"Name": "NOAA Stations",
+			"Name": "NOAA Tides and Currents Stations",
 			"Type": "real-time",
 			"Category": "real-time"
 		}
@@ -226,7 +226,6 @@ $.ajax({
 		} else {
 			//interpretedOverlays["NOAA Tropical Cyclone Forecast Track"] = "noaaService";
 			//noaaService = noaaTrack;
-			console.log("noaa layer added");
 		}
 	},
 	error: function (error) {
@@ -465,9 +464,6 @@ $(document).ready(function () {
 	if (noAdvisories) {
 		var div = document.getElementById('noTrackAdvisory');
 		div.innerHTML += "No Active Advisories";
-		supportingLayers = {
-			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;USGS Coastal Imagery": noaaService
-		};
 	} else {
 		supportingLayers = {
 			"<img class='legendSwatch' src='images/noaa.png'>&nbsp;NOAA Tropical Cyclone Forecast Track": noaaService
