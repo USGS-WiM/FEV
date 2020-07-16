@@ -160,7 +160,7 @@ var allWatersheds = L.esri.dynamicMapLayer({
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer",
 	layers: [2, 3, 4, 5, 6, 7],
 	maxZoom: 14,
-	minZoom: 5,
+	minZoom: 4,
 	useCors: false
 });
 
