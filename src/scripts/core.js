@@ -1110,7 +1110,6 @@ function enlargeImage() {
 function clickWatershed() {
 	var hucCheckBox = document.getElementById("hucToggle");
 	if (hucCheckBox.checked == true) {
-		console.log("entering Watersheds");
 allWatersheds.addTo(map);
 	}
 	if (hucCheckBox.checked == false) {
