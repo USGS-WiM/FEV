@@ -156,42 +156,54 @@ var watershedStyle = {
 	"weight": 4
 };
 
-var watershedRegion = L.esri.featureLayer({
+var watershedRegion = L.esri.dynamicMapLayer({
 	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/2",
-	style: watershedStyle
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/",
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
 });
 
 
-var watershedSubregion = L.esri.featureLayer({
+/* var watershedSubregion = L.esri.dynamicMapLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/3",
-	style: watershedStyle
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
 });
 
-var watershedBasin = L.esri.featureLayer({
+var watershedBasin = L.esri.dynamicMapLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/4",
-	style: watershedStyle
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
 });
 
-var watershedSubbasin = L.esri.featureLayer({
+var watershedSubbasin = L.esri.dynamicMapLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/5",
-	style: watershedStyle
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
 });
 
-var watershedWatershed = L.esri.featureLayer({
+var watershedWatershed = L.esri.dynamicMapLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/6",
-	style: watershedStyle
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
 });
 
-var watershedSubwatershed = L.esri.featureLayer({
+var watershedSubwatershed = L.esri.dynamicMapLayer({
 	useCors: false,
 	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/7",
-	style: watershedStyle
-});
+	style: watershedStyle,
+	format: "png8",
+	f: "image"
+}); */
 
 
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
@@ -946,7 +958,8 @@ $(document).ready(function () {
 	map.on('zoomend zoomlevelschange', function (e) {
 		var hucCheckBox = document.getElementById("hucToggle");
 		if (hucCheckBox.checked == true) {
-			if (map.getZoom() < 7) {
+			watershedRegion.addTo(map);
+			/* if (map.getZoom() < 7) {
 				watershedSubregion.removeFrom(map);
 				watershedRegion.addTo(map);
 			}
@@ -973,7 +986,7 @@ $(document).ready(function () {
 			if (map.getZoom() >= 13) {
 				watershedWatershed.removeFrom(map);
 				watershedSubwatershed.addTo(map);
-			}
+			} */
 		}
 	});
 
