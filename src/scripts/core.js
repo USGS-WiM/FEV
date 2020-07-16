@@ -1165,31 +1165,21 @@ function clickWatershed() {
 	var hucCheckBox = document.getElementById("hucToggle");
 	if (hucCheckBox.checked == true) {
 		if (map.getZoom() < 7) {
-			watershedSubregion.removeFrom(map);
 			watershedRegion.addTo(map);
 		}
 		if (map.getZoom() == 7) {
-			watershedRegion.removeFrom(map);
-			watershedBasin.removeFrom(map);
 			watershedSubregion.addTo(map);
 		}
 		if (map.getZoom() == 8) {
-			watershedSubregion.removeFrom(map);
-			watershedSubbasin.removeFrom(map);
 			watershedBasin.addTo(map);
 		}
 		if (map.getZoom() == 9 || map.getZoom() ==10) {
-			watershedBasin.removeFrom(map);
-			watershedWatershed.removeFrom(map);
 			watershedSubbasin.addTo(map);
 		}
 		if (map.getZoom() == 11 || map.getZoom() == 12) {
-			watershedSubbasin.removeFrom(map);
-			watershedSubwatershed.removeFrom(map);
 			watershedWatershed.addTo(map);
 		}
 		if (map.getZoom() >= 13) {
-			watershedWatershed.removeFrom(map);
 			watershedSubwatershed.addTo(map);
 		}
 	}
