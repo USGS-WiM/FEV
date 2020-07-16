@@ -156,41 +156,12 @@ var watershedStyle = {
 	"weight": 4
 };
 
-var watershedRegion = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/2",
-	style: watershedStyle
-});
-
-
-var watershedSubregion = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/3",
-	style: watershedStyle
-});
-
-var watershedBasin = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/4",
-	style: watershedStyle
-});
-
-var watershedSubbasin = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/5",
-	style: watershedStyle
-});
-
-var watershedWatershed = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/6",
-	style: watershedStyle
-});
-
-var watershedSubwatershed = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/7",
-	style: watershedStyle
+var allWatersheds = L.esri.dynamicMapLayer({
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer",
+	layers: [2, 3, 4, 5, 6, 7],
+	maxZoom: 14,
+	minZoom: 5,
+	useCors: false
 });
 
 
@@ -329,6 +300,8 @@ $(document).ready(function () {
 			$('.eventSelectAlert').show();
 		}
 	});
+
+	
 
 	//listener for submit filters button on filters modal - sets event vars and passes event id to filterMapData function
 	$('#btnSubmitFilters').on('click', function () {
@@ -946,34 +919,7 @@ $(document).ready(function () {
 	map.on('zoomend zoomlevelschange', function (e) {
 		var hucCheckBox = document.getElementById("hucToggle");
 		if (hucCheckBox.checked == true) {
-			if (map.getZoom() < 7) {
-				watershedSubregion.removeFrom(map);
-				watershedRegion.addTo(map);
-			}
-			if (map.getZoom() == 7) {
-				watershedRegion.removeFrom(map);
-				watershedBasin.removeFrom(map);
-				watershedSubregion.addTo(map);
-			}
-			if (map.getZoom() == 8) {
-				watershedSubregion.removeFrom(map);
-				watershedSubbasin.removeFrom(map);
-				watershedBasin.addTo(map);
-			}
-			if (map.getZoom() == 9 || map.getZoom() ==10) {
-				watershedBasin.removeFrom(map);
-				watershedWatershed.removeFrom(map);
-				watershedSubbasin.addTo(map);
-			}
-			if (map.getZoom() == 11 || map.getZoom() == 12) {
-				watershedSubbasin.removeFrom(map);
-				watershedSubwatershed.removeFrom(map);
-				watershedWatershed.addTo(map);
-			}
-			if (map.getZoom() >= 13) {
-				watershedWatershed.removeFrom(map);
-				watershedSubwatershed.addTo(map);
-			}
+			allWatersheds.addTo(map);
 		}
 	});
 
@@ -1164,31 +1110,10 @@ function enlargeImage() {
 function clickWatershed() {
 	var hucCheckBox = document.getElementById("hucToggle");
 	if (hucCheckBox.checked == true) {
-		if (map.getZoom() < 7) {
-			watershedRegion.addTo(map);
-		}
-		if (map.getZoom() == 7) {
-			watershedSubregion.addTo(map);
-		}
-		if (map.getZoom() == 8) {
-			watershedBasin.addTo(map);
-		}
-		if (map.getZoom() == 9 || map.getZoom() ==10) {
-			watershedSubbasin.addTo(map);
-		}
-		if (map.getZoom() == 11 || map.getZoom() == 12) {
-			watershedWatershed.addTo(map);
-		}
-		if (map.getZoom() >= 13) {
-			watershedSubwatershed.addTo(map);
-		}
+		console.log("entering Watersheds");
+allWatersheds.addTo(map);
 	}
 	if (hucCheckBox.checked == false) {
-		watershedRegion.removeFrom(map);
-		watershedSubregion.removeFrom(map);
-		watershedBasin.removeFrom(map);
-		watershedSubbasin.removeFrom(map);
-		watershedWatershed.removeFrom(map);
-		watershedSubwatershed.addTo(map);
+		allWatersheds.removeFrom(map);
 	}
 }
