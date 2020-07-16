@@ -150,20 +150,11 @@ var editableLayers = new L.FeatureGroup();
 var peakLabels = false;
 
 var watershedStyle = {
-	"color": 'orange',
+	"color": 'gray',
 	"fillOpacity": 0,
 	"opacity": 0.65,
 	"weight": 4
 };
-
-/*
-var allWatersheds = L.esri.featureLayer({
-	useCors: false,
-	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer/1",
-	style: watershedStyle
-});
-*/
-
 
 var watershedRegion = L.esri.featureLayer({
 	useCors: false,
@@ -494,9 +485,9 @@ $(document).ready(function () {
 
 	map.on({
 		overlayadd: function (e) {
-	
+
 			if (e.name.indexOf('Stream Gage') !== -1) {
-		
+
 				if (map.getZoom() < 9) USGSrtGages.clearLayers();
 				if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9) {
 					//USGSrtGages.clearLayers();
@@ -938,51 +929,40 @@ $(document).ready(function () {
 	// });
 
 	//render different HUCs depending on zoom
-	map.on('zoomend zoomlevelschange', function(e) {
+	map.on('zoomend zoomlevelschange', function (e) {
 		var hucCheckBox = document.getElementById("hucToggle");
 		if (hucCheckBox.checked == true) {
-			console.log("checkbox is checked");
-		if (map.getZoom() < 6) {
-			watershedSubregion.removeFrom(map);
-			watershedRegion.addTo(map);
+			if (map.getZoom() < 7) {
+				watershedSubregion.removeFrom(map);
+				watershedRegion.addTo(map);
+			}
+			if (map.getZoom() == 7) {
+				watershedRegion.removeFrom(map);
+				watershedBasin.removeFrom(map);
+				watershedSubregion.addTo(map);
+			}
+			if (map.getZoom() == 8) {
+				watershedSubregion.removeFrom(map);
+				watershedSubbasin.removeFrom(map);
+				watershedBasin.addTo(map);
+			}
+			if (map.getZoom() == 9 || map.getZoom() ==10) {
+				watershedBasin.removeFrom(map);
+				watershedWatershed.removeFrom(map);
+				watershedSubbasin.addTo(map);
+			}
+			if (map.getZoom() == 11 || map.getZoom() == 12) {
+				watershedSubbasin.removeFrom(map);
+				watershedSubwatershed.removeFrom(map);
+				watershedWatershed.addTo(map);
+			}
+			if (map.getZoom() >= 13) {
+				watershedWatershed.removeFrom(map);
+				watershedSubwatershed.addTo(map);
+			}
 		}
-		if(map.getZoom() == 6) {
-			watershedRegion.removeFrom(map);
-			watershedBasin.removeFrom(map);
-			watershedSubregion.addTo(map);
-		}
-		if(map.getZoom() == 7) {
-			watershedSubregion.removeFrom(map);
-			watershedSubbasin.removeFrom(map);
-			watershedBasin.addTo(map);
-		}
-		if(map.getZoom() == 8) {
-			watershedBasin.removeFrom(map);
-			watershedWatershed.removeFrom(map);
-			watershedSubbasin.addTo(map);
-		}
-		if(map.getZoom() == 9) {
-			watershedSubbasin.removeFrom(map);
-			watershedSubwatershed.removeFrom(map);
-			watershedWatershed.addTo(map);
-		}
-		if(map.getZoom() == 10) {
-			watershedWatershed.removeFrom(map);
-			setTimeout(() => {
-				
-			watershedSubwatershed.addTo(map);
-			}, 1500);
-		}
-	}
-	if (hucCheckBox.checked == false) {
-		watershedRegion.removeFrom(map);
-		watershedSubregion.removeFrom(map);
-		watershedBasin.removeFrom(map);
-		watershedSubbasin.removeFrom(map);
-		watershedWatershed.removeFrom(map);
-	}
 	});
-	
+
 
 	///fix to prevent re-rendering nwis rt gages on pan
 	map.on('load moveend zoomend', function (e) {
@@ -1001,7 +981,7 @@ $(document).ready(function () {
 			}
 		})
 
-		
+
 		//USGSrtGages.clearLayers();
 		if (map.getZoom() == 9) {
 			USGSrtGages.clearLayers();
@@ -1164,4 +1144,47 @@ function togglePeakLabels() {
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
 	$('#imagemodal').modal('show');
+}
+
+//when user checks the Watershed layer in the legend, HUC size appears according to zoom
+function clickWatershed() {
+	var hucCheckBox = document.getElementById("hucToggle");
+	if (hucCheckBox.checked == true) {
+		if (map.getZoom() < 7) {
+			watershedSubregion.removeFrom(map);
+			watershedRegion.addTo(map);
+		}
+		if (map.getZoom() == 7) {
+			watershedRegion.removeFrom(map);
+			watershedBasin.removeFrom(map);
+			watershedSubregion.addTo(map);
+		}
+		if (map.getZoom() == 8) {
+			watershedSubregion.removeFrom(map);
+			watershedSubbasin.removeFrom(map);
+			watershedBasin.addTo(map);
+		}
+		if (map.getZoom() == 9 || map.getZoom() ==10) {
+			watershedBasin.removeFrom(map);
+			watershedWatershed.removeFrom(map);
+			watershedSubbasin.addTo(map);
+		}
+		if (map.getZoom() == 11 || map.getZoom() == 12) {
+			watershedSubbasin.removeFrom(map);
+			watershedSubwatershed.removeFrom(map);
+			watershedWatershed.addTo(map);
+		}
+		if (map.getZoom() >= 13) {
+			watershedWatershed.removeFrom(map);
+			watershedSubwatershed.addTo(map);
+		}
+	}
+	if (hucCheckBox.checked == false) {
+		watershedRegion.removeFrom(map);
+		watershedSubregion.removeFrom(map);
+		watershedBasin.removeFrom(map);
+		watershedSubbasin.removeFrom(map);
+		watershedWatershed.removeFrom(map);
+		watershedSubwatershed.addTo(map);
+	}
 }
