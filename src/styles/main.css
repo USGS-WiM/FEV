@@ -10,6 +10,7 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-color:#474747;
+    background-size: 169px 78px;
 }
 
 /*
@@ -23,6 +24,15 @@ body {
 .search-bar {
     margin:0px;
     padding-left:0px;
+}
+
+#search_container {
+    display    : inline-block;
+    width      : 300px;
+    height     : 30px;
+    padding    : 25px;
+    padding-top: 5px;
+    padding-left: 18px;
 }
 
 #sapi-searchTextBox {
@@ -73,6 +83,9 @@ body {
     height: 155px;
     width: 255px;
     border:1px solid #e1ebfc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #imageModalDialog {
@@ -84,6 +97,62 @@ body {
       width: 100%;
     }
   }
+
+
+  .faq-modal-body{
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 25px;
+}
+.faq-header{
+    display: block;
+    font-size: 12pt;
+    margin-bottom: 8px;
+    background-color: #F5F5F5;
+    color: #555555;
+    box-sizing: border-box;
+    transition: 0.12s;
+    padding: 10px;
+}
+
+.faq-header i{
+    margin-left: 10px;
+}
+.faq-header:hover{
+    cursor: pointer;
+    color: #6184DB;
+    transition: 0.12s;
+}
+
+.faq-body{
+    display: none;
+    line-height: 1.6em;
+    color: #555555;
+    font-size: 10.35pt;
+    box-sizing: border-box;
+    padding: 10px 10px;
+
+}
+.faq-body img{
+    display: block;
+    max-width: 100%;
+    margin: 10px auto;
+}
+  /* css for tab in about modal for usgs live images */
+  /* .camImage {
+      width: 40%;
+  }
+
+  .camContainer{
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+  .imgsContainer::after {
+    content: "";
+    clear: both;
+    display: table;
+  } */
 
 /*
     ===========================
@@ -1001,8 +1070,12 @@ input[type="checkbox"], input[type="radio"] {
     border-radius: 3px !important;
 }
 h4.modal-title{
-    font-weight: bolder !important;
-    color: rgba(0,0,0,0.75) !important;
+    font-weight: 300 !important;
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    top: 5px;
+   /* color: rgba(0,0,0,0.75) !important; */
+    max-width: 90%
 }
 .modal-header button.close{
     position: relative;
@@ -1013,6 +1086,21 @@ input[type='checkbox']{
     margin-right: 5px;
     position: relative;
     top: -0.5px;
+}
+
+.dismissbutton {
+    display: inline-block;
+    margin-bottom: 15px; 
+    margin-left: 15px;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: white;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-color: rgb(204, 204, 204);
 }
 
 #sapi-searchTextBox{
