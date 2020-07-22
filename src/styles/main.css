@@ -1065,6 +1065,17 @@ input[type="checkbox"], input[type="radio"] {
     box-sizing: border-box;
     padding: 0 0 0 5px;
 }
+.squareDiv {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    border: .1px solid rgba(255, 255, 255, 0);
+}
+.watershedColor{
+    border-color: gray;
+    Border-width: 2px;
+}
 
 .modal-content{
     border-radius: 3px !important;

@@ -134,6 +134,7 @@ var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.
 var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
 
+
 //sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
 var baro = L.layerGroup();
 var stormtide = L.layerGroup();
@@ -147,6 +148,22 @@ var tides = L.layerGroup();
 var editableLayers = new L.FeatureGroup();
 
 var peakLabels = false;
+
+var watershedStyle = {
+	"color": 'gray',
+	"fillOpacity": 0,
+	"opacity": 0.65,
+	"weight": 4
+};
+
+var allWatersheds = L.esri.dynamicMapLayer({
+	url: "https://gis.streamstats.usgs.gov/arcgis/rest/services/StreamStats/nationalLayer/MapServer",
+	layers: [2, 3, 4, 5, 6, 7],
+	maxZoom: 14,
+	minZoom: 4,
+	useCors: false
+});
+
 
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
 var rdg = L.featureGroup();
@@ -283,6 +300,8 @@ $(document).ready(function () {
 			$('.eventSelectAlert').show();
 		}
 	});
+
+	
 
 	//listener for submit filters button on filters modal - sets event vars and passes event id to filterMapData function
 	$('#btnSubmitFilters').on('click', function () {
@@ -439,7 +458,9 @@ $(document).ready(function () {
 
 	map.on({
 		overlayadd: function (e) {
+
 			if (e.name.indexOf('Stream Gage') !== -1) {
+
 				if (map.getZoom() < 9) USGSrtGages.clearLayers();
 				if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9) {
 					//USGSrtGages.clearLayers();
@@ -478,7 +499,6 @@ $(document).ready(function () {
 			if (e.name === 'Cities') alert('removed');
 		}
 	});
-
 
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
@@ -895,9 +915,17 @@ $(document).ready(function () {
 	//     }
 	// });
 
+	//render different HUCs depending on zoom
+	map.on('zoomend zoomlevelschange', function (e) {
+		var hucCheckBox = document.getElementById("hucToggle");
+		if (hucCheckBox.checked == true) {
+			allWatersheds.addTo(map);
+		}
+	});
+
+
 	///fix to prevent re-rendering nwis rt gages on pan
 	map.on('load moveend zoomend', function (e) {
-
 		var foundPopup;
 		$.each(USGSrtGages.getLayers(), function (index, marker) {
 			var popup = marker.getPopup();
@@ -912,8 +940,10 @@ $(document).ready(function () {
 				foundPopup = popup._isOpen;
 			}
 		})
+
+
 		//USGSrtGages.clearLayers();
-		if (map.getZoom() < 9) {
+		if (map.getZoom() == 9) {
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
 			$('#rtScaleAlert').show();
@@ -1074,4 +1104,15 @@ function togglePeakLabels() {
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
 	$('#imagemodal').modal('show');
+}
+
+//when user checks the Watershed layer in the legend, HUC size appears according to zoom
+function clickWatershed() {
+	var hucCheckBox = document.getElementById("hucToggle");
+	if (hucCheckBox.checked == true) {
+allWatersheds.addTo(map);
+	}
+	if (hucCheckBox.checked == false) {
+		allWatersheds.removeFrom(map);
+	}
 }

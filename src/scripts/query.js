@@ -366,7 +366,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
     var cameraFeatures = L.geoJson(cameraLocations, {
         pointToLayer: function (feature, latlng) {
-            console.log(latlng, feature);
+           // console.log(latlng, feature);
             return L.marker(latlng, {
                 icon: cameraIcon
             });
@@ -395,7 +395,6 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
     });
     //increment layerCount
     layerCount++;
-    useCors: false;
     tides.clearLayers();
 
     //create a geoJSON to populate with coordinates of NOAA tides gages
