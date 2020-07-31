@@ -425,53 +425,60 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
     });
 
     //access the url that contains the tides data
-    $.getJSON(url, function (data) {
-        console.log(data);
-        if (data.stations.length == 0) {
-            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
-            return
-        }
-        if (data.stations.length > 0) {       
-            console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
-            //loop through every gage in the geojson
-            for (var i = data.stations.length - 1; i >= 0; i--) {
-
-                //retrieve lat/lon coordinates
-                var latitude = data.stations[i].lat;
-                var longitude = data.stations[i].lng;
-                var affiliations = data.stations[i].affiliations;
-                var stationId = data.stations[i].id;
-
-                //check that there are lat/lng coordinates
-                if (isNaN(latitude) || isNaN(longitude)) {
-                    console.error("latitude or longitude value for point: ", data.stations[i], "is null");
-                }
-
-                //if the lat/lng seems good, add the point to the geoJSON
-                else {
-                    noaaTidesGeoJSON.features[i] = {
-                        "type":"Feature",
-                        "properties": {
-                            "affiliations": affiliations,
-                            "id": stationId
-                        },
-                        "geometry":{
-                            "coordinates":[longitude, latitude],
-                            "type":"Point"
-                        }
-                    };
-                }
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        async: false,
+        headers: { 'Accept': '*/*' },
+        //jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
+        success: function(data){
+            console.log(data);
+            if (data.stations.length == 0) {
+                console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+                return
             }
-            //get the data from the new geoJSON
-            currentMarker.addData(noaaTidesGeoJSON);
-            currentMarker.eachLayer(function (layer) {
-                layer.addTo(tides);
-            });
-            //plot tides gages on map
-            //.addTo(map);
-            checkLayerCount(layerCount);
-        }    
-    });
+            if (data.stations.length > 0) {       
+                console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+                //loop through every gage in the geojson
+                for (var i = data.stations.length - 1; i >= 0; i--) {
+    
+                    //retrieve lat/lon coordinates
+                    var latitude = data.stations[i].lat;
+                    var longitude = data.stations[i].lng;
+                    var affiliations = data.stations[i].affiliations;
+                    var stationId = data.stations[i].id;
+    
+                    //check that there are lat/lng coordinates
+                    if (isNaN(latitude) || isNaN(longitude)) {
+                        console.error("latitude or longitude value for point: ", data.stations[i], "is null");
+                    }
+    
+                    //if the lat/lng seems good, add the point to the geoJSON
+                    else {
+                        noaaTidesGeoJSON.features[i] = {
+                            "type":"Feature",
+                            "properties": {
+                                "affiliations": affiliations,
+                                "id": stationId
+                            },
+                            "geometry":{
+                                "coordinates":[longitude, latitude],
+                                "type":"Point"
+                            }
+                        };
+                    }
+                }
+                //get the data from the new geoJSON
+                currentMarker.addData(noaaTidesGeoJSON);
+                currentMarker.eachLayer(function (layer) {
+                    layer.addTo(tides);
+                });
+                //plot tides gages on map
+                //.addTo(map);
+                checkLayerCount(layerCount);
+            }    
+        }
+      });
 }
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
@@ -1745,7 +1752,7 @@ $(document).ready(function () {
 		$('.data-disclaim').click(function (e) {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
-			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
+			//$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
 	});
 
