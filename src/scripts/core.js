@@ -452,7 +452,7 @@ $(document).ready(function () {
 		$('.data-disclaim').click(function (e) {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
-			//$('.nav-tabs a[href="#faqTabPane"]').tab('show');
+			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
 	});
 
