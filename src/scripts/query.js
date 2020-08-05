@@ -851,9 +851,11 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
-        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
+        setTimeout(() => {
+            if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json', tidesMarkerIcon);
+        }, 600);
     });
-
+    
 } //end filterMapData function
 function queryNWISRainGages(bbox) {
     var NWISRainmarkers = {};
