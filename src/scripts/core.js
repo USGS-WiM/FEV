@@ -133,6 +133,7 @@ var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png
 var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
+var nwisTidalMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwistides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 
 
 //sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
@@ -168,6 +169,7 @@ var allWatersheds = L.esri.dynamicMapLayer({
 //rdg and USGSrtGages layers must be featureGroup type to support mouse event listeners
 var rdg = L.featureGroup();
 var USGSRainGages = L.featureGroup();
+var USGSTideGages = L.featureGroup();
 var USGSrtGages = L.featureGroup();
 var noaaService = L.esri.dynamicMapLayer({
 	url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/wwa_meteocean_tropicalcyclones_trackintensityfcsts_time/MapServer",
@@ -420,7 +422,8 @@ $(document).ready(function () {
 	//define the real-time overlay and manually add the NWIS RT gages to it
 	var realTimeOverlays = {
 		"<img class='legendSwatch' src='images/nwis.png'>&nbsp;Real-time Stream Gage": USGSrtGages,
-		"<img class='legendSwatch' src='images/rainIcon.png'>&nbsp;Real-time Rain Gage": USGSRainGages
+		"<img class='legendSwatch' src='images/rainIcon.png'>&nbsp;Real-time Rain Gage": USGSRainGages,
+		"<img class='legendSwatch' src='images/nwistides.png'>&nbsp;Tidal Gage": USGSTideGages
 	};
 	//define observed overlay and interpreted overlay, leave blank at first
 	var observedOverlays = {};
@@ -484,6 +487,7 @@ $(document).ready(function () {
 					$('#nwisLoadingAlert').show();
 					var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 					queryNWISRainGages(bbox);
+					queryNWISTideGages(bbox);
 					USGSRainGages.bringToFront();
 
 					/* if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)){
@@ -941,11 +945,19 @@ $(document).ready(function () {
 			}
 		})
 
+		$.each(USGSTideGages.getLayers(), function (index, marker) {
+			var popup = marker.getPopup();
+			if (popup) {
+				foundPopup = popup._isOpen;
+			}
+		})
+
 
 		//USGSrtGages.clearLayers();
 		if (map.getZoom() == 9) {
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
+			USGSTideGages.clearLayers();
 			$('#rtScaleAlert').show();
 			if (peakLabels === true) {
 				peak.eachLayer(function (myMarker) {
@@ -968,6 +980,7 @@ $(document).ready(function () {
 			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISrtGages(bbox);
 			queryNWISRainGages(bbox);
+			queryNWISTideGages(bbox);
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
@@ -985,6 +998,7 @@ $(document).ready(function () {
 			$('#nwisLoadingAlert').show();
 			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISRainGages(bbox);
+			queryNWISTideGages(bbox);
 			if (map.hasLayer(USGSRainGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
@@ -998,7 +1012,10 @@ $(document).ready(function () {
 
 	USGSRainGages.on('click', function (e) {
 		queryNWISRaingraph(e);
+	});
 
+	USGSTideGages.on('click', function (e) {
+		queryNWISgraphTides(e);
 	});
 
 	rdg.on('click', function (e) {
