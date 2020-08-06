@@ -282,30 +282,33 @@ function populateCameraLayer(type, name, url, markerIcon) {
     // USGS Coastal Cameras layer
     var cameraLocations = [{
         "type": "Feature",
-        "properties": { 
-            "name": "Unalakleet, AK", 
+        "properties": {
+            "name": "Unalakleet, AK",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/unalakleet/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-unalakleet" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-unalakleet"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-160.7956, 63.8759]
         }
     }, {
         "type": "Feature",
-        "properties": { 
-            "name": "Santa Cruz, CA", 
+        "properties": {
+            "name": "Santa Cruz, CA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/dreaminn/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-santa-cruz-beaches"},
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-santa-cruz-beaches"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-122.025166, 36.961271]
         }
     }, {
         "type": "Feature",
-        "properties": { 
-            "name": "Sunset State Beach, CA", 
+        "properties": {
+            "name": "Sunset State Beach, CA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/sunset/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-sunset-state-beach" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-sunset-state-beach"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-121.833, 36.887]
@@ -313,10 +316,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Tres Palmas, Rincon, Purto Rico", 
+        "properties": {
+            "name": "Tres Palmas, Rincon, Purto Rico",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/rincon/latest/c2_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-tres-palmas" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-tres-palmas"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-67.263198, 18.348096]
@@ -324,10 +328,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Madeira Beach, FL", 
+        "properties": {
+            "name": "Madeira Beach, FL",
             "url": "https://coastal.er.usgs.gov/hurricanes/research/images/madbeach.c1.snap.jpg",
-            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-82.796093, 27.796206]
@@ -335,10 +340,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Sand Key, FL", 
+        "properties": {
+            "name": "Sand Key, FL",
             "url": "https://coastal.er.usgs.gov/hurricanes/research/images/sandkey.c2.snap.jpg",
-            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-82.839343, 27.939069]
@@ -346,10 +352,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Head of the Meadow, MA", 
+        "properties": {
+            "name": "Head of the Meadow, MA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/caco-01/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-head-meadow-beach" },
+            "source": "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-head-meadow-beach"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-70.07738, 42.05048]
@@ -366,7 +373,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
     var cameraFeatures = L.geoJson(cameraLocations, {
         pointToLayer: function (feature, latlng) {
-           // console.log(latlng, feature);
+            // console.log(latlng, feature);
             return L.marker(latlng, {
                 icon: cameraIcon
             });
@@ -398,7 +405,7 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
     tides.clearLayers();
 
     //create a geoJSON to populate with coordinates of NOAA tides gages
-    var noaaTidesGeoJSON = {"features": [{"type": "Feature", "geometry":{"coordinates":[0, 0], "type":"Point"}}]};
+    var noaaTidesGeoJSON = { "features": [{ "type": "Feature", "geometry": { "coordinates": [0, 0], "type": "Point" } }] };
     var currentMarker = L.geoJson(false, {
         pointToLayer: function (feature, latlng) {
             markerCoords.push(latlng);
@@ -408,17 +415,17 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
             return marker;
         },
         onEachFeature: function (feature, latlng) {
-            var beginDate = fev.vars.currentEventStartDate_str.replace("-","");
-            var beginDate = beginDate.replace("-","");
-            var endDate = fev.vars.currentEventEndDate_str.replace("-","");
-            var endDate = endDate.replace("-","");
+            var beginDate = fev.vars.currentEventStartDate_str.replace("-", "");
+            var beginDate = beginDate.replace("-", "");
+            var endDate = fev.vars.currentEventEndDate_str.replace("-", "");
+            var endDate = endDate.replace("-", "");
             var stationId = feature.properties.id;
-            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate='+ endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
-            
+            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate=' + endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
+
             // url that would be used if we wanted to make our own graphs
             //var dataUrl = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&begin_date=' + beginDate + '&end_date=' + endDate + '&datum=MLLW&station=' + stationId + '&time_zone=GMT&units=english&format=json&application=NOS.COOPS.TAC.WL';
-            
-            var popupContent ='<span><a target="_blank" href='+ gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
+
+            var popupContent = '<span><a target="_blank" href=' + gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
             latlng.bindPopup(popupContent);
         }
     });
@@ -430,39 +437,39 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
         async: false,
         headers: { 'Accept': '*/*' },
         //jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
-        success: function(data){
+        success: function (data) {
             console.log(data);
             if (data.stations.length == 0) {
                 console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
                 return
             }
-            if (data.stations.length > 0) {       
+            if (data.stations.length > 0) {
                 console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
                 //loop through every gage in the geojson
                 for (var i = data.stations.length - 1; i >= 0; i--) {
-    
+
                     //retrieve lat/lon coordinates
                     var latitude = data.stations[i].lat;
                     var longitude = data.stations[i].lng;
                     var affiliations = data.stations[i].affiliations;
                     var stationId = data.stations[i].id;
-    
+
                     //check that there are lat/lng coordinates
                     if (isNaN(latitude) || isNaN(longitude)) {
                         console.error("latitude or longitude value for point: ", data.stations[i], "is null");
                     }
-    
+
                     //if the lat/lng seems good, add the point to the geoJSON
                     else {
                         noaaTidesGeoJSON.features[i] = {
-                            "type":"Feature",
+                            "type": "Feature",
                             "properties": {
                                 "affiliations": affiliations,
                                 "id": stationId
                             },
-                            "geometry":{
-                                "coordinates":[longitude, latitude],
-                                "type":"Point"
+                            "geometry": {
+                                "coordinates": [longitude, latitude],
+                                "type": "Point"
                             }
                         };
                     }
@@ -475,9 +482,9 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
                 //plot tides gages on map
                 //.addTo(map);
                 checkLayerCount(layerCount);
-            }    
+            }
         }
-      });
+    });
 }
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
@@ -855,7 +862,7 @@ function filterMapData(event, isUrlParam) {
             if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json', tidesMarkerIcon);
         }, 600);
     });
-    
+
 } //end filterMapData function
 function queryNWISRainGages(bbox) {
     var NWISRainmarkers = {};
@@ -915,12 +922,73 @@ function queryNWISRainGages(bbox) {
     });
     //}
 }
+
+function queryNWISTideGages(bbox) {
+    var NWISTidemarkers = {};
+
+    var siteStatus = 'active';
+    //var state = ['DE', 'FL', 'GA', 'MD', 'MA', 'NJ', 'NC', 'ND', 'PA', 'RI', 'SC', 'VA', 'WV', 'GU', 'PR'];
+    //var state = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'GU', 'PR', 'VI'];
+    //for (i = 0; i < state.length; i++) {
+
+    var parameterCodeList2 = '62619,62620';
+    var siteTypeList = 'OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS';
+    var siteStatus = 'active';
+    var url = 'https://waterservices.usgs.gov/nwis/site/?format=mapper&bBox=' + bbox + '&parameterCd=' + parameterCodeList2 + '&siteType=' + siteTypeList + '&siteStatus=' + siteStatus;
+
+
+    //var url = 'https://waterdata.usgs.gov/' + state[i] + '/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
+    //var url = 'https://waterdata.usgs.gov/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
+    console.log(url);
+
+    $.ajax({
+        url: url,
+        dataType: "xml",
+        data: NWISTidemarkers,
+        success: function (xml) {
+            $(xml).find('site').each(function () {
+
+                var siteID = $(this).attr('sno');
+                var siteName = $(this).attr('sna');
+                var lat = $(this).attr('lat');
+                var lng = $(this).attr('lng');
+                /* NWISmarkers[siteID] = L.marker([lat, lng], { icon: nwisMarkerIcon });
+                NWISmarkers[siteID].data = { siteName: siteName, siteCode: siteID };
+                NWISmarkers[siteID].data.parameters = {};
+
+                    var siteID = this.children[1].innerHTML;
+                    var siteName = this.children[2].innerHTML;
+                    if (this.children[4].innerHTML == "") {
+                        var lat = "36.378769";
+                        var lng = "97.470630";
+                    } else {
+                        var lat = this.children[4].innerHTML;
+                        var lng = this.children[5].innerHTML;
+                    } */
+                NWISTidemarkers[siteID] = L.marker([lat, lng], { icon: nwisTidalMarkerIcon });
+                NWISTidemarkers[siteID].data = { siteName: siteName, siteCode: siteID };
+                NWISTidemarkers[siteID].data.parameters = {};
+
+                //add point to featureGroup
+                USGSTideGages.addLayer(NWISTidemarkers[siteID]);
+
+                $("#nwisLoadingAlert").fadeOut(2000);
+            });
+            console.log(data);
+        },
+        error: function (xml) {
+            $("#nwisLoadingAlert").fadeOut(2000);
+        }
+        
+    });
+    //}
+}
 //use extent to get NWIS rt gages based on bounding box, display on map
 function queryNWISrtGages(bbox) {
     var NWISmarkers = {};
 
     //NWIS query options from http://waterservices.usgs.gov/rest/IV-Test-Tool.html
-    var parameterCodeList = '00065,62619,62620,63160,72214';
+    var parameterCodeList = '00065,63160,72214'; // 62619,62620 moved to seperate layer
     var siteTypeList = 'OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS';
     var siteStatus = 'active';
     var url = 'https://waterservices.usgs.gov/nwis/site/?format=mapper&bBox=' + bbox + '&parameterCd=' + parameterCodeList + '&siteType=' + siteTypeList + '&siteStatus=' + siteStatus;
@@ -1087,7 +1155,7 @@ function queryNWISgraph(e) {
     //popupContent += '<tr><td>' + index + '</td><td>' + parameter.Value + '</td><td>' + moment(parameter.Time).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>'
     //});
 
-    var parameterCodeList = '00065,62619,62620,63160,72279';
+    var parameterCodeList = '00065,63160,72279';
     //var parameterCodeList = '00065';
 
     var timeQueryRange = '';
@@ -1140,6 +1208,101 @@ function queryNWISgraph(e) {
                         fontSize: 'small',
                         fontWeight: 'bold',
                         fontFamily: 'Open Sans, sans-serif'
+                    }
+                    //text: null
+                },
+                exporting: {
+                    filename: 'FEV_NWIS_Site' + e.layer.data.siteCode
+                },
+                credits: {
+                    enabled: false
+                },
+                xAxis: {
+                    type: "datetime",
+                    labels: {
+                        formatter: function () {
+                            return Highcharts.dateFormat('%d %b %y', this.value);
+                        },
+                        //rotation: -90,
+                        align: 'center'
+                    }
+                },
+                yAxis: {
+                    title: { text: 'Gage Height, feet' }
+                },
+                series: [{
+                    showInLegend: false,
+                    data: data.data[0].time_series_data,
+                    tooltip: {
+                        pointFormat: "Gage height: {point.y} feet"
+                    }
+                }]
+            });
+        }
+    });
+}
+
+function queryNWISgraphTides(e) {
+    var popupContent = '';
+    //$.each(e.layer.data.parameters, function( index, parameter ) {
+    //create table, converting timestamp to friendly format using moment.js library
+    //popupContent += '<tr><td>' + index + '</td><td>' + parameter.Value + '</td><td>' + moment(parameter.Time).format("dddd, MMMM Do YYYY, h:mm:ss a") + '</td></tr>'
+    //});
+
+    var parameterCodeList = '62619,62620';
+    //var parameterCodeList = '00065';
+
+    var timeQueryRange = '';
+    //if event has no end date
+    if (fev.vars.currentEventEndDate_str == '') {
+        //use moment.js lib to get current system date string, properly formatted, set currentEventEndDate var to current date
+        fev.vars.currentEventEndDate_str = moment().format('YYYY-MM-DD');
+    }
+    //if no start date and
+    if (fev.vars.currentEventStartDate_str == '' || fev.vars.currentEventEndDate_str == '') {
+        timeQueryRange = '&period=P7D'
+    } else {
+        timeQueryRange = '&startDT=' + fev.vars.currentEventStartDate_str + '&endDT=' + fev.vars.currentEventEndDate_str;
+    }
+
+    //popup markup with site name number and name - moved into chart title
+    //e.layer.bindPopup('<label class="popup-title">Site ' + e.layer.data.siteCode + '</br>' + e.layer.data.siteName + '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <a target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' + e.layer.data.siteCode + '">NWIS data page for site ' + e.layer.data.siteCode + ' <i class="fa fa-external-link" aria-hidden="true"></i></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>', {minWidth: 350}).openPopup();
+    e.layer.bindPopup('<label class="popup-title">NWIS Site ' + e.layer.data.siteCode + '</br>' + e.layer.data.siteName + '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' + e.layer.data.siteCode + '"><b>Site ' + e.layer.data.siteCode + ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>', { minWidth: 350 }).openPopup();
+
+    $.getJSON('https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=' + e.layer.data.siteCode + '&parameterCd=' + parameterCodeList + timeQueryRange, function (data) {
+
+        //if (data.data[0].time_series_data.length <= 0) console.log("No NWIS graph data available for this time period");
+
+
+        if (data.data == undefined) {
+            console.log("No NWIS data available for this time period");
+            $('#graphLoadMessage').hide();
+            $('#noDataMessage').show();
+            //if no time series data, display data NA message
+            //if (data.data[0].time_series_data.length <= 0 ){}
+        }
+
+        else {
+            //if there is some data, show the div
+            $('#graphLoadMessage').hide();
+            $('.popup-title').hide();
+            $('#graphContainer').show();
+
+            //create chart
+            Highcharts.setOptions({ global: { useUTC: false } });
+            $('#graphContainer').highcharts({
+                chart: {
+                    type: 'line',
+                    //marginTop: 10
+                },
+                title: {
+                    text: 'NWIS Site ' + e.layer.data.siteCode + '<br> ' + e.layer.data.siteName + '<br> ' + data.data[0].parameter_name,
+                    align: 'left',
+                    style: {
+                        color: 'rgba(0,0,0,0.6)',
+                        fontSize: 'small',
+                        fontWeight: 'bold',
+                        fontFamily: 'Open Sans, sans-serif',
                     }
                     //text: null
                 },
