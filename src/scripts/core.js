@@ -665,6 +665,9 @@ $(document).ready(function () {
 	$('#geosearchNav').click(function () {
 		showGeosearchModal();
 	});
+	$('#statsButtons').click(function () {
+		showStatsModal();
+	});
 	function showAboutModal() {
 		$('#aboutModal').modal('show');
 	}
@@ -775,6 +778,10 @@ $(document).ready(function () {
 			);
 		}
 	}).addTo(map);
+
+	function showStatsModal() {
+		$('#statsModal').modal('show');
+	}
 
 	function showGeosearchModal() {
 		$('#geosearchModal').modal('show');

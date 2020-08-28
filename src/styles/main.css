@@ -813,6 +813,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 #sensorDownloadButtons .btn-group,
+#statsButtons .btn-group,
 #hwmrDownloadButtons .btn-group,
 #peaksDownloadButtons .btn-group{
     display: block;

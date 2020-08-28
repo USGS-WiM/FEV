@@ -222,6 +222,26 @@
     </div>
     <!-- end Geosearch Modal -->
 
+    <!-- Statistics Modal -->
+    <div class="modal fade overflow-y-hidden" id="statsModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Statistics</h4>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <div class="form-group" align="center">
+                        <p> stats </p>
+                    </div>
+                </div>
+                <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"
+                        style="color:gray;" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- end Statistics Modal -->
+
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" id="imageModalDialog">
@@ -790,6 +810,13 @@
                                     href="https://my.usgs.gov/confluence/display/WSN/STN+Data+Dictionary+-+Top+Level"
                                     target="_blank" style="cursor: pointer;">STN Data Dictionary</a> for field names and
                                 definitions.</p>
+                            <div id="statsButtons">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle">
+                                        <span data-bind="label" value="Sensor">Statistics</span>&nbsp;
+                                    </button>
+                                </div>
+                            </div>
                             <div id="sensorDownloadButtons">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-default dropdown-toggle"
