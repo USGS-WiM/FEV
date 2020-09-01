@@ -909,6 +909,7 @@ raingageCheckBox.disabled = true;
 			}
 		})
 
+		//When zoom is less than 9, uncheck and disable rain and stream checkboxes
 		if (map.getZoom() < 9) {
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
 			streamgageCheckBox.checked = false;
@@ -935,6 +936,7 @@ raingageCheckBox.disabled = true;
 			}
 		}
 
+		//When zoom is 9 or greater, enable the stream and rain gage checkboxes
 		if (map.getZoom() >= 9) {
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
 			streamgageCheckBox.disabled = false;
@@ -946,14 +948,24 @@ raingageCheckBox.disabled = true;
 			}
 		}
 
-		if (map.hasLayer(USGSrtGages) && document.getElementById("streamGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
+		//Show stream gages in new map view when map is panned
+		if (document.getElementById("streamGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
 			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISrtGages(bbox);
+			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
+				USGSRainGages.bringToFront();
+			}
+		}
+
+		//Show rain gages in new map view when map is panned
+		if (document.getElementById("rainGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
+			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISRainGages(bbox);
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
 		}
+		
 
 		if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9 && !foundPopup) {
 		
