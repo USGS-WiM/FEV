@@ -908,6 +908,18 @@
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
                                         Real-time stream and rain gage layers only available at <br> zoom level 9 and
                                         above. Please zoom in to view.</div>
+                                        <div style="text-align: left; margin-left: 6px;">
+                                            <label>
+                                                <input type="checkbox" id=streamGageToggle
+                                                    onclick="clickStreamGage()" />
+                                            </label><img class='legendSwatch' src='images/nwis.png'></img>&nbsp; Real-time Stream Gage
+                                        </div>
+                                        <div style="text-align: left; margin-left: 6px;">
+                                            <label>
+                                                <input type="checkbox" id=rainGageToggle
+                                                    onclick="clickRainGage()" />
+                                            </label><img class='legendSwatch' src='images/rainIcon.png'></img>&nbsp; Real-time Rain Gage
+                                        </div>
                                 </div>
                                 <div id="observedToggleDiv">
                                     <b>Observed Data</b>

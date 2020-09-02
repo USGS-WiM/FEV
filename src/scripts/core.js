@@ -131,9 +131,11 @@ var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'ima
 var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
-var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [30, 30] });
+var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [15, 15] });
+var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
 var nwisTidalMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwistides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
+
+
 
 
 //sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
@@ -266,6 +268,12 @@ $(document).ready(function () {
 	//for jshint
 	'use strict';
 
+	//Start with the rain and stream gage checkboxes disabled
+var streamgageCheckBox = document.getElementById("streamGageToggle");
+streamgageCheckBox.disabled = true;
+var raingageCheckBox = document.getElementById("rainGageToggle");
+raingageCheckBox.disabled = true;
+
 	$('#peakDatePicker .input-daterange').datepicker({
 		format: "yyyy-mm-dd",
 		endDate: "today",
@@ -303,7 +311,7 @@ $(document).ready(function () {
 		}
 	});
 
-	
+
 
 	//listener for submit filters button on filters modal - sets event vars and passes event id to filterMapData function
 	$('#btnSubmitFilters').on('click', function () {
@@ -409,7 +417,7 @@ $(document).ready(function () {
 	//rdg.addTo(map);
 
 	//display USGS rt gages by default on map load
-	USGSrtGages.addTo(map);
+	//USGSrtGages.addTo(map);
 
 	// checking to see if service is live
 	noaaService.metadata(function (err, response) {
@@ -421,8 +429,6 @@ $(document).ready(function () {
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
 	var realTimeOverlays = {
-		"<img class='legendSwatch' src='images/nwis.png'>&nbsp;Real-time Stream Gage": USGSrtGages,
-		"<img class='legendSwatch' src='images/rainIcon.png'>&nbsp;Real-time Rain Gage": USGSRainGages,
 		"<img class='legendSwatch' src='images/nwistides.png'>&nbsp;Tidal Gage": USGSTideGages
 	};
 	//define observed overlay and interpreted overlay, leave blank at first
@@ -447,9 +453,6 @@ $(document).ready(function () {
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
-
-
-
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
 		$('.data-disclaim').click(function (e) {
@@ -458,52 +461,6 @@ $(document).ready(function () {
 			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
 	});
-
-	map.on({
-		overlayadd: function (e) {
-
-			if (e.name.indexOf('Stream Gage') !== -1) {
-
-				if (map.getZoom() < 9) USGSrtGages.clearLayers();
-				if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9) {
-					//USGSrtGages.clearLayers();
-					$('#nwisLoadingAlert').show();
-					var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
-					queryNWISrtGages(bbox);
-					/* if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)){
-						
-					} */
-				}
-				/* if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9) {
-					
-				} */
-			}
-		},
-		overlayadd: function (e) {
-			if (e.name.indexOf('Rain Gage') !== -1) {
-				if (map.getZoom() < 9) USGSRainGages.clearLayers();
-				if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9) {
-					//USGSrtGages.clearLayers();
-					$('#nwisLoadingAlert').show();
-					var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
-					queryNWISRainGages(bbox);
-					queryNWISTideGages(bbox);
-					USGSRainGages.bringToFront();
-
-					/* if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)){
-						
-					} */
-				}
-				/* if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9) {
-					
-				} */
-			}
-		},
-		overlayremove: function (e) {
-			if (e.name === 'Cities') alert('removed');
-		}
-	});
-
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
 	var realTimeToggle = L.control.layers(null, realTimeOverlays, { collapsed: false });
@@ -683,9 +640,9 @@ $(document).ready(function () {
 
 	// FAQ Modal controls.
 
-	 $('.faq-header').on('click', function (event) {
-		 var div = "#" + event.target.nextElementSibling.id;
-		 var angle = "#" + event.target.children[0].id;
+	$('.faq-header').on('click', function (event) {
+		var div = "#" + event.target.nextElementSibling.id;
+		var angle = "#" + event.target.children[0].id;
 		$(div).slideToggle(250);
 
 		if ($(angle).css("transform") == 'none') {
@@ -693,7 +650,7 @@ $(document).ready(function () {
 		} else {
 			$(angle).css("transform", "");
 		}
-	 });
+	});
 
 	/* begin basemap controller */
 	function setBasemap(basemap) {
@@ -952,13 +909,21 @@ $(document).ready(function () {
 			}
 		})
 
+		//When zoom is less than 9, uncheck and disable rain and stream checkboxes
+		if (map.getZoom() < 9) {
+			var streamgageCheckBox = document.getElementById("streamGageToggle");
+			streamgageCheckBox.checked = false;
+			streamgageCheckBox.disabled = true;
+			
+			var raingageCheckBox = document.getElementById("rainGageToggle");
+			raingageCheckBox.checked = false;
+			raingageCheckBox.disabled = true;
 
-		//USGSrtGages.clearLayers();
-		if (map.getZoom() == 9) {
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
 			USGSTideGages.clearLayers();
 			$('#rtScaleAlert').show();
+
 			if (peakLabels === true) {
 				peak.eachLayer(function (myMarker) {
 					myMarker.unbindLabel();
@@ -971,19 +936,39 @@ $(document).ready(function () {
 			}
 		}
 
+		//When zoom is 9 or greater, enable the stream and rain gage checkboxes
 		if (map.getZoom() >= 9) {
+			var streamgageCheckBox = document.getElementById("streamGageToggle");
+			streamgageCheckBox.disabled = false;
+			var raingageCheckBox = document.getElementById("rainGageToggle");
+			raingageCheckBox.disabled = false;
 			$('#rtScaleAlert').hide();
+			if (streamgageCheckBox.checked == true || raingageCheckBox.checked == true) {
+				$('#nwisLoadingAlert').show();
+			}
 		}
-		if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9 && !foundPopup) {
-			//USGSrtGages.clearLayers();
-			$('#nwisLoadingAlert').show();
+
+		//Show stream gages in new map view when map is panned
+		if (document.getElementById("streamGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
 			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISrtGages(bbox);
-			queryNWISRainGages(bbox);
-			queryNWISTideGages(bbox);
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
+		}
+
+		//Show rain gages in new map view when map is panned
+		if (document.getElementById("rainGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
+			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+			queryNWISRainGages(bbox);
+			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
+				USGSRainGages.bringToFront();
+			}
+		}
+		
+
+		if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9 && !foundPopup) {
+		
 			//put the rdg layer on top
 			//set timeout because if the stream gages finish loading after they rdg gages are loaded, they'll be on top
 			if (map.hasLayer(rdg)) {
@@ -991,16 +976,6 @@ $(document).ready(function () {
 					rdg.bringToFront();
 					displaySensorGeoJSON("rdg", "Rapid Deployment Gage", fev.urls["rdg" + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window["rdg" + 'MarkerIcon']);
 				}, 2000);
-			}
-		}
-		if (map.hasLayer(USGSRainGages) && map.getZoom() >= 9 && !foundPopup) {
-			//USGSrtGages.clearLayers();
-			$('#nwisLoadingAlert').show();
-			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
-			queryNWISRainGages(bbox);
-			queryNWISTideGages(bbox);
-			if (map.hasLayer(USGSRainGages) && map.hasLayer(USGSRainGages)) {
-				USGSRainGages.bringToFront();
 			}
 		}
 	});
@@ -1127,9 +1102,53 @@ function enlargeImage() {
 function clickWatershed() {
 	var hucCheckBox = document.getElementById("hucToggle");
 	if (hucCheckBox.checked == true) {
-allWatersheds.addTo(map);
+		allWatersheds.addTo(map);
 	}
 	if (hucCheckBox.checked == false) {
 		allWatersheds.removeFrom(map);
+	}
+}
+
+//Display stream gage layer and legend item when rain gage box is checked
+function clickStreamGage() {
+	var streamgageCheckBox = document.getElementById("streamGageToggle");
+	//Prevent user from using toggle when zoom is less than 9
+	if (map.getZoom() < 9) {
+		streamgageCheckBox.checked = false;
+		streamgageCheckBox.disabled = true;
+	}
+
+	if (streamgageCheckBox.checked == true) {
+		//var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+		//queryNWISrtGages(bbox);
+		//When checkbox is checked, add layer to map
+		USGSrtGages.addTo(map);
+		$('#nwisLoadingAlert').show();
+		var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+		queryNWISrtGages(bbox);
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (streamgageCheckBox.checked == false) {
+		USGSrtGages.clearLayers(map);
+	}
+}
+
+//Display rain gage layer and legend item when rain gage box is checked
+function clickRainGage() {
+	var raingageCheckBox = document.getElementById("rainGageToggle");
+	//Prevent user from using toggle when zoom is less than 9
+	if (map.getZoom() < 9) {
+		raingageCheckBox.checked = false;
+		raingageCheckBox.disabled = true;
+	}
+	if (raingageCheckBox.checked == true) {
+		USGSRainGages.addTo(map);
+		$('#nwisLoadingAlert').show();
+		var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+		queryNWISRainGages(bbox);
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (raingageCheckBox.checked == false) {
+		USGSRainGages.clearLayers(map);
 	}
 }
