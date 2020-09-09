@@ -295,6 +295,69 @@ $(document).ready(function () {
         }
     };
 
+    // retrieve horzontal datums
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/HorizontalDatums.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.horizontalDatums = data;
+            // for (var i = 0; i < data.length; i++) {
+            //     fev.data.deploymentTypes.push(data[i]);
+            // }
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    });
+
+    // retrieve horizontal collection methods
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/HorizontalMethods.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.horizontalCollectionMethods = data;
+            // for (var i = 0; i < data.length; i++) {
+            //     fev.data.deploymentTypes.push(data[i]);
+            // }
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    });
+
+    // retrieve housing types
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/HousingTypes.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.housingTypes = data;
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    });
+
+    // retrieve deployment types
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/DeploymentTypes.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.deploymentTypes = data;
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    });
+
+
     //disabling the logic below pending removal of the event type selector
     //begin onChange functions for Event form (these tie the event type and event forms together)
     // $('#evtTypeSelect').on('select2:select select2:unselect', function (selection) {

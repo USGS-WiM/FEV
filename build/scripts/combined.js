@@ -61,6 +61,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         '<tr><td><strong>State: </strong></td><td><span id="state">' + feature.properties.state + '</span></td></tr>' +
                         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
                         '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+                        '<tr><td><strong>Full sensor data: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view full sensor data">Sensor data <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button></span></td></tr>' +
                         '<tr><td colspan="2"><strong>Hydrograph: </strong>' + hydroPopupText
                     '</table>';
                     latlng.bindPopup(popupContent);
@@ -852,9 +853,11 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
-        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
+        setTimeout(() => {
+            if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json', tidesMarkerIcon);
+        }, 600);
     });
-
+    
 } //end filterMapData function
 function queryNWISRainGages(bbox) {
     var NWISRainmarkers = {};
@@ -1753,6 +1756,10 @@ $(document).ready(function () {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
 			//$('.nav-tabs a[href="#faqTabPane"]').tab('show');
+		});
+		$('.sensor-data-btn').click(function (e) {
+			$('#sensorDataModal').modal('show');
+			// $('#aboutModal').modal('show');
 		});
 	});
 

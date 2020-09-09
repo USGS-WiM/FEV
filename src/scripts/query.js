@@ -51,6 +51,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                     //var popupContent = '';
                     if (type == 'rdg') { return };
                     var currentEvent = fev.vars.currentEventName;
+                    var siteInstrumentArray = [feature.properties.site_id, feature.properties.instrument_id]
                     var popupContent =
                         '<table class="table table-hover table-striped table-condensed wim-table">' +
                         '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
@@ -61,6 +62,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         '<tr><td><strong>State: </strong></td><td><span id="state">' + feature.properties.state + '</span></td></tr>' +
                         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
                         '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+                        '<tr><td><strong>Full sensor data: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view full sensor data" value="' + siteInstrumentArray + '">Sensor data</button></span></td></tr>' +
                         '<tr><td colspan="2"><strong>Hydrograph: </strong>' + hydroPopupText
                     '</table>';
                     latlng.bindPopup(popupContent);
@@ -282,30 +284,33 @@ function populateCameraLayer(type, name, url, markerIcon) {
     // USGS Coastal Cameras layer
     var cameraLocations = [{
         "type": "Feature",
-        "properties": { 
-            "name": "Unalakleet, AK", 
+        "properties": {
+            "name": "Unalakleet, AK",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/unalakleet/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-unalakleet" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-unalakleet"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-160.7956, 63.8759]
         }
     }, {
         "type": "Feature",
-        "properties": { 
-            "name": "Santa Cruz, CA", 
+        "properties": {
+            "name": "Santa Cruz, CA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/dreaminn/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-santa-cruz-beaches"},
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-santa-cruz-beaches"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-122.025166, 36.961271]
         }
     }, {
         "type": "Feature",
-        "properties": { 
-            "name": "Sunset State Beach, CA", 
+        "properties": {
+            "name": "Sunset State Beach, CA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/sunset/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-sunset-state-beach" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-coastal-change-sunset-state-beach"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-121.833, 36.887]
@@ -313,10 +318,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Tres Palmas, Rincon, Purto Rico", 
+        "properties": {
+            "name": "Tres Palmas, Rincon, Purto Rico",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/rincon/latest/c2_snap.jpg",
-            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-tres-palmas" },
+            "source": "https://www.usgs.gov/centers/pcmsc/science/using-video-imagery-study-wave-dynamics-tres-palmas"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-67.263198, 18.348096]
@@ -324,10 +330,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Madeira Beach, FL", 
+        "properties": {
+            "name": "Madeira Beach, FL",
             "url": "https://coastal.er.usgs.gov/hurricanes/research/images/madbeach.c1.snap.jpg",
-            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-82.796093, 27.796206]
@@ -335,10 +342,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Sand Key, FL", 
+        "properties": {
+            "name": "Sand Key, FL",
             "url": "https://coastal.er.usgs.gov/hurricanes/research/images/sandkey.c2.snap.jpg",
-            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes" },
+            "source": "https://www.usgs.gov/centers/spcmsc/science/video-remote-sensing-coastal-processes"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-82.839343, 27.939069]
@@ -346,10 +354,11 @@ function populateCameraLayer(type, name, url, markerIcon) {
     },
     {
         "type": "Feature",
-        "properties": { 
-            "name": "Head of the Meadow, MA", 
+        "properties": {
+            "name": "Head of the Meadow, MA",
             "url": "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/caco-01/latest/c1_snap.jpg",
-            "source": "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-head-meadow-beach" },
+            "source": "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-head-meadow-beach"
+        },
         "geometry": {
             "type": "Point",
             "coordinates": [-70.07738, 42.05048]
@@ -399,7 +408,7 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
     tides.clearLayers();
 
     //create a geoJSON to populate with coordinates of NOAA tides gages
-    var noaaTidesGeoJSON = {"features": [{"type": "Feature", "geometry":{"coordinates":[0, 0], "type":"Point"}}]};
+    var noaaTidesGeoJSON = { "features": [{ "type": "Feature", "geometry": { "coordinates": [0, 0], "type": "Point" } }] };
     var currentMarker = L.geoJson(false, {
         pointToLayer: function (feature, latlng) {
             markerCoords.push(latlng);
@@ -409,17 +418,17 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
             return marker;
         },
         onEachFeature: function (feature, latlng) {
-            var beginDate = fev.vars.currentEventStartDate_str.replace("-","");
-            var beginDate = beginDate.replace("-","");
-            var endDate = fev.vars.currentEventEndDate_str.replace("-","");
-            var endDate = endDate.replace("-","");
+            var beginDate = fev.vars.currentEventStartDate_str.replace("-", "");
+            var beginDate = beginDate.replace("-", "");
+            var endDate = fev.vars.currentEventEndDate_str.replace("-", "");
+            var endDate = endDate.replace("-", "");
             var stationId = feature.properties.id;
-            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate='+ endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
-            
+            var gageUrl = 'https://tidesandcurrents.noaa.gov/waterlevels.html?id=' + stationId + '&units=standard&bdate=' + beginDate + '&edate=' + endDate + '&timezone=GMT&datum=MLLW&interval=6&action=';
+
             // url that would be used if we wanted to make our own graphs
             //var dataUrl = 'https://tidesandcurrents.noaa.gov/api/datagetter?product=water_level&begin_date=' + beginDate + '&end_date=' + endDate + '&datum=MLLW&station=' + stationId + '&time_zone=GMT&units=english&format=json&application=NOS.COOPS.TAC.WL';
-            
-            var popupContent ='<span><a target="_blank" href='+ gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
+
+            var popupContent = '<span><a target="_blank" href=' + gageUrl + '>Graph of Observed Water Levels at site ' + stationId + '</a></span>';
             latlng.bindPopup(popupContent);
         }
     });
@@ -431,39 +440,39 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
         async: false,
         headers: { 'Accept': '*/*' },
         //jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
-        success: function(data){
+        success: function (data) {
             console.log(data);
             if (data.stations.length == 0) {
                 console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
                 return
             }
-            if (data.stations.length > 0) {       
+            if (data.stations.length > 0) {
                 console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
                 //loop through every gage in the geojson
                 for (var i = data.stations.length - 1; i >= 0; i--) {
-    
+
                     //retrieve lat/lon coordinates
                     var latitude = data.stations[i].lat;
                     var longitude = data.stations[i].lng;
                     var affiliations = data.stations[i].affiliations;
                     var stationId = data.stations[i].id;
-    
+
                     //check that there are lat/lng coordinates
                     if (isNaN(latitude) || isNaN(longitude)) {
                         console.error("latitude or longitude value for point: ", data.stations[i], "is null");
                     }
-    
+
                     //if the lat/lng seems good, add the point to the geoJSON
                     else {
                         noaaTidesGeoJSON.features[i] = {
-                            "type":"Feature",
+                            "type": "Feature",
                             "properties": {
                                 "affiliations": affiliations,
                                 "id": stationId
                             },
-                            "geometry":{
-                                "coordinates":[longitude, latitude],
-                                "type":"Point"
+                            "geometry": {
+                                "coordinates": [longitude, latitude],
+                                "type": "Point"
                             }
                         };
                     }
@@ -476,9 +485,9 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
                 //plot tides gages on map
                 //.addTo(map);
                 checkLayerCount(layerCount);
-            }    
+            }
         }
-      });
+    });
 }
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
@@ -856,7 +865,7 @@ function filterMapData(event, isUrlParam) {
             if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json', tidesMarkerIcon);
         }, 600);
     });
-    
+
 } //end filterMapData function
 function queryNWISRainGages(bbox) {
     var NWISRainmarkers = {};
@@ -1291,6 +1300,39 @@ function queryNWISRaingraph(e) {
         }
     });
 }
+
+
+// function retrieveSTNSiteData(siteID) {
+//     var url = 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '.json';
+//     $.ajax({
+//         url: url,
+//         dataType: 'json',
+//         headers: { 'Accept': '*/*' },
+//         success: function (data) {
+//            return data;
+//         },
+//         error: function (error) {
+//             console.log('Error processing the JSON. The error is:' + error);
+//             return error;        
+//         }
+//     });
+// }
+
+// function retrieveSTNInstrumentData(instrumentID) {
+//     var url = 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '.json';
+//     $.ajax({
+//         url: url,
+//         dataType: 'json',
+//         headers: { 'Accept': '*/*' },
+//         success: function (data) {
+//            return data;
+//         },
+//         error: function (error) {
+//             console.log('Error processing the JSON. The error is:' + error);
+//             return error;        
+//         }
+//     });
+// }
 
 //out of use
 // function getLayerName(type) {

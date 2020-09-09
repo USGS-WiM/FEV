@@ -22,7 +22,15 @@ var fev = fev || {
 		collectionConditions: [],
 		deploymentTypes: [],
 		hwmTypes: [],
-		hwmQualities: []
+		hwmQualities: [],
+		horizontalDatums: [],
+		horizontalCollectionMethods: [],
+		housingTypes: [],
+		deploymentTypes: [],
+		currentSelection: {
+			site: {},
+			instrument: {}
+		}
 	},
 	urls: {
 		jsonSensorsURLRoot: stnServicesURL + '/Instruments/FilteredInstruments.json',
@@ -435,6 +443,143 @@ $(document).ready(function () {
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
 			//$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
+		$('.sensor-data-btn').click(function (e) {
+
+			var siteInstrumentArray = e.target.value.split(",");
+			var siteID = siteInstrumentArray[0];
+			var instrumentID = siteInstrumentArray[1];
+			populateCurrentSelectionData(siteID, instrumentID);
+
+		});
+
+		function populateCurrentSelectionData(siteID, instrumentID) {
+
+			var siteUrl = 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '.json';
+			var instrumentUrl = 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/FullInstrument.json';
+			$.ajax({
+				url: siteUrl,
+				dataType: 'json',
+				headers: { 'Accept': '*/*' },
+				success: function (siteData) {
+					// return data;
+					fev.data.currentSelection.site = siteData
+
+					$('#site_id').html(fev.data.currentSelection.site.site_id);
+					$('#site_description').html(fev.data.currentSelection.site.site_description);
+					$('#latitude').html(fev.data.currentSelection.site.latitude);
+					$('#longitude').html(fev.data.currentSelection.site.longitude);
+					$('#hdatum').html(translateToDisplayValue(fev.data.currentSelection.site.hdatum_id, 'datum_id', 'datum_name', fev.data.horizontalDatums));
+					$('#hcollect_method').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
+					$('#address').html(fev.data.currentSelection.site.address);
+					$('#city').html(fev.data.currentSelection.site.city);
+					$('#state').html(fev.data.currentSelection.site.state);
+					$('#zip').html(fev.data.currentSelection.site.zip);
+					$('#county').html(fev.data.currentSelection.site.county);
+					$('#waterbody').html(fev.data.currentSelection.site.waterbody);
+					$('#drainage_area').html(fev.data.currentSelection.site.drainage_area ? fev.data.currentSelection.site.drainage_area : '---');
+					$('#usgs_id').html(fev.data.currentSelection.site.usgs_id);
+					$('#noaa_id').html(fev.data.currentSelection.site.noaa_id);
+					$('#other_sid').html(fev.data.currentSelection.site.other_sid);
+					$.ajax({
+						url: instrumentUrl,
+						dataType: 'json',
+						headers: { 'Accept': '*/*' },
+						success: function (instrumentData) {
+							fev.data.currentSelection.instrument = instrumentData;
+
+							$('#event').html(translateToDisplayValue(fev.data.currentSelection.instrument.event_id, 'event_id', 'event_name', fev.data.events));
+							// Deployed sensor section
+							$('#sensor_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.sensor_type_id, 'sensor_type_id', 'sensor', fev.data.sensorTypes));
+							$('#sensorBrand').html(fev.data.currentSelection.instrument.sensorBrand);
+							$('#serial_number').html(fev.data.currentSelection.instrument.serial_number);
+							$('#housing_serial_number').html(fev.data.currentSelection.instrument_housing_serial_number ? fev.data.currentSelection.instrument_housing_serial_number : '---');
+							$('#housing_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.housing_type_id, 'housing_type_id', 'type_name', fev.data.housingTypes));
+							$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
+							$('#location_description').html(fev.data.currentSelection.instrument.location_description);
+							$('#interval').html(fev.data.currentSelection.instrument.interval);
+
+							var deployedInstrumentStatusID;
+							var retrievedInstrumentStatusID;
+
+							// parse out deployed and retrieved instruments
+							for (var i = 0; i < fev.data.currentSelection.instrument.instrument_status.length; i++) {
+								if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Deployed') {
+									// creates a named field (with object value) for the deployed instrument status
+									fev.data.currentSelection.instrument.deployed = fev.data.currentSelection.instrument.instrument_status[i];
+									deployedInstrumentStatusID = fev.data.currentSelection.instrument.deployed.instrument_status_id;
+								}
+								if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Retrieved') {
+									// creates a named field (with object value) for the deployed instrument status
+									fev.data.currentSelection.instrument.retrieved = fev.data.currentSelection.instrument.instrument_status[i];
+									retrievedInstrumentStatusID = fev.data.currentSelection.instrument.retrieved.instrument_status_id;
+								}
+							}
+
+							// first get deployed
+							$.ajax({
+								url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json',
+								dataType: 'json',
+								async: false,
+								headers: { 'Accept': '*/*' },
+								success: function (deployedMeasurements) {
+
+									fev.data.currentSelection.instrument.deployed.measurements = deployedMeasurements;
+
+									// on success, get retrieved
+									$.ajax({
+										url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json',
+										dataType: 'json',
+										async: false,
+										headers: { 'Accept': '*/*' },
+										success: function (retrievedMeasurements) {
+
+											fev.data.currentSelection.instrument.retrieved.measurements = retrievedMeasurements;
+
+											// TODO: deploy date, note, and deploy member comes from instrument status instance
+											$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp).format('MM/DD/yyyy hh:mm a'));
+											$('#note').html(fev.data.currentSelection.instrument.deployed.notes);
+											// TODO: figure out best wy to get members list, or retrive specific member (another call back)
+											$('#deploy_member').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
+
+											// TODO: handle tapedown retrieval and display
+
+											// after populating the current selection data fully, show the modal
+											$('#sensorDataModal').modal('show');
+										},
+										error: function (error) {
+											console.log('Error processing the JSON. The error is:' + error);
+											//return error;
+										}
+									});
+
+								},
+								error: function (error) {
+									console.log('Error processing the JSON. The error is:' + error);
+									// return error;
+								}
+							});
+
+
+
+
+						},
+						error: function (error) {
+							console.log('Error processing the JSON. The error is:' + error);
+							//return error;        
+						}
+					});
+				},
+				error: function (error) {
+					console.log('Error processing the JSON. The error is:' + error);
+					//return error;        
+				}
+			});
+
+			// fev.data.currentSelection.site = retrieveSTNSiteData(siteID);
+			// fev.data.currentSelection.instrument = retrieveSTNInstrumentData(siteID);
+
+
+		}
 	});
 
 	map.on({
@@ -513,7 +658,7 @@ $(document).ready(function () {
 		keepSpiderfied: true
 	});
 	/* map.addLayer(editableLayers);
-
+	
 	var options = {
 		position: 'topleft',
 		draw: {
@@ -535,17 +680,17 @@ $(document).ready(function () {
 			// remove: true
 		}
 	};
-	
+		
 	var drawControl = new L.Control.Draw(options);
 	map.addControl(drawControl);
-	
+		
 	map.on(L.Draw.Event.CREATED, function (e) {
 		var type = e.layerType,
 			layer = e.layer;
-	
+		
 		if (type === 'polyline') {
-	
-	
+		
+		
 			// Calculating the distance of the polyline
 			var tempLatLng = null;
 			var totalDistance = 0.00000;
@@ -554,13 +699,13 @@ $(document).ready(function () {
 					tempLatLng = latlng;
 					return;
 				}
-	
+		
 				totalDistance += tempLatLng.distanceTo(latlng);
 				tempLatLng = latlng;
 			});
 			e.layer.bindLabel((totalDistance).toFixed(2) + ' feet');
 		}
-	
+		
 		editableLayers.addLayer(layer);
 	}); */
 
@@ -659,9 +804,9 @@ $(document).ready(function () {
 
 	// FAQ Modal controls.
 
-	 $('.faq-header').on('click', function (event) {
-		 var div = "#" + event.target.nextElementSibling.id;
-		 var angle = "#" + event.target.children[0].id;
+	$('.faq-header').on('click', function (event) {
+		var div = "#" + event.target.nextElementSibling.id;
+		var angle = "#" + event.target.children[0].id;
 		$(div).slideToggle(250);
 
 		if ($(angle).css("transform") == 'none') {
@@ -669,7 +814,7 @@ $(document).ready(function () {
 		} else {
 			$(angle).css("transform", "");
 		}
-	 });
+	});
 
 	/* begin basemap controller */
 	function setBasemap(basemap) {

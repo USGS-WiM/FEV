@@ -659,8 +659,8 @@ a.lgi-zoom:hover {
 
 
 [class*="col-"] {
-    background-color: #eee;
-    border: 1px solid #E7E7E7;
+    /* background-color: #eee;
+    border: 1px solid #E7E7E7; */
     text-align: center;
 }
 
@@ -1185,5 +1185,8 @@ input[type='checkbox']{
     display: block;
     margin-top: 15px;
     /*float: left;*/
+}
+.sensor-data-table{
+    text-align: left;
 }
 
