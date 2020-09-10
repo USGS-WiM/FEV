@@ -708,17 +708,42 @@
                                     <td id="interval" class="instrument-data-value"></td>
                                 </tr>
                                 <tr>
+                                    <td>Vented</td>
+                                    <td id="vented" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
                                     <td>Deploy Date</td>
-                                    <td id="time_stamp" class="instrument-data-value"></td>
+                                    <td id="deploy_date" class="instrument-data-value"></td>
                                 </tr>
                                 <tr>
                                     <td>Note</td>
                                     <td id="note" class="instrument-data-value"></td>
                                 </tr>
                                 <tr>
-                                    <td>Deploy Member</td>
-                                    <td id="deploy_member" class="instrument-data-value"></td>
+                                    <td>Tapedowns</td>
                                 </tr>
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Datum Location</th>
+                                            <th style="text-align:center">Elevation</th>
+                                            <th style="text-align:center">Offset Correction</th>
+                                            <th style="text-align:center">Water Surface</th>
+                                            <th style="text-align:center">Ground Surface</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deployedTapedownTableBody">
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Deploy member removed -->
 
                                 <!-- End Deployed Sensor status section -->
                             </table>
@@ -767,11 +792,6 @@
                         <!--In feet above (if tapedown)-->
                         <!-- <div class="col-md-12" ng-if="depTapeDownTable.length > 0">
                                 <div class="col-md-4"><label>In feet above:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div> -->
-                        <!--Vented-->
-                        <!-- <div class="col-md-12" ng-show="aSensor.sensor_type_id == 1">
-                                <div class="col-md-4"><label>Vented:</label></div>
                                 <div class="col-md-7"><span></span></div>
                             </div> -->
 

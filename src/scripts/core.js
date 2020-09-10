@@ -456,6 +456,7 @@ $(document).ready(function () {
 
 			var siteUrl = 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '.json';
 			var instrumentUrl = 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/FullInstrument.json';
+
 			$.ajax({
 				url: siteUrl,
 				dataType: 'json',
@@ -480,6 +481,22 @@ $(document).ready(function () {
 					$('#usgs_id').html(fev.data.currentSelection.site.usgs_id);
 					$('#noaa_id').html(fev.data.currentSelection.site.noaa_id);
 					$('#other_sid').html(fev.data.currentSelection.site.other_sid);
+
+					// get site objective points
+					$.ajax({
+						url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/ObjectivePoints.json',
+						dataType: 'json',
+						async: false,
+						headers: { 'Accept': '*/*' },
+						success: function (response) {
+							fev.data.currentSelection.site.objective_points = response;
+						},
+						error: function (error) {
+							console.log('Error processing the JSON. The error is:' + error);
+							//return error;
+						}
+					});
+
 					$.ajax({
 						url: instrumentUrl,
 						dataType: 'json',
@@ -497,6 +514,7 @@ $(document).ready(function () {
 							$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
 							$('#location_description').html(fev.data.currentSelection.instrument.location_description);
 							$('#interval').html(fev.data.currentSelection.instrument.interval);
+							$('#vented').html(fev.data.currentSelection.instrument.vented);
 
 							var deployedInstrumentStatusID;
 							var retrievedInstrumentStatusID;
@@ -542,6 +560,19 @@ $(document).ready(function () {
 											$('#deploy_member').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
 
 											// TODO: handle tapedown retrieval and display
+											// TODO: get all the Objective points from web service
+											// loop through measurements and use jquery append to add a tr for each with the data
+											for (var i = 0; i < fev.data.currentSelection.instrument.deployed.measurements.length; i++) {
+												var tableRowMarkup = '<tr>' +
+													'<td></td>' +
+													'<td style="text-align:center"></td>' +
+													'<td style="text-align:center"></td>' +
+													'<td style="text-align:center"></td>' +
+													'<td style="text-align:center"></td> </tr>'
+
+												$('#deploy_member')
+											}
+
 
 											// after populating the current selection data fully, show the modal
 											$('#sensorDataModal').modal('show');
