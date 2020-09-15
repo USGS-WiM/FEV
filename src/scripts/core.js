@@ -483,19 +483,20 @@ $(document).ready(function () {
 					$('#other_sid').html(fev.data.currentSelection.site.other_sid);
 
 					// get site objective points
-					$.ajax({
-						url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/ObjectivePoints.json',
-						dataType: 'json',
-						async: false,
-						headers: { 'Accept': '*/*' },
-						success: function (response) {
-							fev.data.currentSelection.site.objective_points = response;
-						},
-						error: function (error) {
-							console.log('Error processing the JSON. The error is:' + error);
-							//return error;
-						}
-					});
+					// out of use for now (Sept 2020)
+					// $.ajax({
+					// 	url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/ObjectivePoints.json',
+					// 	dataType: 'json',
+					// 	async: false,
+					// 	headers: { 'Accept': '*/*' },
+					// 	success: function (response) {
+					// 		fev.data.currentSelection.site.objective_points = response;
+					// 	},
+					// 	error: function (error) {
+					// 		console.log('Error processing the JSON. The error is:' + error);
+					// 		//return error;
+					// 	}
+					// });
 
 					$.ajax({
 						url: instrumentUrl,
@@ -533,65 +534,118 @@ $(document).ready(function () {
 								}
 							}
 
-							// first get deployed
+							$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp).format('MM/DD/yyyy hh:mm a'));
+							$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
+							$('#instCollection').html(fev.data.currentSelection.instrument.instCollection);
+							$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
+							$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp).format('MM/DD/yyyy hh:mm a'));
+
+							// retrieve files data
 							$.ajax({
-								url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json',
+								url: 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/Files.json',
 								dataType: 'json',
 								async: false,
 								headers: { 'Accept': '*/*' },
-								success: function (deployedMeasurements) {
+								success: function (response) {
+									fev.data.currentSelection.instrument.files = response;
+									if (fev.data.currentSelection.instrument.files.length > 0) {
+										$('#dataFilesList').append('<ul id="dataFile_ul" style="padding:0"></ul>')
+										$('#photoFilesList').append('<ul id="photoFile_ul" style="padding: 0;margin-top:15px;"></ul>')
+										// loop through data files array and use jquery append to add a li for each
+										for (var i = 0; i < fev.data.currentSelection.instrument.files.length; i++) {
 
-									fev.data.currentSelection.instrument.deployed.measurements = deployedMeasurements;
+											var fileTypeID = fev.data.currentSelection.instrument.files[i].filetype_id;
+											var fileID = fev.data.currentSelection.instrument.files[i].file_id;
+											var fileDate = fev.data.currentSelection.instrument.files[i].file_date;
+											var fileName = fev.data.currentSelection.instrument.files[i].name;
+											var photoDate = fev.data.currentSelection.instrument.files[i].photo_date;
+											var fileDescription;
+											if (fev.data.currentSelection.instrument.files[i].description == '' || fev.data.currentSelection.instrument.files[i].description == null) {
+												fileDescription = 'Description left blank'
+											} else {
+												fileDescription = fev.data.currentSelection.instrument.files[i].description;
+											}
 
-									// on success, get retrieved
-									$.ajax({
-										url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json',
-										dataType: 'json',
-										async: false,
-										headers: { 'Accept': '*/*' },
-										success: function (retrievedMeasurements) {
+											// if file type is a data file
+											if (fileTypeID == 2) {
+												var dataFileItemMarkup = '<li style="list-style:none;">' +
+													'<a target="_blank" title="Download File" href="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item">' +
+													moment(fileDate).format('MM/DD/yyyy') + ' : ' + fileName + '</a></li>';
+												$('#dataFile_ul').append(dataFileItemMarkup);
 
-											fev.data.currentSelection.instrument.retrieved.measurements = retrievedMeasurements;
+											}
 
-											// TODO: deploy date, note, and deploy member comes from instrument status instance
-											$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp).format('MM/DD/yyyy hh:mm a'));
-											$('#note').html(fev.data.currentSelection.instrument.deployed.notes);
-											// TODO: figure out best wy to get members list, or retrive specific member (another call back)
-											$('#deploy_member').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
-
-											// TODO: handle tapedown retrieval and display
-											// TODO: get all the Objective points from web service
-											// loop through measurements and use jquery append to add a tr for each with the data
-											for (var i = 0; i < fev.data.currentSelection.instrument.deployed.measurements.length; i++) {
-												var tableRowMarkup = '<tr>' +
-													'<td></td>' +
-													'<td style="text-align:center"></td>' +
-													'<td style="text-align:center"></td>' +
-													'<td style="text-align:center"></td>' +
-													'<td style="text-align:center"></td> </tr>'
-
-												$('#deploy_member')
+											// if file type is a photo or hydrograph
+											if (fileTypeID == 1 || fileTypeID == 13) {
+												var photoFileItemMarkup = '<li style="list-style:none;">' +
+													'<a target="_blank" title="Download File" href="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item">' +
+													'Photo of ' + fileDescription + ' at ' + fev.data.currentSelection.site.site_description + ', ' +
+													fev.data.currentSelection.site.county + ', ' + fev.data.currentSelection.site.state + ', ' + moment(photoDate).format('MM/DD/yyyy') + '</a>' +
+													'<div style="max-width:100px;"><img style="max-width:100px;" src="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item" /></div>';
+												$('#photoFile_ul').append(photoFileItemMarkup);
 											}
 
 
-											// after populating the current selection data fully, show the modal
-											$('#sensorDataModal').modal('show');
-										},
-										error: function (error) {
-											console.log('Error processing the JSON. The error is:' + error);
-											//return error;
+
 										}
-									});
+
+
+									}
+
+
+
+									// after populating the current selection data fully, show the modal
+									$('#sensorDataModal').modal('show');
 
 								},
 								error: function (error) {
 									console.log('Error processing the JSON. The error is:' + error);
-									// return error;
+									//return error;
 								}
 							});
 
 
-
+							// the commented-out code block below is for retieving data for Objective Points and displaying tapedown info.
+							// this is being left out for the time being, in an effort to move these internal-oriented data off of the public flood data viewer application (BAD, Sept 2020)
+							// first get deployed
+							// $.ajax({
+							// 	url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json',
+							// 	dataType: 'json',
+							// 	async: false,
+							// 	headers: { 'Accept': '*/*' },
+							// 	success: function (deployedMeasurements) {
+							// 		fev.data.currentSelection.instrument.deployed.measurements = deployedMeasurements;
+							// 		// on success, get retrieved
+							// 		$.ajax({
+							// 			url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json',
+							// 			dataType: 'json',
+							// 			async: false,
+							// 			headers: { 'Accept': '*/*' },
+							// 			success: function (retrievedMeasurements) {
+							// 				fev.data.currentSelection.instrument.retrieved.measurements = retrievedMeasurements;
+							// 				// TODO: handle tapedown retrieval and display
+							// 				// TODO: get all the Objective points from web service
+							// 				// loop through measurements and use jquery append to add a tr for each with the data
+							// 				// for (var i = 0; i < fev.data.currentSelection.instrument.deployed.measurements.length; i++) {
+							// 				// 	var tableRowMarkup = '<tr>' +
+							// 				// 		'<td></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td> </tr>'
+							// 				// }
+							// 			},
+							// 			error: function (error) {
+							// 				console.log('Error processing the JSON. The error is:' + error);
+							// 				//return error;
+							// 			}
+							// 		});
+							// 	},
+							// 	error: function (error) {
+							// 		console.log('Error processing the JSON. The error is:' + error);
+							// 		// return error;
+							// 	}
+							// });
 
 						},
 						error: function (error) {

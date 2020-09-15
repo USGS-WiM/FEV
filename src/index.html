@@ -579,11 +579,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h4 class="modal-title">Sensor Data</h4>
+                    <h4 class="modal-title">Site and Sensor Detail</h4>
                 </div>
                 <div class="modal-body" style="text-align: center;">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" class="sensor-data-table-div">
 
                             <h4>Site Information</h4>
                             <table class="table table-striped table-condensed sensor-data-table">
@@ -652,25 +652,17 @@
                                     <td id="other_sid" class="sensor-data-value"></td>
                                 </tr>
                             </table>
-                        </div>
-                        <div class="col-md-6">
-                            <div>Files here</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+
                             <h4>Sensor Information</h4>
 
-                            <table class="table table-striped table-condensed sensor-data-table">
-                                <!-- <tr>
-                                    <td>Event</td>
-                                    <td id="event" class="instrument-data-value"></td>
-                                </tr> -->
-                                <span>Event <span id="event"></span></span>
+                            <span>Event: <span id="event"></span></span><br>
+                            <label for="deployedSensorTable">Deployed Status Information</label>
+                            <table class="table table-striped table-condensed sensor-data-table"
+                                id="deployedSensorTable">
                                 <!-- Begin Deployed Sensor status section -->
-                                <tr>
+                                <!-- <tr>
                                     <th>Deployed Status Information</th>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Sensor Type</td>
                                     <td id="sensor_type" class="instrument-data-value"></td>
@@ -717,172 +709,133 @@
                                 </tr>
                                 <tr>
                                     <td>Note</td>
-                                    <td id="note" class="instrument-data-value"></td>
+                                    <td id="deployed_note" class="instrument-data-value"></td>
                                 </tr>
-                                <tr>
-                                    <td>Tapedowns</td>
-                                </tr>
-                                <table class="table table-striped table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align:center">Datum Location</th>
-                                            <th style="text-align:center">Elevation</th>
-                                            <th style="text-align:center">Offset Correction</th>
-                                            <th style="text-align:center">Water Surface</th>
-                                            <th style="text-align:center">Ground Surface</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="deployedTapedownTableBody">
-                                        <tr>
-                                            <td></td>
-                                            <td style="text-align:center"></td>
-                                            <td style="text-align:center"></td>
-                                            <td style="text-align:center"></td>
-                                            <td style="text-align:center"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <!-- Deploy member removed -->
-
                                 <!-- End Deployed Sensor status section -->
                             </table>
 
+                            <!-- Tapedowns and related fields removed -->
+                            <!-- <tr>
+                                <td>Tapedowns</td>
+                            </tr>
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">Datum Location</th>
+                                        <th style="text-align:center">Elevation</th>
+                                        <th style="text-align:center">Offset Correction</th>
+                                        <th style="text-align:center">Water Surface</th>
+                                        <th style="text-align:center">Ground Surface</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deployedTapedownTableBody">
+                                    <tr>
+                                        <td></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Sensor Elevation</td>
+                                    <td class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Water Surface Elevation</td>
+                                    <td class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Elevation</td>
+                                    <td id="serial_number" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>In feet above</td>
+                                    <td id="housing_serial_number" class="instrument-data-value">Smith</td>
+                                </tr>
+                            </table> -->
+                            <label for="retrievedSensorTable">Retrieved Status Information</label>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <!-- Begin Retrieved Sensor status section -->
+                                <tr>
+                                    <td>Status</td>
+                                    <td id="ret_sensor_status" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Collection Condition</td>
+                                    <td id="instCollection" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Note</td>
+                                    <td id="retrieved_note" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Retrieve Date</td>
+                                    <td id="retrieved_date" class="instrument-data-value"></td>
+                                </tr>
+
+                                <!-- End Retrieved Sensor status section -->
+                            </table>
+
+                            <!-- Tapedowns and related fields removed -->
+                            <!-- <tr>
+                                <td>Tapedowns</td>
+                            </tr>
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">Datum Location</th>
+                                        <th style="text-align:center">Elevation</th>
+                                        <th style="text-align:center">Offset Correction</th>
+                                        <th style="text-align:center">Water Surface</th>
+                                        <th style="text-align:center">Ground Surface</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="retrievedTapedownTableBody">
+                                    <tr>
+                                        <td></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                        <td style="text-align:center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Sensor Elevation</td>
+                                    <td class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Water Surface Elevation</td>
+                                    <td class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Elevation</td>
+                                    <td id="serial_number" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>In feet above</td>
+                                    <td id="housing_serial_number" class="instrument-data-value">Smith</td>
+                                </tr>
+                            </table> -->
                         </div>
-                        <!-- <div class="col-md-12" ng-show="depTapeDownTable.length > 0">
-                                <div class="col-md-8">
-                                    <table class="table table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th style="text-align:center">Datum Location</th>
-                                                <th style="text-align:center">Elevation</th>
-                                                <th style="text-align:center">Offset Correction</th>
-                                                <th style="text-align:center">Water Surface</th>
-                                                <th style="text-align:center">Ground Surface</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="dt in depTapeDownTable">
-                                                <td>{{dt.op_name}}</td>
-                                                <td style="text-align:center">{{dt.elevation}} {{dt.OPVdatum}}</td>
-                                                <td style="text-align:center">{{dt.offset_correction}}</td>
-                                                <td style="text-align:center">{{dt.water_surface}}</td>
-                                                <td style="text-align:center">{{dt.ground_surface}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> -->
 
-                        <!--Sensor Elevation (if tapedown)-->
-                        <!-- <div class="col-md-12" ng-if="depTapeDownTable.length > 0">
-                                <div class="col-md-4"><label>Sensor Elevation:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div> -->
-                        <!--Water Surface Elevation (if tapedown)-->
-                        <!-- <div class="col-md-12" ng-if="depTapeDownTable.length > 0">
-                                <div class="col-md-4"><label>Water Surface Elevation:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div> -->
-                        <!--Ground Elevation (if tapedown)-->
-                        <!-- <div class="col-md-12" ng-if="depTapeDownTable.length > 0">
-                                <div class="col-md-4"><label>Ground Elevation:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div> -->
-                        <!--In feet above (if tapedown)-->
-                        <!-- <div class="col-md-12" ng-if="depTapeDownTable.length > 0">
-                                <div class="col-md-4"><label>In feet above:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div> -->
-
-                        <!-- --- RETRIEVAL Information --- -->
-                        <!-- <div ng-if="retSenStatus"> -->
-                        <div>
-                            <div class="col-md-12">
-                                <label>--- Status Information ---</label>
-                            </div>
-                            <!--Status Type-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Status Type:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div>
-                            <!--Collection Condition-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Collection Condition:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div>
-                            <!--Note-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Note:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div>
-                            <!--Retrieve Date-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Retrieve Date:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div>
-                            <!--Tapedowns-->
-                            <!--Tapedowns-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Tapedowns:</label></div>
-                                <div class="col-md-7">
-                                    <!-- <div ng-show="retTapeDownTable.length == 0">No Tapedowns added at Retrieval
-                                        </div> -->
-                                </div>
-                            </div>
-                            <!-- <div class="col-md-12" ng-show="retTapeDownTable.length > 0">
-                                    <div class="col-md-8">
-                                        <table class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align:center">Datum Location</th>
-                                                    <th style="text-align:center">Elevation</th>
-                                                    <th style="text-align:center">Offset Correction</th>
-                                                    <th style="text-align:center">Water Surface</th>
-                                                    <th style="text-align:center">Ground Surface</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="rt in retTapeDownTable">
-                                                    <td>{{dt.op_name}}</td>
-                                                    <td style="text-align:center">{{rt.elevation}} {{rt.OPVdatum}}</td>
-                                                    <td style="text-align:center">{{rt.offset_correction}}</td>
-                                                    <td style="text-align:center">{{rt.water_surface}}</td>
-                                                    <td style="text-align:center">{{rt.ground_surface}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div> -->
-
-                            <!--Sensor Elevation (if tapedown)-->
-                            <!-- <div class="col-md-12" ng-if="retTapeDownTable.length > 0">
-                                    <div class="col-md-4"><label>Sensor Elevation:</label></div>
-                                    <div class="col-md-7"><span></span></div>
-                                </div> -->
-                            <!--Water Surface Elevation (if tapedown)-->
-                            <!-- <div class="col-md-12" ng-if="retTapeDownTable.length > 0">
-                                    <div class="col-md-4"><label>Water Surface Elevation:</label></div>
-                                    <div class="col-md-7"><span></span></div>
-                                </div> -->
-                            <!--Ground Elevation (if tapedown)-->
-                            <!-- <div class="col-md-12" ng-if="retTapeDownTable.length > 0">
-                                    <div class="col-md-4"><label>Ground Elevation:</label></div>
-                                    <div class="col-md-7"><span></span></div>
-                                </div> -->
-                            <!--In feet above (if tapedown)-->
-                            <!-- <div class="col-md-12" ng-if="retTapeDownTable.length > 0">
-                                    <div class="col-md-4"><label>In feet above:</label></div>
-                                    <div class="col-md-7"><span></span></div>
-                                </div> -->
-                            <!--Retrieve Member-->
-                            <div class="col-md-12">
-                                <div class="col-md-4"><label>Retrieval Member:</label></div>
-                                <div class="col-md-7"><span></span></div>
-                            </div>
-
+                        <!-- Begin sensor files section -->
+                        <div class="col-md-6" style="text-align: left;">
+                            <h3>Sensor Files</h3>
+                            <!-- list of existing photo files for this hwm -->
+                            <label>Data Files</label>
+                            <div id=dataFilesList></div>
+                            <label>Photo Files</label>
+                            <div id=photoFilesList></div>
+                           
                         </div>
+                        <!-- End sensor files section -->
                     </div>
+                    
                 </div>
             </div>
         </div>

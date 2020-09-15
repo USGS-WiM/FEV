@@ -661,7 +661,7 @@ a.lgi-zoom:hover {
 [class*="col-"] {
     /* background-color: #eee;
     border: 1px solid #E7E7E7; */
-    text-align: center;
+    text-align: left;
 }
 
 #wim_logo {
@@ -1189,4 +1189,9 @@ input[type='checkbox']{
 .sensor-data-table{
     text-align: left;
 }
+
+.sensor-data-table-div{
+    text-align: left;
+}
+
 
