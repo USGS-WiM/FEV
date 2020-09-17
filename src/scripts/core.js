@@ -188,9 +188,6 @@ $.ajax({
 	}
 });
 
-
-
-
 /* $.getJSON('https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time', {
 	async: false,
 })
@@ -433,9 +430,6 @@ $(document).ready(function () {
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
-
-
-
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
 		$('.data-disclaim').click(function (e) {
@@ -465,7 +459,7 @@ $(document).ready(function () {
 					// return data;
 					fev.data.currentSelection.site = siteData
 
-					$('#site_id').html(fev.data.currentSelection.site.site_id);
+					$('#site_no').html(fev.data.currentSelection.site.site_no);
 					$('#site_description').html(fev.data.currentSelection.site.site_description);
 					$('#latitude').html(fev.data.currentSelection.site.latitude);
 					$('#longitude').html(fev.data.currentSelection.site.longitude);
@@ -478,8 +472,8 @@ $(document).ready(function () {
 					$('#county').html(fev.data.currentSelection.site.county);
 					$('#waterbody').html(fev.data.currentSelection.site.waterbody);
 					$('#drainage_area').html(fev.data.currentSelection.site.drainage_area ? fev.data.currentSelection.site.drainage_area : '---');
-					$('#usgs_id').html(fev.data.currentSelection.site.usgs_id);
-					$('#noaa_id').html(fev.data.currentSelection.site.noaa_id);
+					$('#usgs_sid').html(fev.data.currentSelection.site.usgs_sid);
+					$('#noaa_sid').html(fev.data.currentSelection.site.noaa_sid);
 					$('#other_sid').html(fev.data.currentSelection.site.other_sid);
 
 					// get site objective points
@@ -514,7 +508,7 @@ $(document).ready(function () {
 							$('#housing_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.housing_type_id, 'housing_type_id', 'type_name', fev.data.housingTypes));
 							$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
 							$('#location_description').html(fev.data.currentSelection.instrument.location_description);
-							$('#interval').html(fev.data.currentSelection.instrument.interval);
+							$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
 							$('#vented').html(fev.data.currentSelection.instrument.vented);
 
 							var deployedInstrumentStatusID;
@@ -534,12 +528,16 @@ $(document).ready(function () {
 								}
 							}
 
-							$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp).format('MM/DD/yyyy hh:mm a'));
+							$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
 							$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
+							$('#ret_sensor_status').html(fev.data.currentSelection.instrument.retrieved.status);
 							$('#instCollection').html(fev.data.currentSelection.instrument.instCollection);
 							$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
-							$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp).format('MM/DD/yyyy hh:mm a'));
+							$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
 
+							// empty the data files and photo files lists of existing elements
+							$('#dataFilesList').empty();
+							$('#photoFilesList').empty();
 							// retrieve files data
 							$.ajax({
 								url: 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/Files.json',
@@ -584,18 +582,48 @@ $(document).ready(function () {
 													'<div style="max-width:100px;"><img style="max-width:100px;" src="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item" /></div>';
 												$('#photoFile_ul').append(photoFileItemMarkup);
 											}
-
-
-
 										}
-
-
 									}
 
+									// empty the peak summary table body of existing elements
+									$('#peakSummaryTableBody').empty();
+									// get peak summaries
+									$.ajax({
+										url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/PeakSummaryView.json',
+										dataType: 'json',
+										async: false,
+										headers: { 'Accept': '*/*' },
+										success: function (response) {
+											fev.data.currentSelection.site.peak_summaries = response;
 
+											if (fev.data.currentSelection.site.peak_summaries.length > 0) {
+												for (var i = 0; i < fev.data.currentSelection.site.peak_summaries.length; i++) {
+													var peakStage = fev.data.currentSelection.site.peak_summaries[i].peak_stage;
+													var rawPeakDate = fev.data.currentSelection.site.peak_summaries[i].peak_date;
+													var peakDate = moment(rawPeakDate, 'YYYY-MM-DDTHH:mm:ss').format('l LT');
+													var eventName = fev.data.currentSelection.site.peak_summaries[i].event_name;
+													var peakRowMarkup =
+														'<tr><td>' + peakStage + '</td>' +
+														'<td>' + peakDate + '</td>' +
+														'<td>' + eventName + '</td></tr>';
+													$('#peakSummaryTableBody').append(peakRowMarkup);
+												}
+											}
 
-									// after populating the current selection data fully, show the modal
-									$('#sensorDataModal').modal('show');
+											var mapHeight = $('#mapDiv').height();
+											var modalHeight = (Math.floor(mapHeight * .80));
+											var modalHeightString = (modalHeight.toString()) + 'px';
+
+											// after populating the current selection data fully, show the modal
+											$('.sensor-modal-body').css('height', modalHeightString);
+											$('#sensorDataModal').modal('show');
+
+										},
+										error: function (error) {
+											console.log('Error processing the JSON. The error is:' + error);
+											//return error;
+										}
+									});
 
 								},
 								error: function (error) {
@@ -659,11 +687,6 @@ $(document).ready(function () {
 					//return error;        
 				}
 			});
-
-			// fev.data.currentSelection.site = retrieveSTNSiteData(siteID);
-			// fev.data.currentSelection.instrument = retrieveSTNInstrumentData(siteID);
-
-
 		}
 	});
 

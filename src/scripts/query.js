@@ -255,6 +255,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
         }
         if (data.features.length > 0) {
             console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+
             //check for bad lat/lon values
             for (var i = data.features.length - 1; i >= 0; i--) {
                 //check that lat/lng are not NaN

@@ -1195,3 +1195,11 @@ input[type='checkbox']{
 }
 
 
+.sensor-modal-dialog{
+    overflow-y: initial !important
+}
+.sensor-modal-body{
+    /* height: 475px; */
+    overflow-y: auto;
+}
+
