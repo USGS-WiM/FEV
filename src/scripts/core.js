@@ -22,7 +22,15 @@ var fev = fev || {
 		collectionConditions: [],
 		deploymentTypes: [],
 		hwmTypes: [],
-		hwmQualities: []
+		hwmQualities: [],
+		horizontalDatums: [],
+		horizontalCollectionMethods: [],
+		housingTypes: [],
+		deploymentTypes: [],
+		currentSelection: {
+			site: {},
+			instrument: {}
+		}
 	},
 	urls: {
 		jsonSensorsURLRoot: stnServicesURL + '/Instruments/FilteredInstruments.json',
@@ -200,9 +208,6 @@ $.ajax({
 		console.log('Error processing the JSON. The error is:' + error);
 	}
 });
-
-
-
 
 /* $.getJSON('https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time', {
 	async: false,
@@ -460,6 +465,257 @@ raingageCheckBox.disabled = true;
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
 			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
 		});
+		$('.sensor-data-btn').click(function (e) {
+
+			var siteInstrumentArray = e.target.value.split(",");
+			var siteID = siteInstrumentArray[0];
+			var instrumentID = siteInstrumentArray[1];
+			populateCurrentSelectionData(siteID, instrumentID);
+
+		});
+
+		function populateCurrentSelectionData(siteID, instrumentID) {
+
+			var siteUrl = 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '.json';
+			var instrumentUrl = 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/FullInstrument.json';
+
+			$.ajax({
+				url: siteUrl,
+				dataType: 'json',
+				headers: { 'Accept': '*/*' },
+				success: function (siteData) {
+					// return data;
+					fev.data.currentSelection.site = siteData
+
+					$('#site_no').html(fev.data.currentSelection.site.site_no);
+					$('#site_description').html(fev.data.currentSelection.site.site_description);
+					$('#latitude').html(fev.data.currentSelection.site.latitude);
+					$('#longitude').html(fev.data.currentSelection.site.longitude);
+					$('#hdatum').html(translateToDisplayValue(fev.data.currentSelection.site.hdatum_id, 'datum_id', 'datum_name', fev.data.horizontalDatums));
+					$('#hcollect_method').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
+					$('#address').html(fev.data.currentSelection.site.address);
+					$('#city').html(fev.data.currentSelection.site.city);
+					$('#state').html(fev.data.currentSelection.site.state);
+					$('#zip').html(fev.data.currentSelection.site.zip);
+					$('#county').html(fev.data.currentSelection.site.county);
+					$('#waterbody').html(fev.data.currentSelection.site.waterbody);
+					$('#drainage_area').html(fev.data.currentSelection.site.drainage_area ? fev.data.currentSelection.site.drainage_area : '---');
+					$('#usgs_sid').html(fev.data.currentSelection.site.usgs_sid);
+					$('#noaa_sid').html(fev.data.currentSelection.site.noaa_sid);
+					$('#other_sid').html(fev.data.currentSelection.site.other_sid);
+
+					// get site objective points
+					// out of use for now (Sept 2020)
+					// $.ajax({
+					// 	url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/ObjectivePoints.json',
+					// 	dataType: 'json',
+					// 	async: false,
+					// 	headers: { 'Accept': '*/*' },
+					// 	success: function (response) {
+					// 		fev.data.currentSelection.site.objective_points = response;
+					// 	},
+					// 	error: function (error) {
+					// 		console.log('Error processing the JSON. The error is:' + error);
+					// 		//return error;
+					// 	}
+					// });
+
+					$.ajax({
+						url: instrumentUrl,
+						dataType: 'json',
+						headers: { 'Accept': '*/*' },
+						success: function (instrumentData) {
+							fev.data.currentSelection.instrument = instrumentData;
+
+							$('#event').html(translateToDisplayValue(fev.data.currentSelection.instrument.event_id, 'event_id', 'event_name', fev.data.events));
+							// Deployed sensor section
+							$('#sensor_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.sensor_type_id, 'sensor_type_id', 'sensor', fev.data.sensorTypes));
+							$('#sensorBrand').html(fev.data.currentSelection.instrument.sensorBrand);
+							$('#serial_number').html(fev.data.currentSelection.instrument.serial_number);
+							$('#housing_serial_number').html(fev.data.currentSelection.instrument_housing_serial_number ? fev.data.currentSelection.instrument_housing_serial_number : '---');
+							$('#housing_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.housing_type_id, 'housing_type_id', 'type_name', fev.data.housingTypes));
+							$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
+							$('#location_description').html(fev.data.currentSelection.instrument.location_description);
+							$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
+							$('#vented').html(fev.data.currentSelection.instrument.vented);
+
+							var deployedInstrumentStatusID;
+							var retrievedInstrumentStatusID;
+
+							// parse out deployed and retrieved instruments
+							for (var i = 0; i < fev.data.currentSelection.instrument.instrument_status.length; i++) {
+								if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Deployed') {
+									// creates a named field (with object value) for the deployed instrument status
+									fev.data.currentSelection.instrument.deployed = fev.data.currentSelection.instrument.instrument_status[i];
+									deployedInstrumentStatusID = fev.data.currentSelection.instrument.deployed.instrument_status_id;
+								}
+								if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Retrieved') {
+									// creates a named field (with object value) for the deployed instrument status
+									fev.data.currentSelection.instrument.retrieved = fev.data.currentSelection.instrument.instrument_status[i];
+									retrievedInstrumentStatusID = fev.data.currentSelection.instrument.retrieved.instrument_status_id;
+								}
+							}
+
+							$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+							$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
+							$('#ret_sensor_status').html(fev.data.currentSelection.instrument.retrieved.status);
+							$('#instCollection').html(fev.data.currentSelection.instrument.instCollection);
+							$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
+							$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+
+							// empty the data files and photo files lists of existing elements
+							$('#dataFilesList').empty();
+							$('#photoFilesList').empty();
+							// retrieve files data
+							$.ajax({
+								url: 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '/Files.json',
+								dataType: 'json',
+								async: false,
+								headers: { 'Accept': '*/*' },
+								success: function (response) {
+									fev.data.currentSelection.instrument.files = response;
+									if (fev.data.currentSelection.instrument.files.length > 0) {
+										$('#dataFilesList').append('<ul id="dataFile_ul" style="padding:0"></ul>')
+										$('#photoFilesList').append('<ul id="photoFile_ul" style="padding: 0;margin-top:15px;"></ul>')
+										// loop through data files array and use jquery append to add a li for each
+										for (var i = 0; i < fev.data.currentSelection.instrument.files.length; i++) {
+
+											var fileTypeID = fev.data.currentSelection.instrument.files[i].filetype_id;
+											var fileID = fev.data.currentSelection.instrument.files[i].file_id;
+											var fileDate = fev.data.currentSelection.instrument.files[i].file_date;
+											var fileName = fev.data.currentSelection.instrument.files[i].name;
+											var photoDate = fev.data.currentSelection.instrument.files[i].photo_date;
+											var fileDescription;
+											if (fev.data.currentSelection.instrument.files[i].description == '' || fev.data.currentSelection.instrument.files[i].description == null) {
+												fileDescription = 'Description left blank'
+											} else {
+												fileDescription = fev.data.currentSelection.instrument.files[i].description;
+											}
+
+											// if file type is a data file
+											if (fileTypeID == 2) {
+												var dataFileItemMarkup = '<li style="list-style:none;">' +
+													'<a target="_blank" title="Download File" href="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item">' +
+													moment(fileDate).format('MM/DD/yyyy') + ' : ' + fileName + '</a></li>';
+												$('#dataFile_ul').append(dataFileItemMarkup);
+
+											}
+
+											// if file type is a photo or hydrograph
+											if (fileTypeID == 1 || fileTypeID == 13) {
+												var photoFileItemMarkup = '<li style="list-style:none;">' +
+													'<a target="_blank" title="Download File" href="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item">' +
+													'Photo of ' + fileDescription + ' at ' + fev.data.currentSelection.site.site_description + ', ' +
+													fev.data.currentSelection.site.county + ', ' + fev.data.currentSelection.site.state + ', ' + moment(photoDate).format('MM/DD/yyyy') + '</a>' +
+													'<div style="max-width:100px;"><img style="max-width:100px;" src="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item" /></div>';
+												$('#photoFile_ul').append(photoFileItemMarkup);
+											}
+										}
+									}
+
+									// empty the peak summary table body of existing elements
+									$('#peakSummaryTableBody').empty();
+									// get peak summaries
+									$.ajax({
+										url: 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '/PeakSummaryView.json',
+										dataType: 'json',
+										async: false,
+										headers: { 'Accept': '*/*' },
+										success: function (response) {
+											fev.data.currentSelection.site.peak_summaries = response;
+
+											if (fev.data.currentSelection.site.peak_summaries.length > 0) {
+												for (var i = 0; i < fev.data.currentSelection.site.peak_summaries.length; i++) {
+													var peakStage = fev.data.currentSelection.site.peak_summaries[i].peak_stage;
+													var rawPeakDate = fev.data.currentSelection.site.peak_summaries[i].peak_date;
+													var peakDate = moment(rawPeakDate, 'YYYY-MM-DDTHH:mm:ss').format('l LT');
+													var eventName = fev.data.currentSelection.site.peak_summaries[i].event_name;
+													var peakRowMarkup =
+														'<tr><td>' + peakStage + '</td>' +
+														'<td>' + peakDate + '</td>' +
+														'<td>' + eventName + '</td></tr>';
+													$('#peakSummaryTableBody').append(peakRowMarkup);
+												}
+											}
+
+											var mapHeight = $('#mapDiv').height();
+											var modalHeight = (Math.floor(mapHeight * .80));
+											var modalHeightString = (modalHeight.toString()) + 'px';
+
+											// after populating the current selection data fully, show the modal
+											$('.sensor-modal-body').css('height', modalHeightString);
+											$('#sensorDataModal').modal('show');
+
+										},
+										error: function (error) {
+											console.log('Error processing the JSON. The error is:' + error);
+											//return error;
+										}
+									});
+
+								},
+								error: function (error) {
+									console.log('Error processing the JSON. The error is:' + error);
+									//return error;
+								}
+							});
+
+
+							// the commented-out code block below is for retieving data for Objective Points and displaying tapedown info.
+							// this is being left out for the time being, in an effort to move these internal-oriented data off of the public flood data viewer application (BAD, Sept 2020)
+							// first get deployed
+							// $.ajax({
+							// 	url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json',
+							// 	dataType: 'json',
+							// 	async: false,
+							// 	headers: { 'Accept': '*/*' },
+							// 	success: function (deployedMeasurements) {
+							// 		fev.data.currentSelection.instrument.deployed.measurements = deployedMeasurements;
+							// 		// on success, get retrieved
+							// 		$.ajax({
+							// 			url: 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json',
+							// 			dataType: 'json',
+							// 			async: false,
+							// 			headers: { 'Accept': '*/*' },
+							// 			success: function (retrievedMeasurements) {
+							// 				fev.data.currentSelection.instrument.retrieved.measurements = retrievedMeasurements;
+							// 				// TODO: handle tapedown retrieval and display
+							// 				// TODO: get all the Objective points from web service
+							// 				// loop through measurements and use jquery append to add a tr for each with the data
+							// 				// for (var i = 0; i < fev.data.currentSelection.instrument.deployed.measurements.length; i++) {
+							// 				// 	var tableRowMarkup = '<tr>' +
+							// 				// 		'<td></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td>' +
+							// 				// 		'<td style="text-align:center"></td> </tr>'
+							// 				// }
+							// 			},
+							// 			error: function (error) {
+							// 				console.log('Error processing the JSON. The error is:' + error);
+							// 				//return error;
+							// 			}
+							// 		});
+							// 	},
+							// 	error: function (error) {
+							// 		console.log('Error processing the JSON. The error is:' + error);
+							// 		// return error;
+							// 	}
+							// });
+
+						},
+						error: function (error) {
+							console.log('Error processing the JSON. The error is:' + error);
+							//return error;        
+						}
+					});
+				},
+				error: function (error) {
+					console.log('Error processing the JSON. The error is:' + error);
+					//return error;        
+				}
+			});
+		}
 	});
 
 	// set up a toggle for the sensors layers and place within legend div, overriding default behavior
@@ -494,7 +750,7 @@ raingageCheckBox.disabled = true;
 		keepSpiderfied: true
 	});
 	/* map.addLayer(editableLayers);
-
+	
 	var options = {
 		position: 'topleft',
 		draw: {
@@ -516,17 +772,17 @@ raingageCheckBox.disabled = true;
 			// remove: true
 		}
 	};
-	
+		
 	var drawControl = new L.Control.Draw(options);
 	map.addControl(drawControl);
-	
+		
 	map.on(L.Draw.Event.CREATED, function (e) {
 		var type = e.layerType,
 			layer = e.layer;
-	
+		
 		if (type === 'polyline') {
-	
-	
+		
+		
 			// Calculating the distance of the polyline
 			var tempLatLng = null;
 			var totalDistance = 0.00000;
@@ -535,13 +791,13 @@ raingageCheckBox.disabled = true;
 					tempLatLng = latlng;
 					return;
 				}
-	
+		
 				totalDistance += tempLatLng.distanceTo(latlng);
 				tempLatLng = latlng;
 			});
 			e.layer.bindLabel((totalDistance).toFixed(2) + ' feet');
 		}
-	
+		
 		editableLayers.addLayer(layer);
 	}); */
 

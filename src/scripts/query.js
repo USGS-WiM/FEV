@@ -51,6 +51,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                     //var popupContent = '';
                     if (type == 'rdg') { return };
                     var currentEvent = fev.vars.currentEventName;
+                    var siteInstrumentArray = [feature.properties.site_id, feature.properties.instrument_id]
                     var popupContent =
                         '<table class="table table-hover table-striped table-condensed wim-table">' +
                         '<caption class="popup-title">' + name + ' | <span style="color:gray"> ' + currentEvent + '</span></caption>' +
@@ -61,6 +62,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         '<tr><td><strong>State: </strong></td><td><span id="state">' + feature.properties.state + '</span></td></tr>' +
                         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
                         '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+                        '<tr><td><strong>Full sensor data: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view full sensor data" value="' + siteInstrumentArray + '">Sensor data</button></span></td></tr>' +
                         '<tr><td colspan="2"><strong>Hydrograph: </strong>' + hydroPopupText
                     '</table>';
                     latlng.bindPopup(popupContent);
@@ -253,6 +255,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
         }
         if (data.features.length > 0) {
             console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+
             //check for bad lat/lon values
             for (var i = data.features.length - 1; i >= 0; i--) {
                 //check that lat/lng are not NaN
@@ -1453,6 +1456,39 @@ function queryNWISRaingraph(e) {
         }
     });
 }
+
+
+// function retrieveSTNSiteData(siteID) {
+//     var url = 'https://stn.wim.usgs.gov/STNServices/Sites/' + siteID + '.json';
+//     $.ajax({
+//         url: url,
+//         dataType: 'json',
+//         headers: { 'Accept': '*/*' },
+//         success: function (data) {
+//            return data;
+//         },
+//         error: function (error) {
+//             console.log('Error processing the JSON. The error is:' + error);
+//             return error;        
+//         }
+//     });
+// }
+
+// function retrieveSTNInstrumentData(instrumentID) {
+//     var url = 'https://stn.wim.usgs.gov/STNServices/Instruments/' + instrumentID + '.json';
+//     $.ajax({
+//         url: url,
+//         dataType: 'json',
+//         headers: { 'Accept': '*/*' },
+//         success: function (data) {
+//            return data;
+//         },
+//         error: function (error) {
+//             console.log('Error processing the JSON. The error is:' + error);
+//             return error;        
+//         }
+//     });
+// }
 
 //out of use
 // function getLayerName(type) {
