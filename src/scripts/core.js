@@ -131,19 +131,26 @@ var map;
 var markerCoords = [];
 var oms;
 
-var baroMarkerIcon = L.icon({ className: 'baroMarker', iconUrl: 'images/baro.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var metMarkerIcon = L.icon({ className: 'metMarker', iconUrl: 'images/met.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
-var rdgMarkerIcon = L.icon({ className: 'rdgMarker', iconUrl: 'images/rdg.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
-var stormtideMarkerIcon = L.icon({ className: 'stormtideMarker', iconUrl: 'images/stormtide.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
-var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'images/waveheight.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [12, 12] });
-var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
-var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [15, 15] });
+var baroMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-yellow wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var baroMarkerIcon = L.icon({ className: 'baroMarker', iconUrl: 'images/baro.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var metMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedpink wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var metMarkerIcon = L.icon({ className: 'metMarker', iconUrl: 'images/met.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
+var rdgMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var rdgMarkerIcon = L.icon({ className: 'rdgMarker', iconUrl: 'images/rdg.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
+var stormtideMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-red wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var stormtideMarkerIcon = L.icon({ className: 'stormtideMarker', iconUrl: 'images/stormtide.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
+// var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'images/waveheight.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [12, 12] });
+var waveheightMarkerIcon = L.divIcon({ className: 'wmm-square wmm-purple wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var hwmMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-darkred wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var peakMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-altblue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+// var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [15, 15] });
+var nwisMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
-var nwisTidalMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwistides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 
-
+var nwisTidalMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
+var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
 
 
 //sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
@@ -274,10 +281,10 @@ $(document).ready(function () {
 	'use strict';
 
 	//Start with the rain and stream gage checkboxes disabled
-var streamgageCheckBox = document.getElementById("streamGageToggle");
-streamgageCheckBox.disabled = true;
-var raingageCheckBox = document.getElementById("rainGageToggle");
-raingageCheckBox.disabled = true;
+	var streamgageCheckBox = document.getElementById("streamGageToggle");
+	streamgageCheckBox.disabled = true;
+	var raingageCheckBox = document.getElementById("rainGageToggle");
+	raingageCheckBox.disabled = true;
 
 	$('#peakDatePicker .input-daterange').datepicker({
 		format: "yyyy-mm-dd",
@@ -434,7 +441,7 @@ raingageCheckBox.disabled = true;
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
 	var realTimeOverlays = {
-		"<img class='legendSwatch' src='images/nwistides.png'>&nbsp;Tidal Gage": USGSTideGages
+		"<img class='legendSwatch' src='images/nwis.png'>&nbsp;Tidal Gage": USGSTideGages
 	};
 	//define observed overlay and interpreted overlay, leave blank at first
 	var observedOverlays = {};
@@ -452,8 +459,34 @@ raingageCheckBox.disabled = true;
 
 	//loop thru layer list and add the legend item to the appropriate heading
 	$.each(fev.layerList, function (index, layer) {
-		if (layer.Category == 'real-time') realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
-		if (layer.Category == 'observed') observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
+
+		if (layer.Category == 'real-time') {
+			if (layer.ID == 'rdg') {
+				realTimeOverlays["<div class='legend-icon'><div class='wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else if (layer.ID == 'nwis') {
+				realTimeOverlays["<div class='legend-icon'><div class='wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else {
+				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
+			}
+		}
+
+		if (layer.Category == 'observed') {
+
+			if (layer.ID == 'baro') {
+				observedOverlays["<div class='legend-icon'><div class='wmm-diamond wmm-yellow wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else if (layer.ID == 'stormtide') {
+				observedOverlays["<div class='legend-icon'><div class='wmm-circle wmm-red wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else if (layer.ID == 'met') {
+				observedOverlays["<div class='legend-icon'><div class='wmm-circle wmm-mutedpink wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else if (layer.ID == 'waveheight') {
+				observedOverlays["<div class='legend-icon'><div class='wmm-square wmm-purple wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else if (layer.ID == 'hwm') {
+				observedOverlays["<div class='legend-icon'><div class='wmm-diamond wmm-darkred wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			} else {
+				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
+			}
+		}
+
 		if (layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name + "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></span></label>"] = window[layer.ID];
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
@@ -1170,7 +1203,7 @@ raingageCheckBox.disabled = true;
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
 			streamgageCheckBox.checked = false;
 			streamgageCheckBox.disabled = true;
-			
+
 			var raingageCheckBox = document.getElementById("rainGageToggle");
 			raingageCheckBox.checked = false;
 			raingageCheckBox.disabled = true;
@@ -1221,10 +1254,10 @@ raingageCheckBox.disabled = true;
 				USGSRainGages.bringToFront();
 			}
 		}
-		
+
 
 		if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9 && !foundPopup) {
-		
+
 			//put the rdg layer on top
 			//set timeout because if the stream gages finish loading after they rdg gages are loaded, they'll be on top
 			if (map.hasLayer(rdg)) {
@@ -1238,7 +1271,6 @@ raingageCheckBox.disabled = true;
 
 	USGSrtGages.on('click', function (e) {
 		queryNWISgraph(e);
-
 	});
 
 	USGSRainGages.on('click', function (e) {
