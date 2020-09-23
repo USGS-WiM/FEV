@@ -1231,7 +1231,7 @@ $(document).ready(function () {
 			}
 		}
 
-		//Show rain gages in new map view when map is panned
+		//Show tidal gages in new map view when map is panned
 		if (document.getElementById("nwisTidalGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
 			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
 			queryNWISTideGages(bbox);
