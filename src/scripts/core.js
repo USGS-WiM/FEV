@@ -122,6 +122,24 @@ var fev = fev || {
 			"Type": "real-time",
 			"Category": "real-time"
 		}
+			// {
+		// 	"ID": "nwisrain",
+		// 	"Name": "Real-time Ran Gage",
+		// 	"Type": "nwis",
+		// 	"Category": "real-time"
+		// },
+		// {
+		// 	"ID": "nwisstreamgage",
+		// 	"Name": "Real-time Stream Gage",
+		// 	"Type": "nwis",
+		// 	"Category": "real-time"
+		// },
+		// {
+		// 	"ID": "nwistides",
+		// 	"Name": "Tidal Gage",
+		// 	"Type": "nwis",
+		// 	"Category": "real-time"
+		// },
 	]
 };
 
@@ -131,32 +149,25 @@ var map;
 var markerCoords = [];
 var oms;
 
+// divIcons using WIM marker maker
 var baroMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-yellow wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var baroMarkerIcon = L.icon({ className: 'baroMarker', iconUrl: 'images/baro.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var metMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedpink wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var metMarkerIcon = L.icon({ className: 'metMarker', iconUrl: 'images/met.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
 var rdgMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var rdgMarkerIcon = L.icon({ className: 'rdgMarker', iconUrl: 'images/rdg.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
 var stormtideMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-red wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var stormtideMarkerIcon = L.icon({ className: 'stormtideMarker', iconUrl: 'images/stormtide.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [16, 16] });
-// var waveheightMarkerIcon = L.icon({ className: 'waveheightMarker', iconUrl: 'images/waveheight.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [12, 12] });
 var waveheightMarkerIcon = L.divIcon({ className: 'wmm-square wmm-purple wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var hwmMarkerIcon = L.icon({ className: 'hwmMarker', iconUrl: 'images/hwm.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var hwmMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-darkred wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var peakMarkerIcon = L.icon({ className: 'peakMarker', iconUrl: 'images/peak.png', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var peakMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-altblue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-// var nwisMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [15, 15] });
 var nwisMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/rainIcon.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
+var nwisTidalMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-altorange wmm-icon-circle wmm-icon-white wmm-size-15', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var tidesMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 
-var nwisTidalMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
-var tidesMarkerIcon = L.icon({ className: 'tidesMarker', iconUrl: 'images/tides.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [20, 20] });
+// rain layer uses an icon
+var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis_rain.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
 
-
-//sensor subgroup layerGroups for sensor marker cluster group(layerGroup has no support for mouse event listeners)
+//  sensor subgroup layerGroups for sensor marker cluster group (layerGroup has no support for mouse event listeners)
 var baro = L.layerGroup();
-var stormtide = L.layerGroup();
 var met = L.layerGroup();
+var stormtide = L.layerGroup();
 var waveheight = L.layerGroup();
 var hwm = L.layerGroup();
 var peak = L.layerGroup();
@@ -247,32 +258,6 @@ $.ajax({
 		}
 	} */
 
-/////markercluster code, can remove eventually
-// Marker Cluster Group for sensors
-// var sensorMCG = L.markerClusterGroup({
-// 	//options here
-// 	disableClusteringAtZoom: 8,
-// 	spiderfyOnMaxZoom: false,
-// 	zoomToBoundsOnClick: true
-// });
-// var	baro = L.featureGroup.subGroup(sensorMCG);
-// var stormTide = L.featureGroup.subGroup(sensorMCG);
-// var	met = L.featureGroup.subGroup(sensorMCG);
-// var rdg = L.featureGroup.subGroup(sensorMCG);
-// var	waveHeight = L.featureGroup.subGroup(sensorMCG);
-
-// Marker Cluster Group for HWMs
-// var hwmMCG = L.markerClusterGroup({
-// 	//options here
-// 	disableClusteringAtZoom: 8,
-// 	spiderfyOnMaxZoom: false,
-// 	zoomToBoundsOnClick: true,
-// 	//create custom icon for HWM clusters
-// 	iconCreateFunction: function (cluster) {
-// 		return L.divIcon({ html: '<div style="display: inline-block"><span style="display: inline-block" class="hwmClusterText">' + cluster.getChildCount() + '</span></div>',  className: 'hwmClusterMarker' });
-// 	}
-// });
-// var hwm = L.featureGroup.subGroup(hwmMCG);
 var zoomMargin;
 ///end markercluster code//////////////////////////////////////////////////////////////
 //main document ready function
@@ -285,6 +270,8 @@ $(document).ready(function () {
 	streamgageCheckBox.disabled = true;
 	var raingageCheckBox = document.getElementById("rainGageToggle");
 	raingageCheckBox.disabled = true;
+	var nwisTidalCheckBox = document.getElementById("nwisTidalGageToggle");
+	nwisTidalCheckBox.disabled = true;
 
 	$('#peakDatePicker .input-daterange').datepicker({
 		format: "yyyy-mm-dd",
@@ -322,8 +309,6 @@ $(document).ready(function () {
 			$('.eventSelectAlert').show();
 		}
 	});
-
-
 
 	//listener for submit filters button on filters modal - sets event vars and passes event id to filterMapData function
 	$('#btnSubmitFilters').on('click', function () {
@@ -413,21 +398,6 @@ $(document).ready(function () {
 	var layerLabels;
 	L.Icon.Default.imagePath = './images';
 
-	//add sensor markercluster group to the map
-	//sensorMCG.addTo(map);
-	//add sensor subgroups to the map
-	//baro.addTo(map);
-	//stormTide.addTo(map);
-	//met.addTo(map);
-	//waveHeight.addTo(map);
-	//add hwm markercluster group to the map
-	//hwmMCG.addTo(map);
-	// add hwm subgroup to the map
-	//hwm.addTo(map);
-	//peak.addTo(map);
-	//add USGS rt gages to the map
-	//rdg.addTo(map);
-
 	//display USGS rt gages by default on map load
 	//USGSrtGages.addTo(map);
 
@@ -441,8 +411,9 @@ $(document).ready(function () {
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
 	var realTimeOverlays = {
-		"<img class='legendSwatch' src='images/nwis.png'>&nbsp;Tidal Gage": USGSTideGages
+		// "<img class='legendSwatch' src='images/nwis.png'>&nbsp;Tidal Gage": USGSTideGages
 	};
+
 	//define observed overlay and interpreted overlay, leave blank at first
 	var observedOverlays = {};
 	var interpretedOverlays = {};
@@ -463,8 +434,9 @@ $(document).ready(function () {
 		if (layer.Category == 'real-time') {
 			if (layer.ID == 'rdg') {
 				realTimeOverlays["<div class='legend-icon'><div class='wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
-			} else if (layer.ID == 'nwis') {
-				realTimeOverlays["<div class='legend-icon'><div class='wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+			}
+			else if (layer.ID == 'tides') {
+				realTimeOverlays["<div class='legend-icon'><div class='wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -486,7 +458,6 @@ $(document).ready(function () {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
 		}
-
 		if (layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name + "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></span></label>"] = window[layer.ID];
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
@@ -1208,6 +1179,10 @@ $(document).ready(function () {
 			raingageCheckBox.checked = false;
 			raingageCheckBox.disabled = true;
 
+			var nwisTidalCheckBox = document.getElementById("nwisTidalGageToggle");
+			nwisTidalCheckBox.checked = false;
+			nwisTidalCheckBox.disabled = true;
+
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
 			USGSTideGages.clearLayers();
@@ -1231,8 +1206,10 @@ $(document).ready(function () {
 			streamgageCheckBox.disabled = false;
 			var raingageCheckBox = document.getElementById("rainGageToggle");
 			raingageCheckBox.disabled = false;
+			var nwisTidalCheckbox = document.getElementById("nwisTidalGageToggle");
+			nwisTidalCheckbox.disabled = false;
 			$('#rtScaleAlert').hide();
-			if (streamgageCheckBox.checked == true || raingageCheckBox.checked == true) {
+			if (streamgageCheckBox.checked == true || raingageCheckBox.checked == true || nwisTidalCheckbox.checked == true) {
 				$('#nwisLoadingAlert').show();
 			}
 		}
@@ -1253,6 +1230,12 @@ $(document).ready(function () {
 			if (map.hasLayer(USGSrtGages) && map.hasLayer(USGSRainGages)) {
 				USGSRainGages.bringToFront();
 			}
+		}
+
+		//Show tidal gages in new map view when map is panned
+		if (document.getElementById("nwisTidalGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
+			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+			queryNWISTideGages(bbox);
 		}
 
 
@@ -1438,5 +1421,25 @@ function clickRainGage() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (raingageCheckBox.checked == false) {
 		USGSRainGages.clearLayers(map);
+	}
+}
+
+//Display NWIS Tidal gage layer and legend item when rain gage box is checked
+function clickNwisTidalGage() {
+	var nwisTidalCheckbox = document.getElementById("nwisTidalGageToggle");
+	//Prevent user from using toggle when zoom is less than 9
+	if (map.getZoom() < 9) {
+		nwisTidalCheckbox.checked = false;
+		nwisTidalCheckbox.disabled = true;
+	}
+	if (nwisTidalCheckbox.checked == true) {
+		USGSTideGages.addTo(map);
+		$('#nwisLoadingAlert').show();
+		var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+		queryNWISTideGages(bbox);
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (nwisTidalCheckbox.checked == false) {
+		USGSTideGages.clearLayers(map);
 	}
 }

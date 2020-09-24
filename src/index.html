@@ -1197,7 +1197,8 @@
                                 <div id="realTimeToggleDiv">
                                     <b>Real-Time Data</b></br>
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
-                                        Real-time stream and rain gage layers only available at <br> zoom level 9
+                                        Tidal gages and real-time stream and rain gage layers only available at <br>
+                                        zoom level 9
                                         and
                                         above. Please zoom in to view.</div>
                                     <div style="text-align: left; margin-left: 6px;">
@@ -1214,8 +1215,20 @@
                                     <div style="text-align: left; margin-left: 6px;">
                                         <label>
                                             <input type="checkbox" id=rainGageToggle onclick="clickRainGage()" />
-                                        </label><img class='legendSwatch' src='images/rainIcon.png'></img>&nbsp;
+                                        </label><img class='legendSwatch' src='images/nwis_rain.png'></img>&nbsp;
                                         Real-time Rain Gage
+                                    </div>
+                                    <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id="nwisTidalGageToggle"
+                                                onclick="clickNwisTidalGage()" />
+                                            <div class='legend-icon'>
+                                                <div
+                                                    class='wmm-triangle wmm-altorange wmm-icon-circle wmm-icon-white wmm-size-15'>
+                                                </div>
+                                                <label>Tidal Gage</label>
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                                 <div id="observedToggleDiv">
@@ -1232,8 +1245,10 @@
                                         <label>
                                             <input type="checkbox" id=hucToggle onclick="clickWatershed()" />
                                         </label>
-                                        <div style="display:inline-flex"><img
-                                                class="squareDiv watershedColor display:inline-block"></img><b>Watersheds</b>
+                                        <div style="display:inline-flex">
+                                            <!-- <img
+                                                class="squareDiv watershedColor display:inline-block"></img><b>Watersheds</b> -->
+                                            <img class='legendSwatch' src='images/huc.png'></img>&nbsp;Watersheds
                                         </div>
                                     </div>
                                 </div>
