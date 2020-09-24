@@ -274,10 +274,12 @@ $(document).ready(function () {
 	'use strict';
 
 	//Start with the rain and stream gage checkboxes disabled
-var streamgageCheckBox = document.getElementById("streamGageToggle");
-streamgageCheckBox.disabled = true;
-var raingageCheckBox = document.getElementById("rainGageToggle");
-raingageCheckBox.disabled = true;
+	var streamgageCheckBox = document.getElementById("streamGageToggle");
+	streamgageCheckBox.disabled = true;
+	var raingageCheckBox = document.getElementById("rainGageToggle");
+	raingageCheckBox.disabled = true;
+	var nwisTidalCheckBox = document.getElementById("nwisTidalGageToggle");
+	nwisTidalCheckBox.disabled = true;
 
 	$('#peakDatePicker .input-daterange').datepicker({
 		format: "yyyy-mm-dd",
@@ -434,8 +436,9 @@ raingageCheckBox.disabled = true;
 	//define layer 'overlays' (overlay is a leaflet term)
 	//define the real-time overlay and manually add the NWIS RT gages to it
 	var realTimeOverlays = {
-		"<img class='legendSwatch' src='images/nwistides.png'>&nbsp;Tidal Gage": USGSTideGages
+		//"<img class='legendSwatch' src='images/nwistides.png'>&nbsp;Tidal Gage": USGSTideGages
 	};
+
 	//define observed overlay and interpreted overlay, leave blank at first
 	var observedOverlays = {};
 	var interpretedOverlays = {};
@@ -1170,10 +1173,14 @@ raingageCheckBox.disabled = true;
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
 			streamgageCheckBox.checked = false;
 			streamgageCheckBox.disabled = true;
-			
+
 			var raingageCheckBox = document.getElementById("rainGageToggle");
 			raingageCheckBox.checked = false;
 			raingageCheckBox.disabled = true;
+
+			var nwisTidalCheckBox = document.getElementById("nwisTidalGageToggle");
+			nwisTidalCheckBox.checked = false;
+			nwisTidalCheckBox.disabled = true;
 
 			USGSrtGages.clearLayers();
 			USGSRainGages.clearLayers();
@@ -1198,8 +1205,10 @@ raingageCheckBox.disabled = true;
 			streamgageCheckBox.disabled = false;
 			var raingageCheckBox = document.getElementById("rainGageToggle");
 			raingageCheckBox.disabled = false;
+			var nwisTidalCheckbox = document.getElementById("nwisTidalGageToggle");
+			nwisTidalCheckbox.disabled = false;
 			$('#rtScaleAlert').hide();
-			if (streamgageCheckBox.checked == true || raingageCheckBox.checked == true) {
+			if (streamgageCheckBox.checked == true || raingageCheckBox.checked == true || nwisTidalCheckbox.checked == true) {
 				$('#nwisLoadingAlert').show();
 			}
 		}
@@ -1221,10 +1230,16 @@ raingageCheckBox.disabled = true;
 				USGSRainGages.bringToFront();
 			}
 		}
-		
+
+		//Show tidal gages in new map view when map is panned
+		if (document.getElementById("nwisTidalGageToggle").checked == true && map.getZoom() >= 9 && !foundPopup) {
+			var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+			queryNWISTideGages(bbox);
+		}
+
 
 		if (map.hasLayer(USGSrtGages) && map.getZoom() >= 9 && !foundPopup) {
-		
+
 			//put the rdg layer on top
 			//set timeout because if the stream gages finish loading after they rdg gages are loaded, they'll be on top
 			if (map.hasLayer(rdg)) {
@@ -1406,5 +1421,25 @@ function clickRainGage() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (raingageCheckBox.checked == false) {
 		USGSRainGages.clearLayers(map);
+	}
+}
+
+//Display NWIS Tidal gage layer and legend item when rain gage box is checked
+function clickNwisTidalGage() {
+	var nwisTidalCheckbox = document.getElementById("nwisTidalGageToggle");
+	//Prevent user from using toggle when zoom is less than 9
+	if (map.getZoom() < 9) {
+		nwisTidalCheckbox.checked = false;
+		nwisTidalCheckbox.disabled = true;
+	}
+	if (nwisTidalCheckbox.checked == true) {
+		USGSTideGages.addTo(map);
+		$('#nwisLoadingAlert').show();
+		var bbox = map.getBounds().getSouthWest().lng.toFixed(7) + ',' + map.getBounds().getSouthWest().lat.toFixed(7) + ',' + map.getBounds().getNorthEast().lng.toFixed(7) + ',' + map.getBounds().getNorthEast().lat.toFixed(7);
+		queryNWISTideGages(bbox);
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (nwisTidalCheckbox.checked == false) {
+		USGSTideGages.clearLayers(map);
 	}
 }
