@@ -55,6 +55,7 @@
     <!-- CSS for the mapping components -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/markers.css">
     <!-- endbuild -->
 
     <link rel="shortcut icon" href="/favicon.ico">
@@ -310,42 +311,47 @@
                                 </div>
                             </div>
                             <div class="faq-modal-body">
-                                <div class="faq-header" id="faq2header">2. What is Storm-Tide (Low-pass Filtered) Water Level? <div
-                                        id="angle2" style="display: -webkit-inline-box;"><i
+                                <div class="faq-header" id="faq2header">2. What is Storm-Tide (Low-pass Filtered) Water
+                                    Level? <div id="angle2" style="display: -webkit-inline-box;"><i
                                             class="fa fa-angle-right"></i>
                                     </div>
                                 </div>
                                 <div class="faq-body" id="faq2body">
-                                    It is water level calculated using the Hydrostatic Method with a Low-pass 4th Order Butterworth Filter applied to 1 minute frequencies and higher.
+                                    It is water level calculated using the Hydrostatic Method with a Low-pass 4th Order
+                                    Butterworth Filter applied to 1 minute frequencies and higher.
                                 </div>
                             </div>
                             <div class="faq-modal-body">
-                                <div class="faq-header" id="faq3header">3. Who do I reach out to for questions about the data? <div
-                                        id="angle3" style="display: -webkit-inline-box;"><i
+                                <div class="faq-header" id="faq3header">3. Who do I reach out to for questions about the
+                                    data? <div id="angle3" style="display: -webkit-inline-box;"><i
                                             class="fa fa-angle-right"></i>
                                     </div>
                                 </div>
                                 <div class="faq-body" id="faq3body">
-                                    You can submit any data questions via our Answers form on the USGS website: <a target="_blank" href="https://answers.usgs.gov/">https://answers.usgs.gov/</a>.
+                                    You can submit any data questions via our Answers form on the USGS website: <a
+                                        target="_blank" href="https://answers.usgs.gov/">https://answers.usgs.gov/</a>.
                                     <br>
                                     <br>
                                     For the 'Topic' field please select 'Water'.
                                 </div>
                             </div>
                             <div class="faq-modal-body">
-                                <div class="faq-header" id="faq4header">4. How should I reference your data in my publication? <div
-                                        id="angle4" style="display: -webkit-inline-box;"><i
+                                <div class="faq-header" id="faq4header">4. How should I reference your data in my
+                                    publication? <div id="angle4" style="display: -webkit-inline-box;"><i
                                             class="fa fa-angle-right"></i>
                                     </div>
                                 </div>
                                 <div class="faq-body" id="faq4body">
-                                    Please reference the USGS Flood Event Viewer in all publications that use data from this system.
+                                    Please reference the USGS Flood Event Viewer in all publications that use data from
+                                    this system.
                                     <br>
                                     <br>
-                                    Template citation: 
+                                    Template citation:
                                     <br>
-                                    U.S. Geological Survey, [year], Short-Term Network Data Portal, accessed on [full-date], at <a target="_blank" href="http://water.usgs.gov/floods/FEV/">http://water.usgs.gov/floods/FEV/</a>.
-                                    
+                                    U.S. Geological Survey, [year], Short-Term Network Data Portal, accessed on
+                                    [full-date], at <a target="_blank"
+                                        href="http://water.usgs.gov/floods/FEV/">http://water.usgs.gov/floods/FEV/</a>.
+
                                 </div>
                             </div>
                         </div>
@@ -1352,7 +1358,7 @@
                         <div id="legendHeading" class=" legendHeading" role="tab">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" style="text-decoration: none" href="#legendCollapse"
-                                    aria-expanded="true" aria-controls="collapseOne">
+                                    aria-expanded="true" aria-controls="collapseOne" onclick="sizeLegendPanel()">
                                     <span class="glyphicon glyphicon-list"></span>
                                     Map Layers
                                 </a>
@@ -1360,61 +1366,43 @@
                         </div>
                         <div id="legendCollapse" class="panel-collapse " role="tabpanel">
                             <div id="legendDiv" class="panel-body legend-panel-body">
-                                <!-- collapsing panel style toggle/swatch elements -->
-                                <!--<div class="panel panel-default legend-item-panel">-->
-                                <!--<div class="panel-heading" role="tab" id="rdgSwatchHeading">-->
-                                <!--<h4 class="panel-title">-->
-                                <!--<input type="checkbox" aria-label="..."><a role="button" data-toggle="collapse" href="#rdgSwatchDiv" aria-expanded="true" aria-controls="collapseOne">-->
-                                <!--&nbsp;Rapid Deployment Streamgage&nbsp;-->
-                                <!--</a>-->
-                                <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div id="rdgSwatchDiv" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="rdgSwatchHeading">-->
-                                <!--<div class="panel-body">-->
-                                <!--<i class="rdgMarker"></i><span>Rapid Deployment Streamgage</span></br>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="panel panel-default legend-item-panel">-->
-                                <!--<div class="panel-heading" role="tab" id="waveHeightSwatchHeading">-->
-                                <!--<h4 class="panel-title">-->
-                                <!--<input type="checkbox" aria-label="..."><a role="button" data-toggle="collapse" href="#waveHeightSwatchDiv" aria-expanded="true" aria-controls="collapseOne">-->
-                                <!--&nbsp;Wave Height Sensor&nbsp;-->
-                                <!--</a>-->
-                                <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div id="waveHeightSwatchDiv" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="waveHeightSwatchHeading">-->
-                                <!--<div class="panel-body">-->
-                                <!--<i class="waveHeightMarker"></i><span>Wave Height Sensor</span></br>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!-- end collapsing panel style toggle/swatch elements -->
                                 <div id="realTimeToggleDiv">
                                     <b>Real-Time Data</b></br>
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
-                                        Tidal gages and real-time stream and rain gage layers only available at <br> zoom level 9
+                                        Tidal gages and real-time stream and rain gage layers only available at
+                                         <!-- <br> -->
+                                        zoom level 9
                                         and
                                         above. Please zoom in to view.</div>
-                                        <div style="text-align: left; margin-left: 6px;">
-                                            <label>
-                                                <input type="checkbox" id=streamGageToggle
-                                                    onclick="clickStreamGage()" />
-                                            </label><img class='legendSwatch' src='images/nwis.png'></img>&nbsp; Real-time Stream Gage
-                                        </div>
-                                        <div style="text-align: left; margin-left: 6px;">
-                                            <label>
-                                                <input type="checkbox" id=rainGageToggle
-                                                    onclick="clickRainGage()" />
-                                            </label><img class='legendSwatch' src='images/rainIcon.png'></img>&nbsp; Real-time Rain Gage
-                                        </div>
-                                        <div style="text-align: left; margin-left: 6px;">
-                                            <label>
-                                                <input type="checkbox" id=nwisTidalGageToggle
-                                                    onclick="clickNwisTidalGage()" />
-                                            </label><img class='legendSwatch' src='images/nwistides.png'></img>&nbsp; Tidal Gage 
-                                        </div>
+                                    <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id=streamGageToggle onclick="clickStreamGage()" />
+                                            <div class='legend-icon'>
+                                                <div
+                                                    class='wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
+                                                </div>
+                                                <label>Real-time Stream Gage</label>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id=rainGageToggle onclick="clickRainGage()" />
+                                        </label><img class='legendSwatch' src='images/nwis_rain.png'></img>&nbsp;
+                                        Real-time Rain Gage
+                                    </div>
+                                    <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id="nwisTidalGageToggle"
+                                                onclick="clickNwisTidalGage()" />
+                                            <div class='legend-icon'>
+                                                <div
+                                                    class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
+                                                </div>
+                                                <label>Tidal Gage</label>
+                                            </div>
+                                        </label>
+                                    </div>
                                 </div>
                                 <div id="observedToggleDiv">
                                     <b>Observed Data</b>
@@ -1425,12 +1413,16 @@
                                 <div id="supportingToggleDiv">
                                     <b>Supporting Layers</b>
                                     <div id="noTrackAdvisory"></div>
-                                    
+
                                     <div style="text-align: left; margin-left: 6px">
                                         <label>
-                                            <input type="checkbox" id=hucToggle
-                                            onclick="clickWatershed()" />
-                                        </label><div style="display:inline-flex"><img class="squareDiv watershedColor display:inline-block"></img><b>Watersheds</b></div> 
+                                            <input type="checkbox" id=hucToggle onclick="clickWatershed()" />
+                                        </label>
+                                        <div style="display:inline-flex">
+                                            <!-- <img
+                                                class="squareDiv watershedColor display:inline-block"></img><b>Watersheds</b> -->
+                                            <img class='legendSwatch' src='images/huc.png'></img>&nbsp;Watersheds
+                                        </div>
                                     </div>
                                 </div>
                                 <!--<div id="noaaToggleDiv">-->
