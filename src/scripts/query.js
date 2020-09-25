@@ -397,7 +397,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
 function displayTidesGeoJSON(type, name, url, markerIcon) {
     var timeseriesData = [];
     var tidesIcon = new L.divIcon({
-        className: 'wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15',
+        className: 'wmm-pin wmm-blue wmm-icon-noicon wmm-icon-yellow wmm-size-15',
         iconAnchor: [7, 10],
         popupAnchor: [0, 2]
     });

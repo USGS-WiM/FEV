@@ -175,24 +175,53 @@ body {
     transform: scale(0.8);
 }
 
-.legend-icon .wmm-triangle  {
+.legend-icon .wmm-triangle {
     top: 5px !important;
     left: 6px !important;
 }
 
-.legend-icon .wmm-circle  {
+.legend-icon .wmm-circle {
     top: 5px !important;
     left: 6px !important;
 }
 
-.legend-icon .wmm-square  {
+.legend-icon .wmm-square {
     top: 5px !important;
     left: 6px !important;
 }
 
-.legend-icon .wmm-diamond  {
+.legend-icon .wmm-diamond {
     top: 5px !important;
     left: 8px !important;
+}
+
+.legend-icon .wmm-pin {
+    top: 14px !important;
+    left: 8px !important;
+}
+
+.wmm-A0522D:after {
+    background-color: #A0522D !important;
+}
+
+.wmm-triangle.wmm-A0522D {
+    border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.wmm-triangle.wmm-A0522D:after {
+    color: #A0522D !important;
+}
+
+.wmm-33a02c:after {
+    background-color: #33a02c !important;
+}
+
+.wmm-square.wmm-33a02c {
+    border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.wmm-square.wmm-33a02c:after {
+    color: #33a02c !important;
 }
 
 /* css for tab in about modal for usgs live images */

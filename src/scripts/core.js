@@ -144,7 +144,22 @@ var fev = fev || {
 		// 	"Type": "nwis",
 		// 	"Category": "real-time"
 		// },
-	]
+	],
+	markerClasses: {
+		baro: 'wmm-diamond wmm-yellow wmm-icon-diamond wmm-icon-black wmm-size-20',
+		baro_legend: 'wmm-diamond wmm-yellow wmm-icon-diamond wmm-icon-black wmm-size-15',
+		met: 'wmm-square wmm-33a02c wmm-icon-diamond wmm-icon-black wmm-size-20',
+		rdg: 'wmm-circle wmm-blue wmm-icon-triangle wmm-icon-black wmm-size-20',
+		stormtide: 'wmm-pin wmm-red wmm-icon-diamond wmm-icon-black wmm-size-20',
+		stormtide_legend: 'wmm-pin wmm-red wmm-icon-diamond wmm-icon-black wmm-size-25',
+		waveheight: 'wmm-circle wmm-purple wmm-icon-diamond wmm-icon-black wmm-size-20 wmm-borderless',
+		hwm: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20',
+		hwm_legend: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-15',
+		peak: 'wmm-diamond wmm-blue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless',
+		nwis: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless',
+		nwisTidal: 'wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
+		noaaTides: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless'
+	}
 };
 
 //L.esri.Support.cors = false;
@@ -154,16 +169,16 @@ var markerCoords = [];
 var oms;
 
 // divIcons using WIM marker maker
-var baroMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-yellow wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var metMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedpink wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var rdgMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var stormtideMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-red wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var waveheightMarkerIcon = L.divIcon({ className: 'wmm-square wmm-purple wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var hwmMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-darkred wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var peakMarkerIcon = L.divIcon({ className: 'wmm-diamond wmm-altblue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisMarkerIcon = L.divIcon({ className: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisTidalMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-altorange wmm-icon-circle wmm-icon-white wmm-size-15', iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var tidesMarkerIcon = L.divIcon({ className: 'wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15', iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var baroMarkerIcon = L.divIcon({ className: fev.markerClasses.baro, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var metMarkerIcon = L.divIcon({ className: fev.markerClasses.met, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var rdgMarkerIcon = L.divIcon({ className: fev.markerClasses.rdg, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var stormtideMarkerIcon = L.divIcon({ className: fev.markerClasses.stormtide, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var waveheightMarkerIcon = L.divIcon({ className: fev.markerClasses.waveheight, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var hwmMarkerIcon = L.divIcon({ className: fev.markerClasses.hwm, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var peakMarkerIcon = L.divIcon({ className: fev.markerClasses.peak, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var nwisMarkerIcon = L.divIcon({ className: fev.markerClasses.nwis, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var nwisTidalMarkerIcon = L.divIcon({ className: fev.markerClasses.nwisTidal, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var tidesMarkerIcon = L.divIcon({ className: fev.markerClasses.noaaTides, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 
 // rain layer uses an icon
 var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis_rain.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
@@ -437,10 +452,10 @@ $(document).ready(function () {
 
 		if (layer.Category == 'real-time') {
 			if (layer.ID == 'rdg') {
-				realTimeOverlays["<div class='legend-icon'><div class='leaflet-marker-icon wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.rdg + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			}
 			else if (layer.ID == 'tides') {
-				realTimeOverlays["<div class='legend-icon'><div class='leaflet-marker-icon wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.noaaTides + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -449,20 +464,27 @@ $(document).ready(function () {
 		if (layer.Category == 'observed') {
 
 			if (layer.ID == 'baro') {
-				observedOverlays["<div class='legend-icon'><div class='wmm-diamond wmm-yellow wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.baro_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'stormtide') {
-				observedOverlays["<div class='legend-icon'><div class='wmm-circle wmm-red wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.stormtide_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'met') {
-				observedOverlays["<div class='legend-icon'><div class='wmm-circle wmm-mutedpink wmm-icon-noicon wmm-icon-black wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.met + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'waveheight') {
-				observedOverlays["<div class='legend-icon'><div class='wmm-square wmm-purple wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.waveheight + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'hwm') {
-				observedOverlays["<div class='legend-icon'><div class='wmm-diamond wmm-darkred wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
 		}
-		if (layer.Category == 'interpreted') interpretedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'></img>&nbsp;" + layer.Name + "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></span></label>"] = window[layer.ID];
+		if (layer.Category == 'interpreted') {
+
+			if (layer.ID == 'peak') {
+				interpretedOverlays["<div class='legend-icon'  style='display:inline-block;'><div class='" + fev.markerClasses.peak + "'></div><label>" + layer.Name + "</label></div>" +
+					"<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
+			}
+		}
+		// "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
 
