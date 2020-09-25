@@ -554,31 +554,6 @@ input:checked+.slider:before {
     margin-bottom: 0px;
 }
 
-#legendDiv {
-    overflow-y: auto;
-    /*max-height: inherit;*/
-}
-
-#legendCollapse {
-    /*max-height: inherit;*/
-}
-
-/*#legendElement {*/
-/*position:absolute;*/
-/*padding:4px;*/
-/*top:1em;*/
-/*right:10px;*/
-/*z-index:1;*/
-/*color: black;*/
-/*background-color: rgb(255,255,255);*/
-/*background-color: rgba(255,255,255,0.8);*/
-/*box-shadow: 0 1px 5px rgba(0,0,0,0.65);*/
-/*min-width: 200px;*/
-/*border-radius: 4px;*/
-/*overflow: auto;*/
-
-/*}*/
-
 .alert-info {
     color: #333;
     background-color: #f5f5f5;
@@ -633,12 +608,13 @@ input:checked+.slider:before {
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
+    /* max-height: 25em;
+    overflow-y: auto; */
 }
 
 .legend-item-panel {
     border-radius: 0;
 }
-
 
 .lgi-zoom {
     color: white;
@@ -976,6 +952,10 @@ input[type="radio"] {
     display: none;
     font-size: small;
     line-height: 100%;
+    display: inline-block;
+    max-width: -webkit-fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
 }
 
 .eventSelectAlert {

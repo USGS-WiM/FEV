@@ -122,7 +122,7 @@ var fev = fev || {
 			"Type": "real-time",
 			"Category": "real-time"
 		}
-			// {
+		// {
 		// 	"ID": "nwisrain",
 		// 	"Name": "Real-time Ran Gage",
 		// 	"Type": "nwis",
@@ -433,10 +433,10 @@ $(document).ready(function () {
 
 		if (layer.Category == 'real-time') {
 			if (layer.ID == 'rdg') {
-				realTimeOverlays["<div class='legend-icon'><div class='wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				realTimeOverlays["<div class='legend-icon'><div class='leaflet-marker-icon wmm-triangle wmm-green wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			}
 			else if (layer.ID == 'tides') {
-				realTimeOverlays["<div class='legend-icon'><div class='wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				realTimeOverlays["<div class='legend-icon'><div class='leaflet-marker-icon wmm-triangle wmm-blue wmm-icon-circle wmm-icon-white wmm-size-15'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -1331,8 +1331,18 @@ $(document).ready(function () {
 			case 0: return '591,657,550';
 		}
 	}
-	//end latLngScale utility logic////////	
+	//end latLngScale utility logic////////
+	// size legend panel after having added legend elements
+	sizeLegendPanel();
 });
+
+function sizeLegendPanel() {
+	var mapHeight = $('#mapDiv').height();
+	var legendHeight = (Math.floor(mapHeight * .80));
+	var legendHeightString = (legendHeight.toString()) + 'px';
+	$('.legend-panel-body').css('max-height', legendHeightString);
+	$('.legend-panel-body').css('overflow-y', 'auto');
+}
 
 function togglePeakLabels() {
 	if (map.getZoom() < 9) {

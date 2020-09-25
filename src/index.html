@@ -1155,7 +1155,7 @@
                         <div id="legendHeading" class=" legendHeading" role="tab">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" style="text-decoration: none" href="#legendCollapse"
-                                    aria-expanded="true" aria-controls="collapseOne">
+                                    aria-expanded="true" aria-controls="collapseOne" onclick="sizeLegendPanel()">
                                     <span class="glyphicon glyphicon-list"></span>
                                     Map Layers
                                 </a>
@@ -1163,41 +1163,11 @@
                         </div>
                         <div id="legendCollapse" class="panel-collapse " role="tabpanel">
                             <div id="legendDiv" class="panel-body legend-panel-body">
-                                <!-- collapsing panel style toggle/swatch elements -->
-                                <!--<div class="panel panel-default legend-item-panel">-->
-                                <!--<div class="panel-heading" role="tab" id="rdgSwatchHeading">-->
-                                <!--<h4 class="panel-title">-->
-                                <!--<input type="checkbox" aria-label="..."><a role="button" data-toggle="collapse" href="#rdgSwatchDiv" aria-expanded="true" aria-controls="collapseOne">-->
-                                <!--&nbsp;Rapid Deployment Streamgage&nbsp;-->
-                                <!--</a>-->
-                                <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div id="rdgSwatchDiv" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="rdgSwatchHeading">-->
-                                <!--<div class="panel-body">-->
-                                <!--<i class="rdgMarker"></i><span>Rapid Deployment Streamgage</span></br>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<div class="panel panel-default legend-item-panel">-->
-                                <!--<div class="panel-heading" role="tab" id="waveHeightSwatchHeading">-->
-                                <!--<h4 class="panel-title">-->
-                                <!--<input type="checkbox" aria-label="..."><a role="button" data-toggle="collapse" href="#waveHeightSwatchDiv" aria-expanded="true" aria-controls="collapseOne">-->
-                                <!--&nbsp;Wave Height Sensor&nbsp;-->
-                                <!--</a>-->
-                                <!--</h4>-->
-                                <!--</div>-->
-                                <!--<div id="waveHeightSwatchDiv" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="waveHeightSwatchHeading">-->
-                                <!--<div class="panel-body">-->
-                                <!--<i class="waveHeightMarker"></i><span>Wave Height Sensor</span></br>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!-- end collapsing panel style toggle/swatch elements -->
                                 <div id="realTimeToggleDiv">
                                     <b>Real-Time Data</b></br>
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
-                                        Tidal gages and real-time stream and rain gage layers only available at <br>
+                                        Tidal gages and real-time stream and rain gage layers only available at
+                                         <!-- <br> -->
                                         zoom level 9
                                         and
                                         above. Please zoom in to view.</div>
