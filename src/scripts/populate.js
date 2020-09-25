@@ -357,6 +357,50 @@ $(document).ready(function () {
         }
     });
 
+    // retrieve marker types
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/Markers.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.markerTypes = data;
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    })
+
+    // retrieve vertical datums
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/VerticalDatums.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.verticalDatums = data;
+            // for (var i = 0; i < data.length; i++) {
+            //     fev.data.deploymentTypes.push(data[i]);
+            // }
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    })
+    // retrieve verticalcollection methods
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: 'https://stn.wim.usgs.gov/STNServices/VerticalMethods.json',
+        headers: { 'Accept': '*/*' },
+        success: function (data) {
+            fev.data.verticalCollectionMethods = data;
+        },
+        error: function (error) {
+            console.log('Error processing the JSON. The error is:' + error);
+        }
+    });
+
 
     //disabling the logic below pending removal of the event type selector
     //begin onChange functions for Event form (these tie the event type and event forms together)

@@ -891,6 +891,209 @@
     </div>
     <!-- end sensor data modal ---------------------------------------------------------------------------------- -->
 
+    <!-- begin hwm data modal ---------------------------------------------------------------------------------- -->
+    <div class="modal fade overflow-y-hidden" id="hwmDataModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog sensor-modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Site and High-Water Mark Detail</h4>
+                </div>
+                <div class="modal-body sensor-modal-body" style="text-align: center;">
+                    <div class="row">
+                        <div class="col-md-6" class="sensor-data-table-div">
+
+                            <h4>Site Information</h4>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Site Number</td>
+                                    <td id="hwm_site_no" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Site Description</td>
+                                    <td id="hwm_site_description" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Latitude</td>
+                                    <td id="hwm_site_latitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude</td>
+                                    <td id="hwm_site_longitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Datum</td>
+                                    <td id="hwm_hdatum" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Collection Method</td>
+                                    <td id="hwm_site_hcollect_method" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td id="hwm_address" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td id="hwm_city" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td id="hwm_state" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>ZIP Code</td>
+                                    <td id="hwm_zip" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>County</td>
+                                    <td id="hwm_county" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Waterbody</td>
+                                    <td id="hwm_waterbody" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Drainage Area (sq mi)</td>
+                                    <td id="hwm_drainage_area" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Station ID for USGS gage</td>
+                                    <td id="hwm_usgs_sid" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Station ID for NOAA gage</td>
+                                    <td id="hwm_noaa_sid" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Other Station ID</td>
+                                    <td id="hwm_other_sid" class="sensor-data-value"></td>
+                                </tr>
+                            </table>
+
+                            <h4>Peak Summaries</h4>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Elevation (ft)</th>
+                                        <th>Date/Time</th>
+                                        <th>Event</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="hwmPeakSummaryTableBody"></tbody>
+                            </table>
+
+                            <h4>HWM Information</h4>
+                            <table class="table table-striped table-condensed sensor-data-table" id="hwmInfoTable">
+                                <tr>
+                                    <td>HWM Label</td>
+                                    <td id="hwm_label" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Provisional or Approved</td>
+                                    <td id="hwm_approval" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Event</td>
+                                    <td id="hwm_event" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>HWM Type</td>
+                                    <td id="hwm_type" class="instrument-data-value">Smith</td>
+                                </tr>
+                                <tr>
+                                    <td>Marker</td>
+                                    <td id="hwm_marker" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>HWM Environment</td>
+                                    <td id="hwm_environment" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>HWM Quality</td>
+                                    <td id="hwm_quality" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Bank</td>
+                                    <td id="hwm_bank" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Location Description</td>
+                                    <td id="hwm_location_description" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Latitude</td>
+                                    <td id="hwm_latitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude</td>
+                                    <td id="hwm_longitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Datum</td>
+                                    <td id="hwm_horizontal_datum" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Collection Method</td>
+                                    <td id="hwm_hcollect_method" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Height above ground</td>
+                                    <td id="height_above_gnd" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Flag/Found Date</td>
+                                    <td id="hwm_flag_date" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Surveyed Date</td>
+                                    <td id="hwm_survey_date" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Surveyed Elevation</td>
+                                    <td id="elev_ft" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Vertical Datum</td>
+                                    <td id="hwm_vertical_datum" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Vertical Collection Method</td>
+                                    <td id="hwm_vcollect_method" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Uncertainty</td>
+                                    <td id="hwm_uncertainty" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Notes</td>
+                                    <td id="hwm_notes" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tranquil/Stillwater HWM</td>
+                                    <td id="stillwater" class="instrument-data-value"></td>
+                                </tr>
+                                <!-- End Deployed Sensor status section -->
+                            </table>
+                        </div>
+
+                        <!-- Begin hwm files section -->
+                        <div class="col-md-6" style="text-align: left;">
+                            <h3>HWM Files</h3>
+                            <!-- list of existing photo files for this hwm -->
+                            <label>Photo Files</label>
+                            <div id=hwmPhotoFilesList></div>
+
+                        </div>
+                        <!-- End hwm files section -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end hwm data modal ---------------------------------------------------------------------------------- -->
+
     <!-- Begin page content -->
     <div class="container-fluid keepit100">
         <div class="row keepit100">
