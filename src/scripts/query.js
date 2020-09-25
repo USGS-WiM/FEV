@@ -61,8 +61,8 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
                         '<tr><td><strong>County: </strong></td><td><span id="county">' + feature.properties.county + '</span></td></tr>' +
                         '<tr><td><strong>State: </strong></td><td><span id="state">' + feature.properties.state + '</span></td></tr>' +
                         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
-                        '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
-                        '<tr><td><strong>Full sensor data: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view full sensor data" value="' + siteInstrumentArray + '">Sensor data</button></span></td></tr>' +
+                        // '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+                        '<tr><td><strong>Site and Sensor Detail: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view site and sensor details" value="' + siteInstrumentArray + '">View Details</button></span></td></tr>' +
                         '<tr><td colspan="2"><strong>Hydrograph: </strong>' + hydroPopupText
                     '</table>';
                     latlng.bindPopup(popupContent);
@@ -136,9 +136,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
             oms.addMarker(latlng);
             // var popupContent = '';
             var currentEvent = fev.vars.currentEventName;
-
-
-            // })[0];
+            var siteHWMArray = [feature.properties.site_id, feature.properties.hwm_id]
             var popupContent =
                 '<table class="table table-hover table-striped table-condensed wim-table">' +
                 '<caption class="popup-title">' + name + ' | <span style="color:gray">' + currentEvent + '</span></caption>' +
@@ -158,7 +156,8 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
                 '<tr><td><strong>State: </strong></td><td><span id="hwmState">' + feature.properties.stateName + '</span></td></tr>' +
                 '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + feature.properties.latitude_dd.toFixed(4) + ', ' + feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
                 '<tr><td><strong>Description: </strong></td><td><span id="hwmDescription">' + feature.properties.hwm_locationdescription + '</span></td></tr>' +
-                '<tr><td><strong>Full data link: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + hwmPageURLRoot + feature.properties.site_id + '&HWM=' + feature.properties.hwm_id + '\>HWM data page</a></b></span></td></tr>' +
+                // '<tr><td><strong>Full data link: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + hwmPageURLRoot + feature.properties.site_id + '&HWM=' + feature.properties.hwm_id + '\>HWM data page</a></b></span></td></tr>' +
+                '<tr><td><strong>High Water Mark Detail: </strong></td><td><span id="hwmData"><button type="button" class="btn btn-sm hwm-data-btn" title="Click to view high water mark details" value="' + siteHWMArray + '">View Details</button></span></td></tr>' +
                 '</table>';
             // $.each(feature.properties, function( index, value ) {
             //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
