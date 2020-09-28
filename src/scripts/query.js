@@ -1028,6 +1028,7 @@ function queryNWISgraphRDG(e) {
     var usgsSiteID;
 
     var currentEvent = fev.vars.currentEventName;
+    var siteInstrumentArray = [e.layer.feature.properties.site_id, e.layer.feature.properties.instrument_id]
     var popupContent =
         '<table class="table table-hover table-striped table-condensed">' +
         '<caption class="popup-title">Rapid Deployment Gage | ' + currentEvent + '</caption>' +
@@ -1037,7 +1038,8 @@ function queryNWISgraphRDG(e) {
         '<tr><td><strong>County: </strong></td><td><span id="county">' + e.layer.feature.properties.county + '</span></td></tr>' +
         '<tr><td><strong>State: </strong></td><td><span id="state">' + e.layer.feature.properties.state + '</span></td></tr>' +
         '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' + e.layer.feature.properties.latitude_dd.toFixed(4) + ', ' + e.layer.feature.properties.longitude_dd.toFixed(4) + '</span></td></tr>' +
-        '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + e.layer.feature.properties.site_id + '&Sensor=' + e.layer.feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+        // '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + e.layer.feature.properties.site_id + '&Sensor=' + e.layer.feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+        '<tr><td><strong>Site and Sensor Detail: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view site and sensor details" value="' + siteInstrumentArray + '">View Details</button></span></td></tr>' +
         '</table>' +
         '<div id="RDGgraphContainer" style="width:100%; height:250px;display:none;"></div>' +
         '<div id="RDGdataLink" style="width:100%;display:none;"><b><span class="rdg-nwis-info" style="color:red;"> - Provisional Data Subject to Revision -</span><br><span class="rdg-nwis-info">Additional parameters available at NWISWeb</span><br><a class="nwis-link" id="rdgNWISLink" target="_blank" href="https://usgs.gov"></a></b></div>' +
