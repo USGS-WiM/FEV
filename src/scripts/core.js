@@ -604,7 +604,6 @@ $(document).ready(function () {
 
 								$('#instCollection').html(fev.data.currentSelection.instrument.instCollection);
 
-
 								// empty the data files and photo files lists of existing elements
 								$('#dataFilesList').empty();
 								$('#photoFilesList').empty();
@@ -620,6 +619,9 @@ $(document).ready(function () {
 											$('#dataFilesList').append('<ul id="dataFile_ul" style="padding:0"></ul>')
 											$('#photoFilesList').append('<ul id="photoFile_ul" style="padding: 0;margin-top:15px;"></ul>')
 											// loop through data files array and use jquery append to add a li for each
+
+											var dataFileCount = 0;
+											var photoFileCount = 0;
 											for (var i = 0; i < fev.data.currentSelection.instrument.files.length; i++) {
 
 												var fileTypeID = fev.data.currentSelection.instrument.files[i].filetype_id;
@@ -627,6 +629,7 @@ $(document).ready(function () {
 												var fileDate = fev.data.currentSelection.instrument.files[i].file_date;
 												var fileName = fev.data.currentSelection.instrument.files[i].name;
 												var photoDate = fev.data.currentSelection.instrument.files[i].photo_date;
+
 												var fileDescription;
 												if (fev.data.currentSelection.instrument.files[i].description == '' || fev.data.currentSelection.instrument.files[i].description == null) {
 													fileDescription = 'Description left blank'
@@ -640,6 +643,7 @@ $(document).ready(function () {
 														'<a target="_blank" title="Download File" href="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item">' +
 														moment(fileDate).format('MM/DD/yyyy') + ' : ' + fileName + '</a></li>';
 													$('#dataFile_ul').append(dataFileItemMarkup);
+													dataFileCount++;
 
 												}
 
@@ -651,8 +655,19 @@ $(document).ready(function () {
 														fev.data.currentSelection.site.county + ', ' + fev.data.currentSelection.site.state + ', ' + moment(photoDate).format('MM/DD/yyyy') + '</a>' +
 														'<div style="max-width:100px;"><img style="max-width:100px;" src="https://stn.wim.usgs.gov/STNServices/Files/' + fileID + '/Item" /></div>';
 													$('#photoFile_ul').append(photoFileItemMarkup);
+													photoFileCount++;
 												}
 											}
+
+											if (dataFileCount < 1) {
+												$('#dataFile_ul').append('<span>No Data Files available</span>');
+											}
+											if (photoFileCount < 1) {
+												$('#photoFile_ul').append('<span>No photo files available</span>');
+											}
+										} else if (fev.data.currentSelection.instrument.files.length == 0) {
+											$('#dataFilesList').append('<span>No data files available</span>')
+											$('#photoFilesList').append('<span>No photo files available</span>')
 										}
 
 										// empty the peak summary table body of existing elements
@@ -828,7 +843,7 @@ $(document).ready(function () {
 									success: function (response) {
 										fev.data.currentSelection.hwm.files = response;
 										if (fev.data.currentSelection.hwm.files.length > 0) {
-											$('#hwmPhotoFilesList').append('<ul id="hwmPhotoFile_ul" style="padding: 0;margin-top:15px;"></ul>')
+											$('#hwmPhotoFilesList').append('<ul id="hwmPhotoFile_ul" style="padding: 0;margin-top:15px;"></ul>');
 											// loop through data files array and use jquery append to add a li for each
 											for (var i = 0; i < fev.data.currentSelection.hwm.files.length; i++) {
 
@@ -853,6 +868,8 @@ $(document).ready(function () {
 													$('#hwmPhotoFile_ul').append(photoFileItemMarkup);
 												}
 											}
+										} else if (fev.data.currentSelection.hwm.files.length == 0) {
+											$('#hwmPhotoFilesList').append('<span>No photo files available</span>')
 										}
 
 										// empty the peak summary table body of existing elements
