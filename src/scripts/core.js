@@ -480,23 +480,8 @@ $(document).ready(function () {
 			}
 		}
 
-		/*
-		if (layer.Category == 'interpreted') {
-
-			if (layer.ID == 'peak') {
-				interpretedOverlays["<div class='legend-icon'  style='display:inline-block;'><div class='" + fev.markerClasses.peak + "'></div><label>" + layer.Name + "</label></div>" +
-					"<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
-			}
-		}
-		*/
-		// "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
-
-	/*
-	$('#peakInLegend').append("<div class='legend-icon'  style='display:inline-block;'><div class='" + fev.markerClasses.peak + "'></div><label>" + "Peaks" + "</label></div>" +
-		"<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>");
-*/
 
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
