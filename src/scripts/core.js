@@ -169,19 +169,19 @@ var markerCoords = [];
 var oms;
 
 // divIcons using WIM marker maker
-var baroMarkerIcon = L.divIcon({ className: fev.markerClasses.baro, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var metMarkerIcon = L.divIcon({ className: fev.markerClasses.met, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var rdgMarkerIcon = L.divIcon({ className: fev.markerClasses.rdg, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var stormtideMarkerIcon = L.divIcon({ className: fev.markerClasses.stormtide, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var waveheightMarkerIcon = L.divIcon({ className: fev.markerClasses.waveheight, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var hwmMarkerIcon = L.divIcon({ className: fev.markerClasses.hwm, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var peakMarkerIcon = L.divIcon({ className: fev.markerClasses.peak, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisMarkerIcon = L.divIcon({ className: fev.markerClasses.nwis, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var nwisTidalMarkerIcon = L.divIcon({ className: fev.markerClasses.nwisTidal, iconAnchor: [7, 10], popupAnchor: [0, 2] });
-var tidesMarkerIcon = L.divIcon({ className: fev.markerClasses.noaaTides, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var baroMarkerIcon = L.divIcon({ name: "Barometric Pressure Sensor", className: fev.markerClasses.baro, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var metMarkerIcon = L.divIcon({ name: "Meteorological Sensor", className: fev.markerClasses.met, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var rdgMarkerIcon = L.divIcon({ name: "Rapid Deployment Gage", className: fev.markerClasses.rdg, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var stormtideMarkerIcon = L.divIcon({ name: "Storm Tide Sensor", className: fev.markerClasses.stormtide, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var waveheightMarkerIcon = L.divIcon({ name: "Wave Height Sensor", className: fev.markerClasses.waveheight, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var hwmMarkerIcon = L.divIcon({ name: "Hight Water Mark", className: fev.markerClasses.hwm, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var peakMarkerIcon = L.divIcon({ name: "Peak Summary", className: fev.markerClasses.peak, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var nwisMarkerIcon = L.divIcon({ name: "NWIS", className: fev.markerClasses.nwis, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var nwisTidalMarkerIcon = L.divIcon({ name: "NWIS Tidal", className: fev.markerClasses.nwisTidal, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var tidesMarkerIcon = L.divIcon({ name: "NOAA Tides and Current Stations", className: fev.markerClasses.noaaTides, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 
 // rain layer uses an icon
-var nwisRainMarkerIcon = L.icon({ className: 'nwisMarker', iconUrl: 'images/nwis_rain.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
+var nwisRainMarkerIcon = L.icon({ name: "Real-time Rain Gage", className: 'nwisMarker', iconUrl: 'images/nwis_rain.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
 
 //  sensor subgroup layerGroups for sensor marker cluster group (layerGroup has no support for mouse event listeners)
 var baro = L.layerGroup();
