@@ -352,6 +352,8 @@ $(document).ready(function () {
 			//alert("Please choose an event to proceed.")
 			$('.eventSelectAlert').show();
 		}
+		var peaksCheckBox = document.getElementById('peaksToggle');
+		peaksCheckBox.checked = true;
 	});
 
 	//'listener' for URL event params - sets event vars and passes event id to filterMapData function
@@ -477,6 +479,8 @@ $(document).ready(function () {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
 		}
+
+		/*
 		if (layer.Category == 'interpreted') {
 
 			if (layer.ID == 'peak') {
@@ -484,9 +488,15 @@ $(document).ready(function () {
 					"<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
 			}
 		}
+		*/
 		// "<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>"] = window[layer.ID];
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
+
+	/*
+	$('#peakInLegend').append("<div class='legend-icon'  style='display:inline-block;'><div class='" + fev.markerClasses.peak + "'></div><label>" + "Peaks" + "</label></div>" +
+		"<label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>");
+*/
 
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
@@ -1666,5 +1676,22 @@ function clickNwisTidalGage() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (nwisTidalCheckbox.checked == false) {
 		USGSTideGages.clearLayers(map);
+	}
+}
+
+//Display peak layer and legend item when peak box is checked
+function clickPeaks() {
+	var peaksCheckBox = document.getElementById("peaksToggle");
+	if (peaksCheckBox.checked == true) {
+		//When checkbox is checked, add layer to map
+		displayPeaksGeoJSON("peak", "Peak Summary", fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (peaksCheckBox.checked == false) {
+		$('#PeakSummarySymbology').children().remove();
+		peak.clearLayers();
+		var peakLabels = document.getElementById("peakCheckbox");
+		peakLabels.checked = false;
+		peakStart = 0;
 	}
 }
