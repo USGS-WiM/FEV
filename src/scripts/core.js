@@ -193,7 +193,9 @@ var peak = L.layerGroup();
 var cameras = L.layerGroup();
 var tides = L.layerGroup();
 
-var editableLayers = new L.FeatureGroup();
+// var editableLayers = new L.FeatureGroup();
+// var drawnItems = new L.FeatureGroup();
+// var drawLayer = new L.FeatureGroup();
 
 var peakLabels = false;
 
@@ -280,7 +282,7 @@ $.ajax({
 var zoomMargin;
 ///end markercluster code//////////////////////////////////////////////////////////////
 //main document ready function
-$(document).ready(function () {
+$(document).on('ready', function () {
 	//for jshint
 	'use strict';
 
@@ -305,7 +307,7 @@ $(document).ready(function () {
 	});
 
 	//listener for submit event button on welcome modal - sets event vars and passes event id to filterMapData function
-	$('#btnSubmitEvent').click(function () {
+	$('#btnSubmitEvent').on('click', function () {
 		//check if an event has been selected
 		if ($('#evtSelect_welcomeModal').val() !== null) {
 			//if event selected, hide welcome modal and begin filter process
@@ -413,6 +415,84 @@ $(document).ready(function () {
 
 	/* create map */
 	map = L.map('mapDiv').setView([39.833333, -98.583333], 4);
+	var drawnItems = new L.FeatureGroup();
+	map.addLayer(drawnItems);
+	var drawControl = new L.Control.Draw({
+		draw: {
+			polygon: true,
+			marker: true,
+			circlemarker: false,
+			rectangle: false,
+			circle: false,
+		},
+		edit: {
+			featureGroup: drawnItems
+		}
+	});
+	map.addControl(drawControl);
+
+	// Truncate value based on number of decimals
+	function _round(num, len) {
+		return Math.round(num * (Math.pow(10, len))) / (Math.pow(10, len));
+	};
+	// Helper method to format LatLng object (x.xxxxxx, y.yyyyyy)
+	function strLatLng(latlng) {
+		return '(' + _round(latlng.lat, 6) + ', ' + _round(latlng.lng, 6) + ')';
+	};
+
+	// Generate popup content based on layer type
+	// - Returns HTML string, or null if unknown object
+	function getPopupContent(layer) {
+		// Marker - add lat/long
+		if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
+			return strLatLng(layer.getLatLng());
+			// Circle - lat/long, radius
+		} else if (layer instanceof L.Circle) {
+			const center = layer.getLatLng(),
+				radius = layer.getRadius();
+			return 'Center: ' + strLatLng(center) + '<br />'
+				+ 'Radius: ' + _round(radius, 2) + ' m';
+			// Rectangle/Polygon - area
+		} else if (layer instanceof L.Polygon) {
+			const latlngs = layer._defaultShape ? layer._defaultShape() : layer.getLatLngs(),
+				area = L.GeometryUtil.geodesicArea(latlngs);
+			return 'Area: ' + L.GeometryUtil.readableArea(area, true);
+			// Polyline - distance
+		} else if (layer instanceof L.Polyline) {
+			const latlngs = layer._defaultShape ? layer._defaultShape() : layer.getLatLngs();
+			let distance = 0;
+			if (latlngs.length < 2) {
+				return 'Distance: N/A';
+			} else {
+				for (let i = 0; i < latlngs.length - 1; i++) {
+					distance += latlngs[i].distanceTo(latlngs[i + 1]);
+				}
+				return 'Distance: ' + _round(distance, 2) + ' m';
+			}
+		}
+		return null;
+	};
+	// Object created - bind popup to layer, add to feature group
+	map.on(L.Draw.Event.CREATED, function (event) {
+		const layer = event.layer;
+		const content = getPopupContent(layer);
+		if (content !== null) {
+			layer.bindPopup(content);
+		}
+		drawnItems.addLayer(layer);
+	});
+	// Object(s) edited - update popups
+	map.on(L.Draw.Event.EDITED, function (event) {
+		const layers = event.layers;
+		// const content = null;
+		layers.eachLayer(function (layer) {
+			const content = getPopupContent(layer);
+			if (content !== null) {
+				layer.setPopupContent(content);
+			}
+		});
+	});
+
 	var layer = L.esri.basemapLayer('Topographic').addTo(map);
 	var layerLabels;
 	L.Icon.Default.imagePath = './images';
@@ -490,7 +570,7 @@ $(document).ready(function () {
 
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
-		$('.data-disclaim').click(function (e) {
+		$('.data-disclaim').on('click', function (e) {
 			$('#aboutModal').modal('show');
 			$('.nav-tabs a[href="#disclaimerTabPane"]').tab('show');
 			$('.nav-tabs a[href="#faqTabPane"]').tab('show');
@@ -968,57 +1048,6 @@ $(document).ready(function () {
 	oms = new OverlappingMarkerSpiderfier(map, {
 		keepSpiderfied: true
 	});
-	/* map.addLayer(editableLayers);
-	
-	var options = {
-		position: 'topleft',
-		draw: {
-			polyline: {
-				feet: true,
-				shapeOptions: {
-					color: '#0000ff',
-					weight: 6,
-				}
-			},
-			polygon: false,
-			circle: false, // Turns off this drawing tool
-			rectangle: false,
-			marker: false
-		},
-		edit: {
-			featureGroup: editableLayers, //REQUIRED!!
-			// edit: false,
-			// remove: true
-		}
-	};
-		
-	var drawControl = new L.Control.Draw(options);
-	map.addControl(drawControl);
-		
-	map.on(L.Draw.Event.CREATED, function (e) {
-		var type = e.layerType,
-			layer = e.layer;
-		
-		if (type === 'polyline') {
-		
-		
-			// Calculating the distance of the polyline
-			var tempLatLng = null;
-			var totalDistance = 0.00000;
-			$.each(e.layer._latlngs, function (i, latlng) {
-				if (tempLatLng == null) {
-					tempLatLng = latlng;
-					return;
-				}
-		
-				totalDistance += tempLatLng.distanceTo(latlng);
-				tempLatLng = latlng;
-			});
-			e.layer.bindLabel((totalDistance).toFixed(2) + ' feet');
-		}
-		
-		editableLayers.addLayer(layer);
-	}); */
 
 	//experimental - untested against actual hurricane track published by NOAA
 	//make request for tropical cyclones layer legend. if label = "No active advisories at this time", no data to show. else, add forecast track layer to map. This method suggested by NOAA developer Jason Greenlaw. See below for alternate Identify method
@@ -1094,13 +1123,13 @@ $(document).ready(function () {
 	$('.check').on('click', function () {
 		$(this).find('span').toggle();
 	});
-	$('#geosearchNav').click(function () {
+	$('#geosearchNav').on('click', function () {
 		showGeosearchModal();
 	});
 	function showAboutModal() {
 		$('#aboutModal').modal('show');
 	}
-	$('#aboutNav').click(function () {
+	$('#aboutNav').on('click', function () {
 		showAboutModal();
 	});
 
@@ -1358,7 +1387,6 @@ $(document).ready(function () {
 			allWatersheds.addTo(map);
 		}
 	});
-
 
 	///fix to prevent re-rendering nwis rt gages on pan
 	map.on('load moveend zoomend', function (e) {
