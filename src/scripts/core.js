@@ -419,7 +419,7 @@ $(document).on('ready', function () {
 	map.addLayer(drawnItems);
 	var drawControl = new L.Control.Draw({
 		draw: {
-			polygon: true,
+			polygon: false,
 			marker: true,
 			circlemarker: false,
 			rectangle: false,
