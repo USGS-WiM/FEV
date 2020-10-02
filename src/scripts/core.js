@@ -1673,10 +1673,8 @@ function clickPeaks() {
 	}
 	//Remove symbol and layer name from legend when box is unchecked
 	if (peaksCheckBox.checked == false) {
-		$('#PeakSummarySymbology').children().remove();
 		peak.clearLayers();
 		var peakLabels = document.getElementById("peakCheckbox");
 		peakLabels.checked = false;
-		peakStart = 0;
 	}
 }
