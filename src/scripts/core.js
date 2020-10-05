@@ -80,7 +80,7 @@ var fev = fev || {
 		},
 		{
 			"ID": "stormtide",
-			"Name": "Storm Tide Sensor",
+			"Name": "Water Level Sensor",
 			"Type": "sensor",
 			"Category": "observed"
 		},
