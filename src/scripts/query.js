@@ -396,12 +396,6 @@ function populateCameraLayer(type, name, url, markerIcon) {
 //get NOAA tides gages and plot on map
 function displayTidesGeoJSON(type, name, url, markerIcon) {
     var timeseriesData = [];
-    var tidesIcon = new L.divIcon({
-        name: "tides",
-        className: 'wmm-pin wmm-blue wmm-icon-noicon wmm-icon-yellow wmm-size-15',
-        iconAnchor: [7, 10],
-        popupAnchor: [0, 2]
-    });
     //increment layerCount
     layerCount++;
     tides.clearLayers();
@@ -412,7 +406,7 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
         pointToLayer: function (feature, latlng) {
             markerCoords.push(latlng);
             var marker = L.marker(latlng, {
-                icon: tidesIcon
+                icon: markerIcon
             });
             return marker;
         },
