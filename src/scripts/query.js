@@ -77,11 +77,11 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
     $.getJSON(url, function (data) {
 
         if (data.length == 0) {
-            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log('0 ' + markerIcon.options.name + ' GeoJSON features found');
             return
         }
         if (data.features.length > 0) {
-            console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log(data.features.length + ' ' + markerIcon.options.name + ' GeoJSON features found');
             //check for bad lat/lon values
             for (var i = data.features.length - 1; i >= 0; i--) {
                 //check that lat/lng are not NaN
@@ -168,11 +168,11 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
 
     $.getJSON(url, function (data) {
         if (data.length == 0) {
-            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log('0 ' + markerIcon.options.name + ' GeoJSON features found');
             return
         }
         if (data.features.length > 0) {
-            console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log(data.features.length + ' ' + markerIcon.options.name + ' GeoJSON features found');
             //check for bad lat/lon values
             for (var i = data.features.length - 1; i >= 0; i--) {
                 //check that lat/lng are not NaN
@@ -249,11 +249,11 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
     $.getJSON(url, function (data) {
 
         if (data.length == 0) {
-            console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log('0 ' + markerIcon.options.name + ' GeoJSON features found');
             return
         }
         if (data.features.length > 0) {
-            console.log(data.features.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+            console.log(data.features.length + ' ' + markerIcon.options.name + ' GeoJSON features found');
 
             //check for bad lat/lon values
             for (var i = data.features.length - 1; i >= 0; i--) {
@@ -399,6 +399,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
 function displayTidesGeoJSON(type, name, url, markerIcon) {
     var timeseriesData = [];
     var tidesIcon = new L.divIcon({
+        name: "tides",
         className: 'wmm-pin wmm-blue wmm-icon-noicon wmm-icon-yellow wmm-size-15',
         iconAnchor: [7, 10],
         popupAnchor: [0, 2]
@@ -443,11 +444,11 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
         success: function (data) {
             console.log(data);
             if (data.stations.length == 0) {
-                console.log('0 ' + markerIcon.options.className + ' GeoJSON features found');
+                console.log('0 ' + markerIcon.options.name + ' GeoJSON features found');
                 return
             }
             if (data.stations.length > 0) {
-                console.log(data.stations.length + ' ' + markerIcon.options.className + ' GeoJSON features found');
+                console.log(data.stations.length + ' ' + markerIcon.options.name + ' GeoJSON features found');
                 //loop through every gage in the geojson
                 for (var i = data.stations.length - 1; i >= 0; i--) {
 
