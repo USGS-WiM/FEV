@@ -354,8 +354,6 @@ $(document).on('ready', function () {
 			//alert("Please choose an event to proceed.")
 			$('.eventSelectAlert').show();
 		}
-		var peaksCheckBox = document.getElementById('peaksToggle');
-		peaksCheckBox.checked = true;
 	});
 
 	//'listener' for URL event params - sets event vars and passes event id to filterMapData function

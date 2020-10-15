@@ -199,6 +199,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
 }
 
 function displayPeaksGeoJSON(type, name, url, markerIcon) {
+    console.log("map.getZoom", map.getZoom());
     //increment layerCount
     layerCount++;
     peak.clearLayers();
@@ -246,6 +247,8 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
         }
     });
 
+    console.log("map.getZoom", map.getZoom());
+
     $.getJSON(url, function (data) {
 
         if (data.length == 0) {
@@ -277,7 +280,6 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
             peak.addTo(map);
             var peaksCheckBox = document.getElementById("peaksToggle");
             peaksCheckBox.checked = true;
-            checkLayerCount(layerCount);
         }
     });
 }
