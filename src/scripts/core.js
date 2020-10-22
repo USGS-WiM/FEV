@@ -161,27 +161,21 @@ var noaaService = L.esri.dynamicMapLayer({
 var noAdvisories = false;
 var test;
 
-$.ajax({
+var noaaLegend = $.ajax({
 	url: "https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time",
-	async: false,
 	dataType: 'json',
+	timeout: 10000,
 	success: function (data) {
 		if (data[0].label == "No active advisories at this time") {
 			noAdvisories = true;
 			test = data;
 			console.log(noAdvisories);
-		} else {
-			//interpretedOverlays["NOAA Tropical Cyclone Forecast Track"] = "noaaService";
-			//noaaService = noaaTrack;
 		}
 	},
 	error: function (error) {
 		console.log('Error processing the JSON. The error is:' + error);
 	}
 });
-
-
-
 
 /* $.getJSON('https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time', {
 	async: false,

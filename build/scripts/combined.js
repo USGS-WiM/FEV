@@ -852,9 +852,11 @@ function filterMapData(event, isUrlParam) {
         if (layer.Type == 'sensor') displaySensorGeoJSON(layer.ID, layer.Name, fev.urls[layer.ID + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[layer.ID + 'MarkerIcon']);
         if (layer.ID == 'hwm') displayHWMGeoJSON(layer.ID, layer.Name, fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
         if (layer.ID == 'peak') displayPeaksGeoJSON(layer.ID, layer.Name, fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString, peakMarkerIcon);
-        if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://tidesandcurrents.noaa.gov/mdapi/latest/webapi/stations.json', tidesMarkerIcon);
+        setTimeout(() => {
+            if (layer.ID == 'tides') displayTidesGeoJSON(layer.ID, layer.Name, 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json', tidesMarkerIcon);
+        }, 600);
     });
-
+    
 } //end filterMapData function
 function queryNWISRainGages(bbox) {
     var NWISRainmarkers = {};
@@ -1480,27 +1482,21 @@ var noaaService = L.esri.dynamicMapLayer({
 var noAdvisories = false;
 var test;
 
-$.ajax({
+var noaaLegend = $.ajax({
 	url: "https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time",
-	async: false,
 	dataType: 'json',
+	timeout: 10000,
 	success: function (data) {
 		if (data[0].label == "No active advisories at this time") {
 			noAdvisories = true;
 			test = data;
 			console.log(noAdvisories);
-		} else {
-			//interpretedOverlays["NOAA Tropical Cyclone Forecast Track"] = "noaaService";
-			//noaaService = noaaTrack;
 		}
 	},
 	error: function (error) {
 		console.log('Error processing the JSON. The error is:' + error);
 	}
 });
-
-
-
 
 /* $.getJSON('https://nowcoast.noaa.gov/layerinfo?request=legend&format=json&service=wwa_meteocean_tropicalcyclones_trackintensityfcsts_time', {
 	async: false,
