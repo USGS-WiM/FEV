@@ -1518,8 +1518,8 @@ $(document).on('ready', function () {
 		console.log('Initial Map scale registered as ' + mapScale, map.getZoom());
 
 		var initMapCenter = map.getCenter();
-		$('#latitude').html(initMapCenter.lat.toFixed(4));
-		$('#longitude').html(initMapCenter.lng.toFixed(4));
+		$('#latitudeScale').html(initMapCenter.lat.toFixed(4));
+		$('#longitudeScale').html(initMapCenter.lng.toFixed(4));
 	});
 
 	//displays map scale on scale change (i.e. zoom level)
@@ -1534,8 +1534,8 @@ $(document).on('ready', function () {
 	map.on('mousemove', function (cursorPosition) {
 		$('#mapCenterLabel').css('display', 'none');
 		if (cursorPosition.latlng !== null) {
-			$('#latitude').html(cursorPosition.latlng.lat.toFixed(4));
-			$('#longitude').html(cursorPosition.latlng.lng.toFixed(4));
+			$('#latitudeScale').html(cursorPosition.latlng.lat.toFixed(4));
+			$('#longitudeScale').html(cursorPosition.latlng.lng.toFixed(4));
 		}
 	});
 	//updates lat/lng indicator to map center after pan and shows 'map center' label.
@@ -1543,8 +1543,8 @@ $(document).on('ready', function () {
 		//displays latitude and longitude of map center
 		$('#mapCenterLabel').css('display', 'inline');
 		var geographicMapCenter = map.getCenter();
-		$('#latitude').html(geographicMapCenter.lat.toFixed(4));
-		$('#longitude').html(geographicMapCenter.lng.toFixed(4));
+		$('#latitudeScale').html(geographicMapCenter.lat.toFixed(4));
+		$('#longitudeScale').html(geographicMapCenter.lng.toFixed(4));
 	});
 
 	function scaleLookup(mapZoom) {
