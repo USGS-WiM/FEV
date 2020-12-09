@@ -3,9 +3,8 @@
     "name": "FEV",
     "organization": "U.S. Geological Survey",
     "description": "Displays flood events from the short-term network (STN) database",
-    "version": "v2.5.7",
+    "version": "v2.6.0",
     "status": "Production",
-
     "permissions": {
       "usageType": "openSource",
       "licenses": [

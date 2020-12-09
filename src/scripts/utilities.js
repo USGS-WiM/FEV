@@ -13,3 +13,17 @@ function addCommas(nStr) {
     }
     return x1 + x2;
 }
+
+function translateToDisplayValue(value, idProperty, displayProperty, sourceArray) {
+    var displayValue;
+    if (value === null || sourceArray === undefined) {
+      displayValue = '';
+    } else {
+      for (let i = 0; i < sourceArray.length; i++) {
+        if (sourceArray[i][idProperty] === parseInt(value, 10)) {
+          displayValue = sourceArray[i][displayProperty];
+        }
+      }
+    }
+    return displayValue;
+  }
