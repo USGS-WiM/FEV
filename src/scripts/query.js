@@ -464,7 +464,8 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
         layer.addTo(peak);
       });
       peak.addTo(map);
-      checkLayerCount(layerCount);
+      var peaksCheckBox = document.getElementById("peaksToggle");
+      peaksCheckBox.checked = true;
     }
   });
 }
