@@ -1414,12 +1414,7 @@
                                         <label>
                                             <input type="checkbox" id="nwisTidalGageToggle"
                                                 onclick="clickNwisTidalGage()" />
-                                            <div class='legend-icon'>
-                                                <div
-                                                    class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
-                                                </div>
-                                                <label>Tidal Gage</label>
-                                            </div>
+                                            
                                         </label>
                                     </div>
                                 </div>
@@ -1429,7 +1424,19 @@
                                 <div id="interpretedToggleDiv">
                                     <b>Interpreted Event Data</b>
                                 </div>
-                                <div id="supportingToggleDiv">
+                                <div style="text-align: left; margin-left: 6px;">
+                                    <label>
+                                        <input type="checkbox" id=peaksToggle onclick="clickPeaks()" />
+                                        <div class='legend-icon'>
+                                            <div
+                                                class='wmm-diamond wmm-blue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless'>
+                                            </div>
+                                            <label>Peak Summary</label>
+                                        </div>
+                                    </label>
+                                <label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>
+                                </div>
+                                    <div id="supportingToggleDiv">
                                     <b>Supporting Layers</b>
                                     <div id="noTrackAdvisory"></div>
 
