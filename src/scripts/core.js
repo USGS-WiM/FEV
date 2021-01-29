@@ -438,7 +438,6 @@ $(document).on("ready", function () {
         $("#filtersModal").modal("hide");
       } else {
         setMultiEventVars(eventFormValue, numEvents);
-        multiEventMapData(eventFormValue);
       }
     } else {
       //if no event selected, warn user with alert
@@ -531,18 +530,19 @@ $(document).on("ready", function () {
       console.log("Inactive events: ", eventStatusInactive);
     }
     //populate info in sidebar
-    setMultiEventIndicators(eventNameString, eventIDs);
+    setMultiEventIndicators(eventNameString, eventIDs, eventNames);
   }
 
-  function setMultiEventIndicators(eventNames, eventIDs) {
+  function setMultiEventIndicators(eventNameString, eventIDs, eventNameArray) {
     //names listed under 'Current Filters' in sidebar
-    $("#eventNameDisplay").html(eventNames);
+    $("#eventNameDisplay").html(eventNameString);
     //names in big font, top of sidebar
-    $("#largeEventNameDisplay").html(eventNames);
+    $("#largeEventNameDisplay").html(eventNameString);
     //names stay populated in filter input box
     $("#evtSelect_filterModal").val(eventIDs).trigger("change");
     //leaving date range blank in sidebar until we decide if/how to display date range
     $("#largeEventDateRangeDisplay").html("");
+    multiEventMapData(eventIDs, eventNameArray);
   }
 
   function setEventVars(

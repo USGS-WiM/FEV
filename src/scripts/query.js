@@ -761,7 +761,7 @@ function checkLayerCount(layerCount) {
   }
 }
 
-function multiEventMapData(eventIDs) {
+function multiEventMapData(eventIDs, eventTitles) {
   $(".esconder").hide();
   $(".labelSpan").empty();
   console.log("eventIDs", eventIDs);
@@ -958,16 +958,18 @@ function multiEventMapData(eventIDs) {
   multiDisplayHWMGeoJSON(
     "High Water Mark",
     fev.urls.hwmFilteredGeoJSONViewURL + eventURL0,
-    hwmMarkerIcon
+    hwmMarkerIcon,
+    eventTitles[0]
   );
   multiDisplayHWMGeoJSON(
     "High Water Mark",
     fev.urls.hwmFilteredGeoJSONViewURL + eventURL1,
-    hwmMarkerIcon
+    hwmMarkerIcon,
+    eventTitles[1]
   );
 }
 
-function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon) {
+function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
   console.log("getting the markers");
 
   var currentMarker = L.geoJson(false, {
@@ -1000,7 +1002,7 @@ function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon) {
       //add marker to overlapping marker spidifier
       oms.addMarker(latlng);
       // var popupContent = '';
-      var currentEvent = fev.vars.currentEventName;
+      var currentEvent = eventTitle;
       var siteHWMArray = [
         feature.properties.site_id,
         feature.properties.hwm_id,
