@@ -69,7 +69,7 @@ var fev = fev || {
   queryStrings: {},
   vars: {
     currentEventName: "",
-    currentEventID_str: "",
+    currentEventID: [],
     currentEventStartDate_str: "",
     currentEventEndDate_str: "",
     currentEventActive: false,
@@ -477,11 +477,8 @@ $(document).on("ready", function () {
 
   function setMultiEventVars(eventIDs, numEvents) {
     var eventNames = [];
-    var eventsIDs;
     var eventStatusActive = [];
     var eventStatusInactive = [];
-    var eventStartDates;
-    var eventEndDates;
     var eventNameString = "";
     for (var eventCount = 0; eventCount < numEvents; eventCount++) {
       for (var i = 0; i < fev.data.events.length; i++) {
@@ -545,6 +542,9 @@ $(document).on("ready", function () {
     multiEventMapData(eventIDs, eventNameArray);
     $(".eventSelectAlert").hide();
     $("#filtersModal").modal("hide");
+    fev.vars.currentEventID = eventIDs;
+    //names stay populated in filter input box
+    //$("#evtSelect_filterModal").val(eventIDs).trigger("change");
   }
 
   function setEventVars(
@@ -559,7 +559,7 @@ $(document).on("ready", function () {
     //set current event name
     fev.vars.currentEventName = event_name;
     //set current event id string
-    fev.vars.currentEventID_str = event_id.toString();
+    fev.vars.currentEventID = event_id;
     //set currentEventActive boolean var based on event_status_id value
     event_status_id == 1
       ? (fev.vars.currentEventActive = true)
@@ -1759,9 +1759,7 @@ $(document).on("ready", function () {
   }
   $("#btnChangeFilters").on("click", function () {
     //update the event select within the filters modal to reflect current event
-    $("#evtSelect_filterModal")
-      .val([fev.vars.currentEventID_str])
-      .trigger("change");
+    $("#evtSelect_filterModal").val(fev.vars.currentEventID).trigger("change");
     showFiltersModal();
   });
 

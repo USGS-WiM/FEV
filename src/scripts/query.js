@@ -764,8 +764,6 @@ function checkLayerCount(layerCount) {
 function multiEventMapData(eventIDs, eventTitles) {
   $(".esconder").hide();
   $(".labelSpan").empty();
-  console.log("eventIDs", eventIDs);
-  console.log("mapping multiple events");
 
   layerCount = 0;
   markerCoords = [];
