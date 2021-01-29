@@ -487,13 +487,23 @@ $(document).on("ready", function () {
       for (var i = 0; i < fev.data.events.length; i++) {
         if (fev.data.events[i].event_id == eventIDs[eventCount]) {
           eventNames.push(fev.data.events[i].event_name);
-          if (eventCount !== numEvents - 1) {
+          if (eventCount < numEvents - 2) {
             eventNameString =
-              eventNameString + String(fev.data.events[i].event_name) + ", ";
+              eventNameString +
+              " " +
+              String(fev.data.events[i].event_name) +
+              ", ";
           }
           if (eventCount == numEvents - 1) {
             eventNameString =
-              eventNameString + String(fev.data.events[i].event_name);
+              eventNameString + " " + String(fev.data.events[i].event_name);
+          }
+          if (eventCount == numEvents - 2) {
+            eventNameString =
+              eventNameString +
+              " " +
+              String(fev.data.events[i].event_name) +
+              " and ";
           }
           if (fev.data.events[i].event_status_id == 1) {
             eventStatusActive.push(fev.data.events[i].event_name);
@@ -513,6 +523,13 @@ $(document).on("ready", function () {
     console.log("Selected events are ", eventNameString);
     console.log("Active events: ", eventStatusActive);
     console.log("Inactive events: ", eventStatusInactive);
+    setMultiEventIndicators(eventNameString, eventIDs);
+  }
+
+  function setMultiEventIndicators(eventNames, eventIDs) {
+    $("#eventNameDisplay").html(eventNames);
+    $("#largeEventNameDisplay").html(eventNames);
+    //copy info from setEventIndicators
   }
 
   function setEventVars(

@@ -59,7 +59,7 @@ $(document).ready(function () {
   $(".evtSelect").select2({
     placeholder: "Select event",
     allowClear: false,
-    maximumSelectionLength: 2,
+    maximumSelectionLength: 5,
   });
   $.ajax({
     dataType: "json",
