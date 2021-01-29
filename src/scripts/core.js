@@ -543,6 +543,8 @@ $(document).on("ready", function () {
     //leaving date range blank in sidebar until we decide if/how to display date range
     $("#largeEventDateRangeDisplay").html("");
     multiEventMapData(eventIDs, eventNameArray);
+    $(".eventSelectAlert").hide();
+    $("#filtersModal").modal("hide");
   }
 
   function setEventVars(

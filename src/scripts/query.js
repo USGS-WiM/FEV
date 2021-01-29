@@ -951,10 +951,63 @@ function multiEventMapData(eventIDs, eventTitles) {
     hwmSurveyStatusSelections +
     "&StillWater=" +
     hwmStillwaterStatusSelections;
-  var eventURL0 = "?Event=" + eventIDs[0] + hwmQueryParameterString;
-  var eventURL1 = "?Event=" + eventIDs[1] + hwmQueryParameterString;
   layerCount++;
   hwm.clearLayers();
+  eventIcon0 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon1 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-blue wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon2 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon3 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon4 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIconOptions = [
+    eventIcon0,
+    eventIcon1,
+    eventIcon2,
+    eventIcon3,
+    eventIcon4,
+  ];
+  for (i = 0; i < eventIDs.length; i++) {
+    var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
+    multiDisplayHWMGeoJSON(
+      "High Water Mark",
+      fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
+      eventIconOptions[i],
+      eventTitles[i]
+    );
+  }
+  /* 
+  var eventURL0 = "?Event=" + eventIDs[0] + hwmQueryParameterString;
+  var eventURL1 = "?Event=" + eventIDs[1] + hwmQueryParameterString;
+  
   multiDisplayHWMGeoJSON(
     "High Water Mark",
     fev.urls.hwmFilteredGeoJSONViewURL + eventURL0,
@@ -966,12 +1019,10 @@ function multiEventMapData(eventIDs, eventTitles) {
     fev.urls.hwmFilteredGeoJSONViewURL + eventURL1,
     hwmMarkerIcon,
     eventTitles[1]
-  );
+  ); */
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
-  console.log("getting the markers");
-
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
       markerCoords.push(latlng);
