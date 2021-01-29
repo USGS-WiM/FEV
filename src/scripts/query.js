@@ -338,6 +338,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
 }
 
 /////////////////BEGIN PEAKS MULTI
+/*
 function multiDisplayPeaksGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
@@ -462,7 +463,7 @@ function multiDisplayPeaksGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
       peak.addTo(map);
     }
   });
-}
+} */
 ////////////////////END PEAKS MULTI
 
 function displayPeaksGeoJSON(type, name, url, markerIcon) {
@@ -1341,10 +1342,12 @@ function multiEventMapData(eventIDs, eventTitles) {
       eventTitles[i]
     );
   }
+  hwm.addTo(map);
 
   layerCount++;
   peak.clearLayers();
   ////Add Peak markers to map
+  /*
   for (i = 0; i < eventIDs.length; i++) {
     var eventURL = "?Event=" + eventIDs[i] + fev.urls.peaksQueryParameterString;
     multiDisplayPeaksGeoJSON(
@@ -1354,8 +1357,13 @@ function multiEventMapData(eventIDs, eventTitles) {
       eventTitles[i]
     );
   }
-  //var peaksCheckBox = document.getElementById("peaksToggle");
-  //peaksCheckBox.checked = true;
+  */
+  var peaksCheckBox = document.getElementById("peaksToggle");
+  if (peaksCheckBox.checked == false) {
+    peaksCheckBox.checked = true;
+  }
+  clickPeaks();
+  clickPeaks();
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
@@ -1513,8 +1521,6 @@ function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
       currentMarker.eachLayer(function (layer) {
         layer.addTo(hwm);
       });
-      hwm.addTo(map);
-      checkLayerCount(layerCount);
     }
   });
 }

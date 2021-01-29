@@ -54,7 +54,7 @@ var fev = fev || {
     csvPeaksURLRoot: stnServicesURL + "/PeakSummaries/FilteredPeaks.csv",
     peaksFilteredGeoJSONViewURL:
       stnServicesURL + "/PeakSummaries/FilteredPeaks.geojson",
-    peaksQueryParameterString: "",
+
     baroGeoJSONViewURL:
       stnServicesURL + "/SensorViews.geojson?ViewType=baro_view&",
     metGeoJSONViewURL:
@@ -69,9 +69,6 @@ var fev = fev || {
   queryStrings: {},
   vars: {
     currentEventName: "",
-    allEventNames: [],
-    allEventIDs: [],
-    numberOfEvents: 0,
     currentEventID: [],
     currentEventStartDate_str: "",
     currentEventEndDate_str: "",
@@ -2452,23 +2449,13 @@ function clickNwisTidalGage() {
 function clickPeaks() {
   var peaksCheckBox = document.getElementById("peaksToggle");
   if (peaksCheckBox.checked == true) {
-    /*
-    for (i = 0; i < fev.vars.numberOfEvents; i++) {
-      console.log(fev.vars.allEventNames[i]);
-      console.log(fev.vars.allEventIDs[i]);
-      var eventURL =
-        "?Event=" +
-        fev.vars.allEventIDs[i] +
-        fev.urls.peaksQueryParameterString;
-      multiDisplayPeaksGeoJSON(
-        "Peaks",
-        fev.urls.peaksFilteredGeoJSONViewURL + eventURL,
-        peakMarkerIcon,
-        fev.vars.allEventNames[i]
-      );
-    } */
-    peak.addTo(map);
-    hwm.addTo(map);
+    //When checkbox is checked, add layer to map
+    displayPeaksGeoJSON(
+      "peak",
+      "Peak Summary",
+      fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString,
+      peakMarkerIcon
+    );
   }
   //Remove symbol and layer name from legend when box is unchecked
   if (peaksCheckBox.checked == false) {
