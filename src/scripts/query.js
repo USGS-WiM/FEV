@@ -5,6 +5,11 @@
 var layerCount = 0;
 //ajax retrieval function
 function displaySensorGeoJSON(type, name, url, markerIcon) {
+  console.log("type", type);
+  console.log("type", type);
+  console.log("name", name);
+  console.log("url", url);
+  console.log("markerIcon", markerIcon);
   //increment layerCount
   layerCount++;
   var currentSubGroup = eval(type);
@@ -18,6 +23,7 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
       return marker;
     },
     onEachFeature: function (feature, latlng) {
+      console.log("sensor featuere", feature);
       var instrumentID = feature.properties.instrument_id;
       var url =
         "https://stn.wim.usgs.gov/STNServices/Instruments/" +
@@ -164,6 +170,179 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
         layer.addTo(currentSubGroup);
       });
       currentSubGroup.addTo(map);
+      if (currentSubGroup == "rdg") {
+        alert("RDG feature created");
+      }
+      checkLayerCount(layerCount);
+    }
+  });
+}
+
+function multiDisplaySensorGeoJSON(type, name, url, markerIcon, eventTitle) {
+  console.log("type", type);
+  console.log("type", type);
+  console.log("name", name);
+  console.log("url", url);
+  console.log("markerIcon", markerIcon);
+  //increment layerCount
+  layerCount++;
+  var currentSubGroup = eval(type);
+  //currentSubGroup.clearLayers();
+  var currentMarker = L.geoJson(false, {
+    pointToLayer: function (feature, latlng) {
+      markerCoords.push(latlng);
+      var marker = L.marker(latlng, {
+        icon: markerIcon,
+      });
+      return marker;
+    },
+    onEachFeature: function (feature, latlng) {
+      console.log("sensor featuere", feature);
+      var instrumentID = feature.properties.instrument_id;
+      var url =
+        "https://stn.wim.usgs.gov/STNServices/Instruments/" +
+        instrumentID +
+        "/Files.json";
+      var data;
+
+      $.ajax({
+        url: url,
+        dataType: "json",
+        data: data,
+        headers: { Accept: "*/*" },
+        success: function (data) {
+          var hydrographURL = "";
+          var hydrographElement;
+          var containsHydrograph = false;
+          var noHydrograph =
+            '<span style="float: right;padding-right: 15px;">No graph available</span>';
+          var hydroPopupText;
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].filetype_id === 13) {
+              containsHydrograph = true;
+              hydrographURL =
+                "https://stn.wim.usgs.gov/STNServices/Files/" +
+                data[i].file_id +
+                "/Item";
+              hydrographElement =
+                '<br><img title="Click to enlarge" style="cursor: pointer;" data-toggle="tooltip" class="hydroImage" onclick="enlargeImage()" src=' +
+                hydrographURL +
+                ">";
+            }
+          }
+
+          if (containsHydrograph === true) {
+            hydroPopupText = hydrographElement;
+          } else {
+            hydroPopupText = noHydrograph;
+          }
+          //add marker to overlapping marker spidifier
+          oms.addMarker(latlng);
+          //var popupContent = '';
+          if (type == "rdg") {
+            return;
+          }
+          var siteInstrumentArray = [
+            feature.properties.site_id,
+            feature.properties.instrument_id,
+          ];
+          var popupContent =
+            '<table class="table table-hover table-striped table-condensed wim-table">' +
+            '<caption class="popup-title">' +
+            name +
+            ' | <span style="color:gray"> ' +
+            eventTitle +
+            "</span></caption>" +
+            '<tr><td><strong>STN Site Number: </strong></td><td><span id="siteName">' +
+            feature.properties.site_no +
+            "</span></td></tr>" +
+            '<tr><td><strong>Status: </strong></td><td><span id="status">' +
+            feature.properties.status +
+            "</span></td></tr>" +
+            '<tr><td><strong>City: </strong></td><td><span id="city">' +
+            (feature.properties.city == "" ||
+            feature.properties.city == null ||
+            feature.properties.city == undefined
+              ? "<i>No city recorded</i>"
+              : feature.properties.city) +
+            "</span></td></tr>" +
+            '<tr><td><strong>County: </strong></td><td><span id="county">' +
+            feature.properties.county +
+            "</span></td></tr>" +
+            '<tr><td><strong>State: </strong></td><td><span id="state">' +
+            feature.properties.state +
+            "</span></td></tr>" +
+            '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' +
+            feature.properties.latitude_dd.toFixed(4) +
+            ", " +
+            feature.properties.longitude_dd.toFixed(4) +
+            "</span></td></tr>" +
+            // '<tr><td><strong>STN data page: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + sensorPageURLRoot + feature.properties.site_id + '&Sensor=' + feature.properties.instrument_id + '\>Sensor data page</a></b></span></td></tr>' +
+            '<tr><td><strong>Site and Sensor Detail: </strong></td><td><span id="sensorData"><button type="button" class="btn btn-sm sensor-data-btn" title="Click to view site and sensor details" value="' +
+            siteInstrumentArray +
+            '">View Details</button></span></td></tr>' +
+            '<tr><td colspan="2"><strong>Hydrograph: </strong>' +
+            hydroPopupText;
+          ("</table>");
+          latlng.bindPopup(popupContent);
+        },
+        error: function (error) {
+          console.log("Error processing the JSON. The error is:" + error);
+        },
+      });
+    },
+  });
+
+  $.getJSON(url, function (data) {
+    if (data.length == 0) {
+      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
+      return;
+    }
+    if (data.features.length > 0) {
+      console.log(
+        data.features.length +
+          " " +
+          markerIcon.options.name +
+          " GeoJSON features found"
+      );
+      //check for bad lat/lon values
+      for (var i = data.features.length - 1; i >= 0; i--) {
+        //check that lat/lng are not NaN
+        if (
+          isNaN(data.features[i].geometry.coordinates[0]) ||
+          isNaN(data.features[i].geometry.coordinates[1])
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+        //check that lat/lng are within the US and also not 0
+        if (
+          (fev.vars.extentSouth <=
+            data.features[i].geometry.coordinates[0] <=
+            fev.vars.extentNorth &&
+            fev.vars.extentWest <=
+              data.features[i].geometry.coordinates[1] <=
+              fev.vars.extentEast) ||
+          data.features[i].geometry.coordinates[0] == 0 ||
+          data.features[i].geometry.coordinates[1] == 0
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+      }
+      currentMarker.addData(data);
+      currentMarker.eachLayer(function (layer) {
+        layer.addTo(currentSubGroup);
+      });
+      //currentSubGroup.addTo(map);
       if (currentSubGroup == "rdg") {
         alert("RDG feature created");
       }
@@ -329,7 +508,6 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
       currentMarker.addData(data);
       currentMarker.eachLayer(function (layer) {
         layer.addTo(hwm);
-        console.log("HWM layer added for ", eventTitle);
       });
       hwm.addTo(map);
       checkLayerCount(layerCount);
@@ -1364,6 +1542,59 @@ function multiEventMapData(eventIDs, eventTitles) {
   }
   clickPeaks();
   clickPeaks();
+  rdg.clearLayers();
+  for (i = 0; i < eventIDs.length; i++) {
+    console.log("eventIDs[i]", eventIDs[i]);
+    fev.vars.currentEventName = eventTitles[i];
+    fev.queryStrings.sensorsQueryString =
+      "?Event=" +
+      eventIDs[i] +
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&SensorType=" +
+      sensorTypeSelections +
+      "&CurrentStatus=" +
+      sensorStatusSelections +
+      "&CollectionCondition=" +
+      collectConditionSelections +
+      "&DeploymentType=" +
+      deploymentTypeSelections;
+
+    multiDisplaySensorGeoJSON(
+      "rdg",
+      "rdg",
+      fev.urls["rdg" + "GeoJSONViewURL"] + fev.queryStrings.sensorsQueryString,
+      eventIconOptions[i],
+      eventTitles[i]
+    );
+    rdg.addTo(map);
+    /*
+      if (layer.Type == "sensor")
+        displaySensorGeoJSON(
+          layer.ID,
+          layer.Name,
+          fev.urls[layer.ID + "GeoJSONViewURL"] +
+            fev.queryStrings.sensorsQueryString,
+          window[layer.ID + "MarkerIcon"]
+        );
+      layer.ID,
+        layer.Name,
+        fev.urls[layer.ID + "GeoJSONViewURL"] +
+          fev.queryStrings.sensorsQueryString,
+        window[layer.ID + "MarkerIcon"];
+      setTimeout(() => {
+        if (layer.ID == "tides")
+          displayTidesGeoJSON(
+            layer.ID,
+            layer.Name,
+            "https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json",
+            tidesMarkerIcon
+          );
+      }, 600);
+    }); */
+  }
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
@@ -2000,6 +2231,11 @@ function filterMapData(event, isUrlParam) {
           fev.queryStrings.sensorsQueryString,
         window[layer.ID + "MarkerIcon"]
       );
+    layer.ID,
+      layer.Name,
+      fev.urls[layer.ID + "GeoJSONViewURL"] +
+        fev.queryStrings.sensorsQueryString,
+      window[layer.ID + "MarkerIcon"];
     if (layer.ID == "hwm")
       displayHWMGeoJSON(
         layer.ID,
