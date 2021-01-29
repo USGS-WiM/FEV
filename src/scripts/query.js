@@ -769,6 +769,167 @@ function multiEventMapData(eventIDs, eventTitles) {
   markerCoords = [];
   var eventSelections = "";
   eventSelections = eventIDs;
+  var eventIDString = eventIDs.toString();
+  if (eventIDs == null || eventIDs == undefined) {
+    alert("Please select an event to proceed");
+    return;
+  }
+
+  //state
+  var stateSelections = "";
+  if ($("#stateSelect").val() !== null) {
+    var stateSelectionsArray = $("#stateSelect").val();
+    stateSelections = stateSelectionsArray.toString();
+    if ($("#stateSelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#stateSelect").select2("data").length; i++) {
+        $("#stateDisplay").append(
+          '<span class="label label-default">' +
+            $("#stateSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#locationGroupDiv").show();
+    $("#stateDisplay_li").show();
+  }
+  //county
+  var countySelections = "";
+  if ($("#countySelect").val() !== null) {
+    var countySelectionsArray = $("#countySelect").val();
+    countySelections = countySelectionsArray.toString();
+    if ($("#countySelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#countySelect").select2("data").length; i++) {
+        $("#countyDisplay").append(
+          '<span class="label label-default">' +
+            $("#countySelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#locationGroupDiv").show();
+    $("#countyDisplay_li").show();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //SENSORS
+
+  //check if any of the sensor filters have value, if so show the sensorsGroupDiv
+  if (
+    $("#sensorTypeSelect").val() !== null ||
+    $("#sensorStatusSelect").val() !== null ||
+    $("#collectionConditionSelect").val() !== null ||
+    $("#deployTypeSelect").val() !== null
+  ) {
+    $("#sensorsGroupDiv").show();
+  }
+
+  //sensor type
+  var sensorTypeSelections = "";
+  if ($("#sensorTypeSelect").val() !== null) {
+    var sensorTypeSelectionArray = $("#sensorTypeSelect").val();
+    sensorTypeSelections = sensorTypeSelectionArray.toString();
+    if ($("#sensorTypeSelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#sensorTypeSelect").select2("data").length; i++) {
+        $("#sensorTypeDisplay").append(
+          '<span class="label label-default">' +
+            $("#sensorTypeSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#sensorTypeDisplay_li").show();
+  }
+  //sensor status
+  var sensorStatusSelections = "";
+  if ($("#sensorStatusSelect").val() !== null) {
+    var sensorStatusSelectionArray = $("#sensorStatusSelect").val();
+    sensorStatusSelections = sensorStatusSelectionArray.toString();
+    if ($("#sensorStatusSelect").select2("data").length > 0) {
+      for (
+        var i = 0;
+        i < $("#sensorStatusSelect").select2("data").length;
+        i++
+      ) {
+        $("#sensorStatusDisplay").append(
+          '<span class="label label-default">' +
+            $("#sensorStatusSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#sensorStatusDisplay_li").show();
+  }
+
+  //sensor collection condition
+  var collectConditionSelections = "";
+  if ($("#collectionConditionSelect").val() !== null) {
+    var collectConditionSelectionArray = $("#collectionConditionSelect").val();
+    collectConditionSelections = collectConditionSelectionArray.toString();
+    if ($("#collectionConditionSelect").select2("data").length > 0) {
+      for (
+        var i = 0;
+        i < $("#collectionConditionSelect").select2("data").length;
+        i++
+      ) {
+        $("#collectConditionDisplay").append(
+          '<span class="label label-default">' +
+            $("#collectionConditionSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#collectConditionDisplay_li").show();
+  }
+
+  //sensor deployment type
+  var deploymentTypeSelections = "";
+  if ($("#deployTypeSelect").val() !== null) {
+    var deploymentTypeSelectionArray = $("#deployTypeSelect").val();
+    deploymentTypeSelections = deploymentTypeSelectionArray.toString();
+    if ($("#deployTypeSelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#deployTypeSelect").select2("data").length; i++) {
+        $("#deployTypeDisplay").append(
+          '<span class="label label-default">' +
+            $("#deployTypeSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#deployTypeDisplay_li").show();
+  }
+
+  //query string including event status and event type params
+  //fev.queryStrings.sensorsQueryString = '?Event=' + eventSelections + '&EventType=' + eventTypeSelections + '&EventStatus=' + eventStatusSelection + '&States=' + stateSelections + '&County=' + countySelections + '&SensorType=' + sensorTypeSelections + '&CurrentStatus=' + sensorStatusSelections + '&CollectionCondition=' + collectConditionSelections + '&DeploymentType=' + deploymentTypeSelections;
+  ////query string not including event status and event type params
+  fev.queryStrings.sensorsQueryString =
+    "?Event=" +
+    eventIDString +
+    "&States=" +
+    stateSelections +
+    "&County=" +
+    countySelections +
+    "&SensorType=" +
+    sensorTypeSelections +
+    "&CurrentStatus=" +
+    sensorStatusSelections +
+    "&CollectionCondition=" +
+    collectConditionSelections +
+    "&DeploymentType=" +
+    deploymentTypeSelections;
+
+  fev.urls.csvSensorsQueryURL =
+    fev.urls.csvSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+  fev.urls.jsonSensorsQueryURL =
+    fev.urls.jsonSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+  fev.urls.xmlSensorsQueryURL =
+    fev.urls.xmlSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+
+  //add download buttons
+  $("#sensorDownloadButtonCSV").attr("href", fev.urls.csvSensorsQueryURL);
+  $("#sensorDownloadButtonJSON").attr("href", fev.urls.jsonSensorsQueryURL);
+  $("#sensorDownloadButtonXML").attr("href", fev.urls.xmlSensorsQueryURL);
+
+  ////////////////////HWM
   if (
     $("#hwmTypeSelect").val() !== null ||
     $("#hwmQualitySelect").val() !== null ||
@@ -1016,22 +1177,6 @@ function multiEventMapData(eventIDs, eventTitles) {
       eventTitles[i]
     );
   }
-  /* 
-  var eventURL0 = "?Event=" + eventIDs[0] + hwmQueryParameterString;
-  var eventURL1 = "?Event=" + eventIDs[1] + hwmQueryParameterString;
-  
-  multiDisplayHWMGeoJSON(
-    "High Water Mark",
-    fev.urls.hwmFilteredGeoJSONViewURL + eventURL0,
-    hwmMarkerIcon,
-    eventTitles[0]
-  );
-  multiDisplayHWMGeoJSON(
-    "High Water Mark",
-    fev.urls.hwmFilteredGeoJSONViewURL + eventURL1,
-    hwmMarkerIcon,
-    eventTitles[1]
-  ); */
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
