@@ -761,6 +761,375 @@ function checkLayerCount(layerCount) {
   }
 }
 
+function multiEventMapData(eventIDs) {
+  $(".esconder").hide();
+  $(".labelSpan").empty();
+  console.log("eventIDs", eventIDs);
+  console.log("mapping multiple events");
+
+  layerCount = 0;
+  markerCoords = [];
+  var eventSelections = "";
+  eventSelections = eventIDs;
+  if (
+    $("#hwmTypeSelect").val() !== null ||
+    $("#hwmQualitySelect").val() !== null ||
+    $("#coastal")[0].checked ||
+    $("#riverine")[0].checked ||
+    $("#surveyCompleteYes")[0].checked ||
+    $("#surveyCompleteNo")[0].checked ||
+    $("#stillWaterYes")[0].checked ||
+    $("#stillWaterNo")[0].checked
+  ) {
+    $("#hwmGroupDiv").show();
+  }
+
+  //check if any of the hwm filters have value, if so show the hwmGroupDiv
+  if (
+    $("#hwmTypeSelect").val() !== null ||
+    $("#hwmQualitySelect").val() !== null ||
+    $("#coastal")[0].checked ||
+    $("#riverine")[0].checked ||
+    $("#surveyCompleteYes")[0].checked ||
+    $("#surveyCompleteNo")[0].checked ||
+    $("#stillWaterYes")[0].checked ||
+    $("#stillWaterNo")[0].checked
+  ) {
+    $("#hwmGroupDiv").show();
+  }
+  //HWM types
+  var hwmTypeSelections = "";
+  if ($("#hwmTypeSelect").val() !== null) {
+    var hwmTypeSelectionArray = $("#hwmTypeSelect").val();
+    hwmTypeSelections = hwmTypeSelectionArray.toString();
+    //var hwmTypeSelectionsTextArray = [];
+    if ($("#hwmTypeSelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#hwmTypeSelect").select2("data").length; i++) {
+        //hwmTypeSelectionsTextArray.push($('#hwmTypeSelect').select2('data')[i].text)
+        $("#hwmTypeDisplay").append(
+          '<span class="label label-default">' +
+            $("#hwmTypeSelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#hwmTypeDisplay_li").show();
+    //$('#hwmTypeDisplay').html(hwmTypeSelectionsTextArray.toString());
+  }
+  //HWM quality
+  var hwmQualitySelections = "";
+  if ($("#hwmQualitySelect").val() !== null) {
+    var hwmQualitySelectionArray = $("#hwmQualitySelect").val();
+    hwmQualitySelections = hwmQualitySelectionArray.toString();
+    //var hwmQualitySelectionsTextArray = [];
+    if ($("#hwmQualitySelect").select2("data").length > 0) {
+      for (var i = 0; i < $("#hwmQualitySelect").select2("data").length; i++) {
+        //hwmQualitySelectionsTextArray.push($('#hwmQualitySelect').select2('data')[i].text)
+        $("#hwmQualityDisplay").append(
+          '<span class="label label-default">' +
+            $("#hwmQualitySelect").select2("data")[i].text +
+            "</span>"
+        );
+      }
+    }
+    $("#hwmQualityDisplay_li").show();
+    //$('#hwmQualityDisplay').html(hwmQualitySelectionsTextArray.toString());
+  }
+  ////HWM environment
+  var hwmEnvSelectionArray = [];
+  //HWM environment: coastal
+  if ($("#coastal")[0].checked && !$("#riverine")[0].checked) {
+    hwmEnvSelectionArray.push("Coastal");
+    $("#hwmEnvDisplay_li").show();
+    //$('#hwmEnvDisplay').html('Coastal');
+    $("#hwmEnvDisplay").html(
+      '<span class="label label-default">Coastal</span>'
+    );
+  }
+  //HWM environment: riverine
+  if ($("#riverine")[0].checked && !$("#coastal")[0].checked) {
+    hwmEnvSelectionArray.push("Riverine");
+    $("#hwmEnvDisplay_li").show();
+    //$('#hwmEnvDisplay').html('Riverine');
+    $("#hwmEnvDisplay").html(
+      '<span class="label label-default">Riverine</span>'
+    );
+  }
+  var hwmEnvSelections = hwmEnvSelectionArray.toString();
+  //HWM survey status
+  var hwmSurveyStatusSelectionArray = [];
+  ///HWM survey status: complete
+  if (
+    $("#surveyCompleteYes")[0].checked &&
+    !$("#surveyCompleteNo")[0].checked
+  ) {
+    hwmSurveyStatusSelectionArray.push("true");
+    $("#hwmSurveyCompDisplay_li").show();
+    //$('#hwmSurveyCompDisplay').html('True');
+    $("#hwmSurveyCompDisplay").html(
+      '<span class="label label-default">True</span>'
+    );
+  }
+  ///HWM survey status: not complete
+  if (
+    $("#surveyCompleteNo")[0].checked &&
+    !$("#surveyCompleteYes")[0].checked
+  ) {
+    hwmSurveyStatusSelectionArray.push("false");
+    $("#hwmSurveyCompDisplay_li").show();
+    //$('#hwmSurveyCompDisplay').html('False');
+    $("#hwmSurveyCompDisplay").html(
+      '<span class="label label-default">False</span>'
+    );
+  }
+  var hwmSurveyStatusSelections = hwmSurveyStatusSelectionArray.toString();
+  //HWM stillwater status
+  var hwmStillwaterStatusSelectionArray = [];
+  ///HWM stillwater status: yes
+  if ($("#stillWaterYes")[0].checked && !$("#stillWaterNo")[0].checked) {
+    hwmStillwaterStatusSelectionArray.push("true");
+    $("#hwmStillWaterDisplay_li").show();
+    //$('#hwmStillWaterDisplay').html('True');
+    $("#hwmStillWaterDisplay").html(
+      '<span class="label label-default">True</span>'
+    );
+  }
+  ///HWM stillwater status: no
+  if ($("#stillWaterNo")[0].checked && !$("#stillWaterYes")[0].checked) {
+    hwmStillwaterStatusSelectionArray.push("false");
+    $("#hwmStillWaterDisplay_li").show();
+    //$('#hwmStillWaterDisplay').html('False');
+    $("#hwmStillWaterDisplay").html(
+      '<span class="label label-default">False</span>'
+    );
+  }
+  var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
+
+  /* NEED TO COME BACK TO THIS
+  fev.queryStrings.hwmsQueryString =
+    "?Event=" +
+    eventSelections +
+    "&States=" +
+    stateSelections +
+    "&County=" +
+    countySelections +
+    "&HWMType=" +
+    hwmTypeSelections +
+    "&HWMQuality=" +
+    hwmQualitySelections +
+    "&HWMEnvironment=" +
+    hwmEnvSelections +
+    "&SurveyComplete=" +
+    hwmSurveyStatusSelections +
+    "&StillWater=" +
+    hwmStillwaterStatusSelections;
+  //var resultIsEmpty = false;
+
+  fev.urls.csvHWMsQueryURL =
+    fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+  fev.urls.jsonHWMsQueryURL =
+    fev.urls.jsonHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+  fev.urls.xmlHWMsQueryURL =
+    fev.urls.xmlHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+
+  //add download buttons
+  $("#hwmDownloadButtonCSV").attr("href", fev.urls.csvHWMsQueryURL);
+  $("#hwmDownloadButtonJSON").attr("href", fev.urls.jsonHWMsQueryURL);
+  $("#hwmDownloadButtonXML").attr("href", fev.urls.xmlHWMsQueryURL); */
+
+  //will eventually need to append "?Event=" to the beginning for each event
+  //maybe move some of the lines above into multiDisplayHWMGeoJSON and make unique variables for each event
+
+  var hwmQueryParameterString =
+    "&HWMType=" +
+    hwmTypeSelections +
+    "&HWMQuality=" +
+    hwmQualitySelections +
+    "&HWMEnvironment=" +
+    hwmEnvSelections +
+    "&SurveyComplete=" +
+    hwmSurveyStatusSelections +
+    "&StillWater=" +
+    hwmStillwaterStatusSelections;
+  var eventURL0 = "?Event=" + eventIDs[0] + hwmQueryParameterString;
+  var eventURL1 = "?Event=" + eventIDs[1] + hwmQueryParameterString;
+  layerCount++;
+  hwm.clearLayers();
+  multiDisplayHWMGeoJSON(
+    "High Water Mark",
+    fev.urls.hwmFilteredGeoJSONViewURL + eventURL0,
+    hwmMarkerIcon
+  );
+  multiDisplayHWMGeoJSON(
+    "High Water Mark",
+    fev.urls.hwmFilteredGeoJSONViewURL + eventURL1,
+    hwmMarkerIcon
+  );
+}
+
+function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon) {
+  console.log("getting the markers");
+
+  var currentMarker = L.geoJson(false, {
+    pointToLayer: function (feature, latlng) {
+      markerCoords.push(latlng);
+      var marker = L.marker(latlng, {
+        icon: markerIcon,
+      });
+      return marker;
+    },
+    onEachFeature: function (feature, latlng) {
+      if (
+        feature.properties.longitude_dd == undefined ||
+        feature.properties.latitude_dd == undefined
+      ) {
+        console.log(
+          "Lat/lng undefined for HWM at site no: " + feature.properties.site_no
+        );
+        return;
+      }
+
+      if (
+        latlng.feature.geometry.coordinates[0] == null ||
+        latlng.feature.geometry.coordinates[1] == null
+      ) {
+        console.log(
+          "null coordinates returned for " + feature.properties.site_no
+        );
+      }
+      //add marker to overlapping marker spidifier
+      oms.addMarker(latlng);
+      // var popupContent = '';
+      var currentEvent = fev.vars.currentEventName;
+      var siteHWMArray = [
+        feature.properties.site_id,
+        feature.properties.hwm_id,
+      ];
+      var popupContent =
+        '<table class="table table-hover table-striped table-condensed wim-table">' +
+        '<caption class="popup-title">' +
+        name +
+        ' | <span style="color:gray">' +
+        currentEvent +
+        "</span></caption>" +
+        '<col style="width:50%"> <col style="width:50%">' +
+        '<tr><td><strong>STN Site No.: </strong></td><td><span id="hwmSiteNo">' +
+        feature.properties.site_no +
+        "</span></td></tr>" +
+        '<tr><td><strong>HWM Label: </strong></td><td><span id="hwmLabel">' +
+        feature.properties.hwm_label +
+        "</span></td></tr>" +
+        '<tr><td><strong>Elevation(ft): </strong></td><td><span id="hwmElev">' +
+        feature.properties.elev_ft +
+        "</span></td></tr>" +
+        '<tr><td><strong>Datum: </strong></td><td><span id="hwmWaterbody">' +
+        feature.properties.verticalDatumName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Height Above Ground: </strong></td><td><span id="hwmHtAboveGnd">' +
+        (feature.properties.height_above_gnd !== undefined
+          ? feature.properties.height_above_gnd
+          : "<i>No value recorded</i>") +
+        "</span></td></tr>" +
+        //'<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">'+ (feature.properties.approval_id == undefined || feature.properties.approval_id == 0 ? 'Provisional  <button type="button" class="btn btn-sm data-disclaim"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'  : 'Approved')+ '</span></td></tr>'+
+        '<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">' +
+        (feature.properties.approval_id == undefined ||
+        feature.properties.approval_id == 0
+          ? '<button type="button" class="btn btn-sm data-disclaim" title="Click to view provisional data statement">Provisional <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'
+          : "Approved") +
+        "</span></td></tr>" +
+        '<tr><td><strong>Type: </strong></td><td><span id="hwmType"></span>' +
+        feature.properties.hwmTypeName +
+        "</td></tr>" +
+        '<tr><td><strong>Marker: </strong></td><td><span id="hwmMarker">' +
+        feature.properties.markerName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Quality: </strong></td><td><span id="hwmQuality">' +
+        feature.properties.hwmQualityName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Waterbody: </strong></td><td><span id="hwmWaterbody">' +
+        feature.properties.waterbody +
+        "</span></td></tr>" +
+        '<tr><td><strong>County: </strong></td><td><span id="hwmCounty">' +
+        feature.properties.countyName +
+        "</span></td></tr>" +
+        '<tr><td><strong>State: </strong></td><td><span id="hwmState">' +
+        feature.properties.stateName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' +
+        feature.properties.latitude_dd.toFixed(4) +
+        ", " +
+        feature.properties.longitude_dd.toFixed(4) +
+        "</span></td></tr>" +
+        '<tr><td><strong>Description: </strong></td><td><span id="hwmDescription">' +
+        feature.properties.hwm_locationdescription +
+        "</span></td></tr>" +
+        // '<tr><td><strong>Full data link: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + hwmPageURLRoot + feature.properties.site_id + '&HWM=' + feature.properties.hwm_id + '\>HWM data page</a></b></span></td></tr>' +
+        '<tr><td><strong>High Water Mark Detail: </strong></td><td><span id="hwmData"><button type="button" class="btn btn-sm hwm-data-btn" title="Click to view high water mark details" value="' +
+        siteHWMArray +
+        '">View Details</button></span></td></tr>' +
+        "</table>";
+      // $.each(feature.properties, function( index, value ) {
+      //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
+      // });
+      latlng.bindPopup(popupContent);
+    },
+  });
+
+  $.getJSON(urlForEvent, function (data) {
+    if (data.length == 0) {
+      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
+      return;
+    }
+    if (data.features.length > 0) {
+      console.log(
+        data.features.length +
+          " " +
+          markerIcon.options.name +
+          " GeoJSON features found"
+      );
+      //check for bad lat/lon values
+      for (var i = data.features.length - 1; i >= 0; i--) {
+        //check that lat/lng are not NaN
+        if (
+          isNaN(data.features[i].geometry.coordinates[0]) ||
+          isNaN(data.features[i].geometry.coordinates[1])
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+        //check that lat/lng are within the US and also not 0
+        if (
+          (fev.vars.extentSouth <=
+            data.features[i].geometry.coordinates[0] <=
+            fev.vars.extentNorth &&
+            fev.vars.extentWest <=
+              data.features[i].geometry.coordinates[1] <=
+              fev.vars.extentEast) ||
+          data.features[i].geometry.coordinates[0] == 0 ||
+          data.features[i].geometry.coordinates[1] == 0
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+      }
+      currentMarker.addData(data);
+      currentMarker.eachLayer(function (layer) {
+        layer.addTo(hwm);
+      });
+      hwm.addTo(map);
+      checkLayerCount(layerCount);
+    }
+  });
+}
+
 function filterMapData(event, isUrlParam) {
   $(".esconder").hide();
   $(".labelSpan").empty();

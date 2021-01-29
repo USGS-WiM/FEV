@@ -215,7 +215,7 @@ var waveheightMarkerIcon = L.divIcon({
   popupAnchor: [0, 2],
 });
 var hwmMarkerIcon = L.divIcon({
-  name: "Hight Water Mark",
+  name: "High Water Mark",
   className: fev.markerClasses.hwm,
   iconAnchor: [7, 10],
   popupAnchor: [0, 2],
@@ -438,6 +438,7 @@ $(document).on("ready", function () {
         $("#filtersModal").modal("hide");
       } else {
         setMultiEventVars(eventFormValue, numEvents);
+        multiEventMapData(eventFormValue);
       }
     } else {
       //if no event selected, warn user with alert
@@ -496,7 +497,7 @@ $(document).on("ready", function () {
           }
           if (eventCount == numEvents - 1) {
             eventNameString =
-              eventNameString + " " + String(fev.data.events[i].event_name);
+              eventNameString + String(fev.data.events[i].event_name);
           }
           if (eventCount == numEvents - 2) {
             eventNameString =
@@ -520,16 +521,28 @@ $(document).on("ready", function () {
     //might need to set fev.vars.currentEventID_str at some point, maybe only if we include multiselect in welcome modal
     //might also need to set fev.vars.currentEventActive (boolean) sometime, right now using vars eventStatusActive & eventStatusInactive instead
     //ignoring start and end dates for now. Could list all ranges, or set it to earliest start date and latest end date
-    console.log("Selected events are ", eventNameString);
-    console.log("Active events: ", eventStatusActive);
-    console.log("Inactive events: ", eventStatusInactive);
+    console.log("Selected events are", eventNameString);
+    if (eventStatusActive.length == numEvents) {
+      console.log("All events are active");
+    } else if (eventStatusInactive.length == numEvents) {
+      console.log("All events are inactive");
+    } else {
+      console.log("Active events: ", eventStatusActive);
+      console.log("Inactive events: ", eventStatusInactive);
+    }
+    //populate info in sidebar
     setMultiEventIndicators(eventNameString, eventIDs);
   }
 
   function setMultiEventIndicators(eventNames, eventIDs) {
+    //names listed under 'Current Filters' in sidebar
     $("#eventNameDisplay").html(eventNames);
+    //names in big font, top of sidebar
     $("#largeEventNameDisplay").html(eventNames);
-    //copy info from setEventIndicators
+    //names stay populated in filter input box
+    $("#evtSelect_filterModal").val(eventIDs).trigger("change");
+    //leaving date range blank in sidebar until we decide if/how to display date range
+    $("#largeEventDateRangeDisplay").html("");
   }
 
   function setEventVars(
