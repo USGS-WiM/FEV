@@ -329,12 +329,141 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
       currentMarker.addData(data);
       currentMarker.eachLayer(function (layer) {
         layer.addTo(hwm);
+        console.log("HWM layer added for ", eventTitle);
       });
       hwm.addTo(map);
       checkLayerCount(layerCount);
     }
   });
 }
+
+/////////////////BEGIN PEAKS MULTI
+function multiDisplayPeaksGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
+  var currentMarker = L.geoJson(false, {
+    pointToLayer: function (feature, latlng) {
+      var labelText =
+        feature.properties.peak_stage !== undefined
+          ? feature.properties.peak_stage.toString()
+          : "No Value";
+      markerCoords.push(latlng);
+      var marker = L.marker(latlng, {
+        icon: markerIcon,
+      }).bindLabel("Peak: " + labelText);
+      return marker;
+    },
+    onEachFeature: function (feature, latlng) {
+      //add marker to overlapping marker spidifier
+      oms.addMarker(latlng);
+      //If peak is not estimated, keep the original popup
+      if (feature.properties.is_peak_estimated == 0) {
+        //set popup content using moment js to pretty format the date value
+        var popupContent =
+          '<table class="table table-condensed table-striped table-hover wim-table">' +
+          '<caption class="popup-title">' +
+          name +
+          ' | <span style="color:gray"> ' +
+          eventTitle +
+          "</span></caption>" +
+          "<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>" +
+          "<tr><td>" +
+          feature.properties.peak_stage +
+          "</td><td>" +
+          feature.properties.vdatum +
+          "</td><td>" +
+          moment(feature.properties.peak_date).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          ) +
+          "</td></tr>" +
+          "</table>";
+      }
+      //If peak is estimated, indicate that in popup
+      if (feature.properties.is_peak_estimated == 1) {
+        //set popup content using moment js to pretty format the date value
+        var popupContent =
+          '<table class="table table-condensed table-striped table-hover wim-table">' +
+          '<caption class="popup-title">' +
+          name +
+          ' | <span style="color:gray"> ' +
+          eventTitle +
+          "</span></caption>" +
+          "<tr><th>Peak Stage (ft)</th><th>Datum</th><th>Peak Date & Time (UTC)</th></tr>" +
+          "<tr><td>" +
+          feature.properties.peak_stage +
+          "*" +
+          "</td><td>" +
+          feature.properties.vdatum +
+          "</td><td>" +
+          moment(feature.properties.peak_date).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          ) +
+          "</td></tr>" +
+          "</table>" +
+          "*Estimated";
+      }
+
+      // $.each(feature.properties, function( index, value ) {
+      //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
+      // });
+      latlng.bindPopup(popupContent);
+    },
+  });
+
+  $.getJSON(urlForEvent, function (data) {
+    if (data.length == 0) {
+      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
+      return;
+    }
+    if (data.features.length > 0) {
+      console.log(
+        data.features.length +
+          " " +
+          markerIcon.options.name +
+          " GeoJSON features found"
+      );
+
+      //check for bad lat/lon values
+      for (var i = data.features.length - 1; i >= 0; i--) {
+        //check that lat/lng are not NaN
+        if (
+          isNaN(data.features[i].geometry.coordinates[0]) ||
+          isNaN(data.features[i].geometry.coordinates[1])
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+        //check that lat/lng are within the US and also not 0
+        if (
+          (fev.vars.extentSouth <=
+            data.features[i].geometry.coordinates[0] <=
+            fev.vars.extentNorth &&
+            fev.vars.extentWest <=
+              data.features[i].geometry.coordinates[1] <=
+              fev.vars.extentEast) ||
+          data.features[i].geometry.coordinates[0] == 0 ||
+          data.features[i].geometry.coordinates[1] == 0
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+      }
+      currentMarker.addData(data);
+      currentMarker.eachLayer(function (layer) {
+        layer.addTo(peak);
+        console.log("Peak layer added for ", eventTitle);
+      });
+      peak.addTo(map);
+    }
+  });
+}
+////////////////////END PEAKS MULTI
 
 function displayPeaksGeoJSON(type, name, url, markerIcon) {
   //increment layerCount
@@ -762,6 +891,10 @@ function checkLayerCount(layerCount) {
 }
 
 function multiEventMapData(eventIDs, eventTitles) {
+  fev.vars.allEventNames = eventTitles;
+  fev.vars.numberOfEvents = eventTitles.length;
+  fev.vars.allEventIDs = eventIDs;
+
   $(".esconder").hide();
   $(".labelSpan").empty();
 
@@ -899,7 +1032,6 @@ function multiEventMapData(eventIDs, eventTitles) {
   }
 
   //query string including event status and event type params
-  //fev.queryStrings.sensorsQueryString = '?Event=' + eventSelections + '&EventType=' + eventTypeSelections + '&EventStatus=' + eventStatusSelection + '&States=' + stateSelections + '&County=' + countySelections + '&SensorType=' + sensorTypeSelections + '&CurrentStatus=' + sensorStatusSelections + '&CollectionCondition=' + collectConditionSelections + '&DeploymentType=' + deploymentTypeSelections;
   ////query string not including event status and event type params
   fev.queryStrings.sensorsQueryString =
     "?Event=" +
@@ -928,6 +1060,65 @@ function multiEventMapData(eventIDs, eventTitles) {
   $("#sensorDownloadButtonCSV").attr("href", fev.urls.csvSensorsQueryURL);
   $("#sensorDownloadButtonJSON").attr("href", fev.urls.jsonSensorsQueryURL);
   $("#sensorDownloadButtonXML").attr("href", fev.urls.xmlSensorsQueryURL);
+
+  //////////////////////////////////////////////
+  //Peaks
+  if (
+    $("#peakStartDate")[0].value !== "" ||
+    $("#peakEndDate")[0].value !== ""
+  ) {
+    $("#peaksGroupDiv").show();
+  }
+
+  var peakStartDate;
+  if ($("#peakStartDate")[0].value !== "") {
+    $("#peakStartDisplay_li").show();
+    peakStartDate = $("#peakStartDate")[0].value;
+    $("#peakStartDisplay").html(moment(peakStartDate).format("D MMM YYYY"));
+  }
+  var peakEndDate;
+  if ($("#peakEndDate")[0].value !== "") {
+    $("#peakEndDisplay_li").show();
+    peakEndDate = $("#peakEndDate")[0].value;
+    $("#peakEndDisplay").html(moment(peakEndDate).format("D MMM YYYY"));
+  }
+
+  //query string including event status and event type params
+  //query string not including event status and event type params
+  fev.queryStrings.peaksQueryString =
+    "?Event=" +
+    eventIDString +
+    "&States=" +
+    stateSelections +
+    "&County=" +
+    countySelections +
+    "&StartDate=" +
+    peakStartDate +
+    "&EndDate=" +
+    peakEndDate;
+
+  fev.urls.peaksQueryParameterString =
+    eventIDString +
+    "&States=" +
+    stateSelections +
+    "&County=" +
+    countySelections +
+    "&StartDate=" +
+    peakStartDate +
+    "&EndDate=" +
+    peakEndDate;
+
+  fev.urls.csvPeaksQueryURL =
+    fev.urls.csvPeaksURLRoot + fev.queryStrings.peaksQueryString;
+  fev.urls.jsonPeaksQueryURL =
+    fev.urls.jsonPeaksURLRoot + fev.queryStrings.peaksQueryString;
+  fev.urls.xmlPeaksQueryURL =
+    fev.urls.xmlPeaksURLRoot + fev.queryStrings.peaksQueryString;
+
+  //add download buttons
+  $("#peaksDownloadButtonCSV").attr("href", fev.urls.csvPeaksQueryURL);
+  $("#peaksDownloadButtonJSON").attr("href", fev.urls.jsonPeaksQueryURL);
+  $("#peaksDownloadButtonXML").attr("href", fev.urls.xmlPeaksQueryURL);
 
   ////////////////////HWM
   if (
@@ -961,10 +1152,8 @@ function multiEventMapData(eventIDs, eventTitles) {
   if ($("#hwmTypeSelect").val() !== null) {
     var hwmTypeSelectionArray = $("#hwmTypeSelect").val();
     hwmTypeSelections = hwmTypeSelectionArray.toString();
-    //var hwmTypeSelectionsTextArray = [];
     if ($("#hwmTypeSelect").select2("data").length > 0) {
       for (var i = 0; i < $("#hwmTypeSelect").select2("data").length; i++) {
-        //hwmTypeSelectionsTextArray.push($('#hwmTypeSelect').select2('data')[i].text)
         $("#hwmTypeDisplay").append(
           '<span class="label label-default">' +
             $("#hwmTypeSelect").select2("data")[i].text +
@@ -973,17 +1162,14 @@ function multiEventMapData(eventIDs, eventTitles) {
       }
     }
     $("#hwmTypeDisplay_li").show();
-    //$('#hwmTypeDisplay').html(hwmTypeSelectionsTextArray.toString());
   }
   //HWM quality
   var hwmQualitySelections = "";
   if ($("#hwmQualitySelect").val() !== null) {
     var hwmQualitySelectionArray = $("#hwmQualitySelect").val();
     hwmQualitySelections = hwmQualitySelectionArray.toString();
-    //var hwmQualitySelectionsTextArray = [];
     if ($("#hwmQualitySelect").select2("data").length > 0) {
       for (var i = 0; i < $("#hwmQualitySelect").select2("data").length; i++) {
-        //hwmQualitySelectionsTextArray.push($('#hwmQualitySelect').select2('data')[i].text)
         $("#hwmQualityDisplay").append(
           '<span class="label label-default">' +
             $("#hwmQualitySelect").select2("data")[i].text +
@@ -992,15 +1178,12 @@ function multiEventMapData(eventIDs, eventTitles) {
       }
     }
     $("#hwmQualityDisplay_li").show();
-    //$('#hwmQualityDisplay').html(hwmQualitySelectionsTextArray.toString());
   }
   ////HWM environment
   var hwmEnvSelectionArray = [];
-  //HWM environment: coastal
   if ($("#coastal")[0].checked && !$("#riverine")[0].checked) {
     hwmEnvSelectionArray.push("Coastal");
     $("#hwmEnvDisplay_li").show();
-    //$('#hwmEnvDisplay').html('Coastal');
     $("#hwmEnvDisplay").html(
       '<span class="label label-default">Coastal</span>'
     );
@@ -1009,7 +1192,6 @@ function multiEventMapData(eventIDs, eventTitles) {
   if ($("#riverine")[0].checked && !$("#coastal")[0].checked) {
     hwmEnvSelectionArray.push("Riverine");
     $("#hwmEnvDisplay_li").show();
-    //$('#hwmEnvDisplay').html('Riverine');
     $("#hwmEnvDisplay").html(
       '<span class="label label-default">Riverine</span>'
     );
@@ -1024,7 +1206,6 @@ function multiEventMapData(eventIDs, eventTitles) {
   ) {
     hwmSurveyStatusSelectionArray.push("true");
     $("#hwmSurveyCompDisplay_li").show();
-    //$('#hwmSurveyCompDisplay').html('True');
     $("#hwmSurveyCompDisplay").html(
       '<span class="label label-default">True</span>'
     );
@@ -1036,7 +1217,6 @@ function multiEventMapData(eventIDs, eventTitles) {
   ) {
     hwmSurveyStatusSelectionArray.push("false");
     $("#hwmSurveyCompDisplay_li").show();
-    //$('#hwmSurveyCompDisplay').html('False');
     $("#hwmSurveyCompDisplay").html(
       '<span class="label label-default">False</span>'
     );
@@ -1044,11 +1224,9 @@ function multiEventMapData(eventIDs, eventTitles) {
   var hwmSurveyStatusSelections = hwmSurveyStatusSelectionArray.toString();
   //HWM stillwater status
   var hwmStillwaterStatusSelectionArray = [];
-  ///HWM stillwater status: yes
   if ($("#stillWaterYes")[0].checked && !$("#stillWaterNo")[0].checked) {
     hwmStillwaterStatusSelectionArray.push("true");
     $("#hwmStillWaterDisplay_li").show();
-    //$('#hwmStillWaterDisplay').html('True');
     $("#hwmStillWaterDisplay").html(
       '<span class="label label-default">True</span>'
     );
@@ -1057,31 +1235,16 @@ function multiEventMapData(eventIDs, eventTitles) {
   if ($("#stillWaterNo")[0].checked && !$("#stillWaterYes")[0].checked) {
     hwmStillwaterStatusSelectionArray.push("false");
     $("#hwmStillWaterDisplay_li").show();
-    //$('#hwmStillWaterDisplay').html('False');
     $("#hwmStillWaterDisplay").html(
       '<span class="label label-default">False</span>'
     );
   }
   var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
   var eventIDString = eventIDs.toString();
+
   fev.queryStrings.hwmsQueryString =
     "?Event=" +
     eventIDString +
-    "&HWMType=" +
-    hwmTypeSelections +
-    "&HWMQuality=" +
-    hwmQualitySelections +
-    "&HWMEnvironment=" +
-    hwmEnvSelections +
-    "&SurveyComplete=" +
-    hwmSurveyStatusSelections +
-    "&StillWater=" +
-    hwmStillwaterStatusSelections;
-
-  /* NEED TO COME BACK TO THIS
-  fev.queryStrings.hwmsQueryString =
-    "?Event=" +
-    eventSelections +
     "&States=" +
     stateSelections +
     "&County=" +
@@ -1096,7 +1259,6 @@ function multiEventMapData(eventIDs, eventTitles) {
     hwmSurveyStatusSelections +
     "&StillWater=" +
     hwmStillwaterStatusSelections;
-  //var resultIsEmpty = false; */
 
   fev.urls.csvHWMsQueryURL =
     fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
@@ -1125,6 +1287,8 @@ function multiEventMapData(eventIDs, eventTitles) {
     "&StillWater=" +
     hwmStillwaterStatusSelections;
   layerCount++;
+
+  ////Add HWM markers to map
   hwm.clearLayers();
   eventIcon0 = L.divIcon({
     name: "High Water Mark",
@@ -1136,7 +1300,7 @@ function multiEventMapData(eventIDs, eventTitles) {
   eventIcon1 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-blue wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-diamond wmm-orange wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
@@ -1177,6 +1341,21 @@ function multiEventMapData(eventIDs, eventTitles) {
       eventTitles[i]
     );
   }
+
+  layerCount++;
+  peak.clearLayers();
+  ////Add Peak markers to map
+  for (i = 0; i < eventIDs.length; i++) {
+    var eventURL = "?Event=" + eventIDs[i] + fev.urls.peaksQueryParameterString;
+    multiDisplayPeaksGeoJSON(
+      "Peaks",
+      fev.urls.peaksFilteredGeoJSONViewURL + eventURL,
+      peakMarkerIcon,
+      eventTitles[i]
+    );
+  }
+  //var peaksCheckBox = document.getElementById("peaksToggle");
+  //peaksCheckBox.checked = true;
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
