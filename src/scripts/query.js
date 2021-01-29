@@ -902,6 +902,20 @@ function multiEventMapData(eventIDs, eventTitles) {
     );
   }
   var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
+  var eventIDString = eventIDs.toString();
+  fev.queryStrings.hwmsQueryString =
+    "?Event=" +
+    eventIDString +
+    "&HWMType=" +
+    hwmTypeSelections +
+    "&HWMQuality=" +
+    hwmQualitySelections +
+    "&HWMEnvironment=" +
+    hwmEnvSelections +
+    "&SurveyComplete=" +
+    hwmSurveyStatusSelections +
+    "&StillWater=" +
+    hwmStillwaterStatusSelections;
 
   /* NEED TO COME BACK TO THIS
   fev.queryStrings.hwmsQueryString =
@@ -921,7 +935,7 @@ function multiEventMapData(eventIDs, eventTitles) {
     hwmSurveyStatusSelections +
     "&StillWater=" +
     hwmStillwaterStatusSelections;
-  //var resultIsEmpty = false;
+  //var resultIsEmpty = false; */
 
   fev.urls.csvHWMsQueryURL =
     fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
@@ -933,7 +947,7 @@ function multiEventMapData(eventIDs, eventTitles) {
   //add download buttons
   $("#hwmDownloadButtonCSV").attr("href", fev.urls.csvHWMsQueryURL);
   $("#hwmDownloadButtonJSON").attr("href", fev.urls.jsonHWMsQueryURL);
-  $("#hwmDownloadButtonXML").attr("href", fev.urls.xmlHWMsQueryURL); */
+  $("#hwmDownloadButtonXML").attr("href", fev.urls.xmlHWMsQueryURL);
 
   //will eventually need to append "?Event=" to the beginning for each event
   //maybe move some of the lines above into multiDisplayHWMGeoJSON and make unique variables for each event
