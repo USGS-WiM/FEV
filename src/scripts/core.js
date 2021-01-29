@@ -731,7 +731,7 @@ $(document).on("ready", function () {
   var observedOverlays = {};
   var interpretedOverlays = {};
   var supportingLayers = {};
-  populateCameraLayer();
+  // populateCameraLayer();
   if (noAdvisories) {
     var div = document.getElementById("noTrackAdvisory");
     div.innerHTML += "No Active Advisories";

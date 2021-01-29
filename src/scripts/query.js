@@ -179,11 +179,15 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
 }
 
 function multiDisplaySensorGeoJSON(type, name, url, markerIcon, eventTitle) {
+  $.ajaxSetup({
+    async: false,
+  });
   console.log("type", type);
   console.log("type", type);
   console.log("name", name);
   console.log("url", url);
   console.log("markerIcon", markerIcon);
+  console.log("eventTitle", eventTitle);
   //increment layerCount
   layerCount++;
   var currentSubGroup = eval(type);
@@ -346,7 +350,7 @@ function multiDisplaySensorGeoJSON(type, name, url, markerIcon, eventTitle) {
       if (currentSubGroup == "rdg") {
         alert("RDG feature created");
       }
-      checkLayerCount(layerCount);
+      //checkLayerCount(layerCount);
     }
   });
 }
@@ -1569,7 +1573,7 @@ function multiEventMapData(eventIDs, eventTitles) {
       eventIconOptions[i],
       eventTitles[i]
     );
-    rdg.addTo(map);
+
     /*
       if (layer.Type == "sensor")
         displaySensorGeoJSON(
@@ -1595,6 +1599,7 @@ function multiEventMapData(eventIDs, eventTitles) {
       }, 600);
     }); */
   }
+  rdg.addTo(map);
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
