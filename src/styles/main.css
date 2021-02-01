@@ -1,17 +1,17 @@
 html,
 body {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-    padding-top: 50px;
-    background-image: url("../images/wimlogoCompact.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-color: #474747;
-    background-size: 169px 78px;
+  padding-top: 50px;
+  background-image: url("../images/wimlogoCompact.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: #474747;
+  background-size: 169px 78px;
 }
 
 /*
@@ -23,205 +23,203 @@ body {
 */
 
 .search-bar {
-    margin: 0px;
-    padding-left: 0px;
+  margin: 0px;
+  padding-left: 0px;
 }
 
 #search_container {
-    display: inline-block;
-    width: 300px;
-    height: 30px;
-    padding: 25px;
-    padding-top: 5px;
-    padding-left: 18px;
+  display: inline-block;
+  width: 300px;
+  height: 30px;
+  padding: 25px;
+  padding-top: 5px;
+  padding-left: 18px;
 }
 
 #sapi-searchTextBox {
-    font-family: 'Open Sans', sans-serif !important;
-    width: 100% !important;
-    height: 35px !important;
-    padding: 6px 12px !important;
-    margin-left: 0px !important;
-    border-radius: 2px !important;
-    border: 2px solid rgba(45, 49, 70, 0.23) !important;
+  font-family: "Open Sans", sans-serif !important;
+  width: 100% !important;
+  height: 35px !important;
+  padding: 6px 12px !important;
+  margin-left: 0px !important;
+  border-radius: 2px !important;
+  border: 2px solid rgba(45, 49, 70, 0.23) !important;
 }
 
 .sapi .ui-autocomplete {
-    font-family: 'Open Sans', sans-serif !important;
-    border-radius: 4px !important;
+  font-family: "Open Sans", sans-serif !important;
+  border-radius: 4px !important;
 }
 
 .sapi-autocomplete-title {
-    font-family: 'Open Sans', sans-serif !important;
-    background-color: #2D3146 !important
+  font-family: "Open Sans", sans-serif !important;
+  background-color: #2d3146 !important;
 }
 
 .sapi-autocomplete-tip {
-    font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .sapi-autocomplete-category {
-    font-family: 'Open Sans', sans-serif !important;
-    background-color: #0071BC !important
+  font-family: "Open Sans", sans-serif !important;
+  background-color: #0071bc !important;
 }
 
 .sapi-autocomplete-item {
-    font-family: 'Open Sans', sans-serif !important;
-    font-weight: 200 !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 200 !important;
 }
 
 .sapi-autocomplete-item {
-    font-family: 'Open Sans', sans-serif !important;
-    font-weight: 200 !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 200 !important;
 }
 
 .sapi-autocomplete-itemAnnotation {
-    font-family: 'Open Sans', sans-serif !important;
-    font-weight: bold !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: bold !important;
 }
 
 .hydroImage {
-    height: 155px;
-    width: 255px;
-    border: 1px solid #e1ebfc;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  height: 155px;
+  width: 255px;
+  border: 1px solid #e1ebfc;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #imageModalDialog {
-    width: 60%;
+  width: 60%;
 }
 
 @media (max-width: 768px) {
-    #imageModalDialog {
-        width: 100%;
-    }
+  #imageModalDialog {
+    width: 100%;
+  }
 }
 
-
 .faq-modal-body {
-    display: block;
-    box-sizing: border-box;
-    padding: 10px 25px;
+  display: block;
+  box-sizing: border-box;
+  padding: 10px 25px;
 }
 
 .faq-header {
-    display: block;
-    font-size: 12pt;
-    margin-bottom: 8px;
-    background-color: #F5F5F5;
-    color: #555555;
-    box-sizing: border-box;
-    transition: 0.12s;
-    padding: 10px;
+  display: block;
+  font-size: 12pt;
+  margin-bottom: 8px;
+  background-color: #f5f5f5;
+  color: #555555;
+  box-sizing: border-box;
+  transition: 0.12s;
+  padding: 10px;
 }
 
 .faq-header i {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .faq-header:hover {
-    cursor: pointer;
-    color: #6184DB;
-    transition: 0.12s;
+  cursor: pointer;
+  color: #6184db;
+  transition: 0.12s;
 }
 
 .faq-body {
-    display: none;
-    line-height: 1.6em;
-    color: #555555;
-    font-size: 10.35pt;
-    box-sizing: border-box;
-    padding: 10px 10px;
-
+  display: none;
+  line-height: 1.6em;
+  color: #555555;
+  font-size: 10.35pt;
+  box-sizing: border-box;
+  padding: 10px 10px;
 }
 
 .faq-body img {
-    display: block;
-    max-width: 100%;
-    margin: 10px auto;
+  display: block;
+  max-width: 100%;
+  margin: 10px auto;
 }
 
 .legend-icon {
-    display: -webkit-flex;
-    display: flex;
-    position: relative;
+  display: -webkit-flex;
+  display: flex;
+  position: relative;
 }
 
 .legend-icon label {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: center;
-    justify-content: center;
-    padding-left: 22px;
-    height: 24px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 22px;
+  height: 24px;
 }
 
 .legend-icon .wmm-pin {
-    z-index: 0;
-    top: 14px;
-    left: 4px;
-    position: absolute !important;
-    -webkit-transform: scale(0.65);
-    transform: scale(0.65);
+  z-index: 0;
+  top: 14px;
+  left: 4px;
+  position: absolute !important;
+  -webkit-transform: scale(0.65);
+  transform: scale(0.65);
 }
 
 .legend-icon .wmm-square {
-    position: absolute !important;
-    -webkit-transform: scale(0.8);
-    transform: scale(0.8);
+  position: absolute !important;
+  -webkit-transform: scale(0.8);
+  transform: scale(0.8);
 }
 
 .legend-icon .wmm-triangle {
-    top: 5px !important;
-    left: 6px !important;
+  top: 5px !important;
+  left: 6px !important;
 }
 
 .legend-icon .wmm-circle {
-    top: 5px !important;
-    left: 6px !important;
+  top: 5px !important;
+  left: 6px !important;
 }
 
 .legend-icon .wmm-square {
-    top: 5px !important;
-    left: 6px !important;
+  top: 5px !important;
+  left: 6px !important;
 }
 
 .legend-icon .wmm-diamond {
-    top: 5px !important;
-    left: 8px !important;
+  top: 5px !important;
+  left: 8px !important;
 }
 
 .legend-icon .wmm-pin {
-    top: 14px !important;
-    left: 8px !important;
+  top: 14px !important;
+  left: 8px !important;
 }
 
 .wmm-A0522D:after {
-    background-color: #A0522D !important;
+  background-color: #a0522d !important;
 }
 
 .wmm-triangle.wmm-A0522D {
-    border-bottom-color: rgba(0, 0, 0, 0.5);
+  border-bottom-color: rgba(0, 0, 0, 0.5);
 }
 
 .wmm-triangle.wmm-A0522D:after {
-    color: #A0522D !important;
+  color: #a0522d !important;
 }
 
 .wmm-33a02c:after {
-    background-color: #33a02c !important;
+  background-color: #33a02c !important;
 }
 
 .wmm-square.wmm-33a02c {
-    border-bottom-color: rgba(0, 0, 0, 0.5);
+  border-bottom-color: rgba(0, 0, 0, 0.5);
 }
 
 .wmm-square.wmm-33a02c:after {
-    color: #33a02c !important;
+  color: #33a02c !important;
 }
 
 /* css for tab in about modal for usgs live images */
@@ -301,74 +299,74 @@ body {
 /*}*/
 
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 28px;
-    height: 13px;
-    display: -webkit-inline-flex;
-    display: inline-flex;
-    left: 10px;
-    bottom: 8px;
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 13px;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  left: 10px;
+  bottom: 8px;
 }
 
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
 }
 
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 9px;
-    width: 9px;
-    left: 3px;
-    bottom: 2px;
-    background-color: white;
-    transition: .4s;
+  position: absolute;
+  content: "";
+  height: 9px;
+  width: 9px;
+  left: 3px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
 }
 
-input:checked+.slider {
-    background-color: #2196F3;
+input:checked + .slider {
+  background-color: #2196f3;
 }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px #2196F3;
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked+.slider:before {
-    -webkit-transform: translateX(12px);
-    transform: translateX(12px);
+input:checked + .slider:before {
+  -webkit-transform: translateX(12px);
+  transform: translateX(12px);
 }
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 34px;
+  border-radius: 34px;
 }
 
 .slider.round:before {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .legendSwatch {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 #noTrackAdvisory {
-    top: 3px;
-    margin-left: 5px;
+  top: 3px;
+  margin-left: 5px;
 }
 
 /*removed when markerclustering removed */
@@ -398,362 +396,360 @@ input:checked+.slider:before {
 /*}*/
 
 #aboutNav {
-    /*background-color: #474747;*/
+  /*background-color: #474747;*/
 
-    background: 0 0;
-    border: none;
-    line-height: 16px;
-    /*padding-top: 0;*/
-    /*padding-bottom: 0;*/
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    position: relative;
-    top: 2px;
-    transition: .2s;
-    color: rgba(255, 255, 255, .35);
+  background: 0 0;
+  border: none;
+  line-height: 16px;
+  /*padding-top: 0;*/
+  /*padding-bottom: 0;*/
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  top: 2px;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.35);
 }
 
-
 #aboutNav {
-    letter-spacing: 2px;
-    position: relative;
-    top: 2px;
-    transition: 0.2s;
-    color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2px;
+  position: relative;
+  top: 2px;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 #aboutNav:hover {
-    cursor: pointer;
-    color: rgba(255, 255, 255, 1);
-    transition: 0.2s;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 1);
+  transition: 0.2s;
 }
 
 #aboutNav:focus {
-    outline: none;
+  outline: none;
 }
 
 .keepit100 {
-    height: 100%;
+  height: 100%;
 }
 
 @media (max-width: 767px) {
-    #geosearchButtonText {
-        display: none;
-    }
+  #geosearchButtonText {
+    display: none;
+  }
 
-    #legendButtonNavBar {
-        display: none;
-    }
+  #legendButtonNavBar {
+    display: none;
+  }
 
-    /*.basemapThumb {*/
-    /*display: none;*/
-    /*}*/
+  /*.basemapThumb {*/
+  /*display: none;*/
+  /*}*/
 }
 
 .overflow-y-hidden {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
 @media (min-width: 768px) {
-    #legendButtonSidebar {
-        display: none;
-    }
+  #legendButtonSidebar {
+    display: none;
+  }
 }
 
 .basemapThumb {
-    border: 1px solid #ffffff;
-    border-radius: 5px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
 }
 
 /*basemapBtn elements manually set to width of widest - temp solution until dynamic solution is implemented */
 .basemapBtn {
-    width: 86px;
-    margin-bottom: 2px;
-    padding: 2px;
+  width: 86px;
+  margin-bottom: 2px;
+  padding: 2px;
 }
 
 #sidebar .filtersBtn {
-    border: none;
-    outline: none;
-    border-radius: 0;
-    font-size: 9pt;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-sizing: border-box;
-    padding: 5px;
-    display: block;
-    /*width: 100%;*/
-    text-align: left;
-    color: #6F758E;
-    margin: 0 auto;
-    display: inline-block;
-    float: right;
-    border-left: 4px solid transparent;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+  padding: 5px;
+  display: block;
+  /*width: 100%;*/
+  text-align: left;
+  color: #6f758e;
+  margin: 0 auto;
+  display: inline-block;
+  float: right;
+  border-left: 4px solid transparent;
 }
 
 #sidebar .filtersBtn img {
-    height: 25px;
-    vertical-align: middle;
-    display: inline-block;
-    margin: 0 15px 0 0;
-    border-radius: 0;
-    border: none;
+  height: 25px;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 15px 0 0;
+  border-radius: 0;
+  border: none;
 }
 
 #sidebar .filtersBtn br {
-    display: none;
+  display: none;
 }
 
 #sidebar .filtersBtn:hover {
-    border-color: #333;
-    background-color: rgba(236, 238, 243, 0.5);
+  border-color: #333;
+  background-color: rgba(236, 238, 243, 0.5);
 }
 
 #sidebar .filtersBtn:focus {
-    background-color: #ECEEF3;
-    border-color: #4574CC;
+  background-color: #eceef3;
+  border-color: #4574cc;
 }
 
 .esriSimpleSliderTL {
-    top: 5px;
-    left: 5px;
-    background-color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.8);
+  top: 5px;
+  left: 5px;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 #homeButton {
-    position: absolute;
-    top: 75px;
-    left: 5px;
-    z-index: 50;
+  position: absolute;
+  top: 75px;
+  left: 5px;
+  z-index: 50;
 }
 
 #locateButton {
-    position: absolute;
-    top: 115px;
-    left: 5px;
-    z-index: 50;
+  position: absolute;
+  top: 115px;
+  left: 5px;
+  z-index: 50;
 }
 
 .hover-content {
-    display: none;
+  display: none;
 }
 
 .identification {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 9pt;
-    display: block;
-    width: 100%;
-    margin: 0;
-    padding: 0 0 0 8px;
-    opacity: .75;
-    text-align: center;
-    color: #6E7490;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 9pt;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 8px;
+  opacity: 0.75;
+  text-align: center;
+  color: #6e7490;
 }
 
 .latLngScale {
-    position: absolute;
-    padding: 4px;
-    bottom: 56px !important;
-    left: 20px;
-    /*width:250px*/
-    /*height:320px;*/
-    z-index: 1;
-    color: black;
-    background-color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-    border-radius: 4px;
-    cursor: pointer;
+  position: absolute;
+  padding: 4px;
+  bottom: 56px !important;
+  left: 20px;
+  /*width:250px*/
+  /*height:320px;*/
+  z-index: 1;
+  color: black;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .latLngScale:hover .hover-content {
-    display: inline-block;
+  display: inline-block;
 }
 
 .lyrTogDiv {
-    width: 100%;
-    padding: 1px;
-    font-weight: bold;
+  width: 100%;
+  padding: 1px;
+  font-weight: bold;
 }
 
 .alert {
-    margin-top: 0px;
-    margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .alert-info {
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd;
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
 }
 
 .legendClass {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 3;
-    color: black;
-    background-color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-    /*min-width: 150px;*/
-    border-radius: 4px;
-    text-align: left;
-    line-height: 26px;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 3;
+  color: black;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  /*min-width: 150px;*/
+  border-radius: 4px;
+  text-align: left;
+  line-height: 26px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .legendClass i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
 }
 
 .legendHeading {
-    color: black;
-    background-color: rgb(255, 255, 255);
-    background-color: rgba(255, 255, 255, 0.8);
-    text-decoration: none !important;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-right: 10px;
-    padding-left: 10px;
+  color: black;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.8);
+  text-decoration: none !important;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 #legendButtonSidebar {
-    width: 100%;
+  width: 100%;
 }
 
 .legend-panel-body {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-    /* max-height: 25em;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  /* max-height: 25em;
     overflow-y: auto; */
 }
 
 .legend-item-panel {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .lgi-zoom {
-    color: white;
-    background-color: black;
-    border: none !important;
-    padding: 5px 5px !important;
+  color: white;
+  background-color: black;
+  border: none !important;
+  padding: 5px 5px !important;
 }
 
 a.lgi-zoom {
-    color: white;
+  color: white;
 }
 
 a.lgi-zoom:hover {
-    color: black;
+  color: black;
 }
 
 .lyrTog {
-    width: 100%;
-    padding: 1px;
-    font-weight: bold;
+  width: 100%;
+  padding: 1px;
+  font-weight: bold;
 }
 
 .map {
-    overflow: auto;
+  overflow: auto;
 }
 
 #mapDiv {
-    min-height: 100%;
-    max-height: 100%;
+  min-height: 100%;
+  max-height: 100%;
 }
 
 .opacity {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 .opacitySlider {
-    position: absolute;
-    color: white;
-    width: 200px;
-    padding: 10px;
-    /*padding-bottom: 40px;*/
-    opacity: 0.8;
-    border: solid 1px white;
-    background-color: black;
-    z-index: 1000;
-    border-radius: 5px;
+  position: absolute;
+  color: white;
+  width: 200px;
+  padding: 10px;
+  /*padding-bottom: 40px;*/
+  opacity: 0.8;
+  border: solid 1px white;
+  background-color: black;
+  z-index: 1000;
+  border-radius: 5px;
 }
 
 .modal-dialog {
-    padding-top: 60px;
+  padding-top: 60px;
 }
 
 .navbar-brand {
-    padding: 7px 4px;
+  padding: 7px 4px;
 }
 
 .navbar-dark {
-    border-width: 0;
-    background-color: #474747;
-    color: #ffffff;
-    font-family: arial, sans-serif;
-    top: 0;
-    position: fixed;
-    width: inherit;
+  border-width: 0;
+  background-color: #474747;
+  color: #ffffff;
+  font-family: arial, sans-serif;
+  top: 0;
+  position: fixed;
+  width: inherit;
 }
 
 .no-col-padding {
-    padding: 0;
+  padding: 0;
 }
 
 .panel-heading a:after {
-    font-family: 'Glyphicons Halflings';
-    content: "\e114";
-    float: right;
-    color: gray;
+  font-family: "Glyphicons Halflings";
+  content: "\e114";
+  float: right;
+  color: gray;
 }
 
 .panel-heading a.collapsed:after {
-    content: "\e080";
+  content: "\e080";
 }
 
 .row-map {
-    background: #eee;
+  background: #eee;
 }
 
-
 [class*="col-"] {
-    /* background-color: #eee;
+  /* background-color: #eee;
     border: 1px solid #E7E7E7; */
-    text-align: left;
+  text-align: left;
 }
 
 #wim_logo {
-    background: #000 0 0;
-    border-radius: 5px;
-    width: 45px;
+  background: #000 0 0;
+  border-radius: 5px;
+  width: 45px;
 }
 
 #wim_logo:hover {
-    background: blue none repeat scroll 0 0;
-    cursor: pointer;
+  background: blue none repeat scroll 0 0;
+  cursor: pointer;
 }
 
 .wim-sidebar-panel {
-    margin-bottom: 2px;
+  margin-bottom: 2px;
 }
 
 #sidebar {
-    top: 50px;
-    padding-bottom: 50px;
+  top: 50px;
+  padding-bottom: 50px;
 }
 
 /*#mapContainer {
@@ -762,559 +758,554 @@ a.lgi-zoom:hover {
 }*/
 input[type="checkbox"],
 input[type="radio"] {
-    float: left;
+  float: left;
 }
 
 .zoomDialog {
-    position: absolute;
-    color: white;
-    /*width: 200px;*/
-    padding: 5px;
-    /*padding-bottom: 40px;*/
-    opacity: 0.9;
-    border: solid 1px white;
-    background-color: black;
-    z-index: 1000;
-    border-radius: 5px;
+  position: absolute;
+  color: white;
+  /*width: 200px;*/
+  padding: 5px;
+  /*padding-bottom: 40px;*/
+  opacity: 0.9;
+  border: solid 1px white;
+  background-color: black;
+  z-index: 1000;
+  border-radius: 5px;
 }
 
 .zoomClose {
-    color: white;
+  color: white;
 }
 
 .filterGroupTitle {
-    font-size: small !important;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    margin-bottom: 2px;
-    margin-top: 5px;
+  font-size: small !important;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+  margin-top: 5px;
 }
 
-
 .filterForms {
-    background-color: #FFFFFF !important;
-    border: none !important;
-    text-align: left !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  text-align: left !important;
 }
 
 .hiddenForm {
-    display: none;
+  display: none;
 }
 
 #sensorForm {
-    display: block;
+  display: block;
+}
+
+#sensorFormCompare {
+  display: block;
 }
 
 #legendElement {
-    top: 0px !important;
+  top: 0px !important;
 }
 
 .popup-title {
-    font-size: larger;
-    font-weight: bold;
-    text-align: left;
-    /*text-transform: uppercase;*/
-    /*font-family: 'Merriweather', serif;*/
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
+  font-size: larger;
+  font-weight: bold;
+  text-align: left;
+  /*text-transform: uppercase;*/
+  /*font-family: 'Merriweather', serif;*/
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
 }
 
 .nwis-link {
-    font-size: larger;
-    font-weight: bold;
-    text-align: left;
-    /*text-transform: uppercase;*/
-    /*font-family: 'Merriweather', serif;*/
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
+  font-size: larger;
+  font-weight: bold;
+  text-align: left;
+  /*text-transform: uppercase;*/
+  /*font-family: 'Merriweather', serif;*/
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .rdg-nwis-info {
-    font-weight: bold;
-    text-align: left;
-    /*text-transform: uppercase;*/
-    /*font-family: 'Merriweather', serif;*/
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
+  font-weight: bold;
+  text-align: left;
+  /*text-transform: uppercase;*/
+  /*font-family: 'Merriweather', serif;*/
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
 }
 
 /*Additions - Samuels 10/27*/
 /*Sidebar*/
 .event-name {
-    color: #6F7192;
-    font-size: 12.5pt;
-    box-sizing: border-box;
-    padding: 12px 0 0 0;
+  color: #6f7192;
+  font-size: 12.5pt;
+  box-sizing: border-box;
+  padding: 12px 0 0 0;
 }
 
 .event-name small {
-    font-size: 9pt;
-    box-sizing: border-box;
-    color: #6F7192;
-    padding: 0 0 7px 0;
-    display: block;
-    text-transform: uppercase;
-    font-weight: bolder;
-    opacity: 0.5;
+  font-size: 9pt;
+  box-sizing: border-box;
+  color: #6f7192;
+  padding: 0 0 7px 0;
+  display: block;
+  text-transform: uppercase;
+  font-weight: bolder;
+  opacity: 0.5;
 }
 
 .event-range {
-    font-size: 10pt;
-    font-weight: 500;
-    opacity: 0.8;
-    color: #6F7390;
-    margin-bottom: 0;
-    box-sizing: border-box;
-    padding-bottom: 25px;
-    border-bottom: 1px solid #DDDDDD;
+  font-size: 10pt;
+  font-weight: 500;
+  opacity: 0.8;
+  color: #6f7390;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #dddddd;
 }
 
 .identification {
-    display: block;
-    box-sizing: border-box;
-    padding: 25px 0 0 0;
-    text-align: center;
+  display: block;
+  box-sizing: border-box;
+  padding: 25px 0 0 0;
+  text-align: center;
 }
 
 .dropdown-toggle {
-    box-sizing: border-box;
-    padding: 10px;
-    margin: 5px 0;
-    display: block;
-    width: 100%;
-    background-color: #ECEEF3;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    font-weight: bolder;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px 0;
+  display: block;
+  width: 100%;
+  background-color: #eceef3;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  font-weight: bolder;
 }
 
 #sensorDownloadButtons .btn-group,
 #hwmrDownloadButtons .btn-group,
 #peaksDownloadButtons .btn-group {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 
 .list-group {
-    background-color: #ECEEF3;
+  background-color: #eceef3;
 }
 
-
 .filterItems {
-    font-size: smaller;
-    padding-top: 4px;
-    padding-right: 5px;
-    padding-bottom: 4px;
-    padding-left: 5px;
-    text-align: left;
-    background-color: transparent !important;
-    /*font-size: 8pt; */
-    font-weight: bolder;
-    text-transform: uppercase;
-    letter-spacing: -0.25px;
-    color: rgba(0, 0, 0, 0.8);
-    line-height: 1.5em;
-    border-bottom-right-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
-    border-top-left-radius: 0px !important;
-    border-top-right-radius: 0px !important;
+  font-size: smaller;
+  padding-top: 4px;
+  padding-right: 5px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  text-align: left;
+  background-color: transparent !important;
+  /*font-size: 8pt; */
+  font-weight: bolder;
+  text-transform: uppercase;
+  letter-spacing: -0.25px;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 1.5em;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 
 .filterItems span {
-    font-size: 10pt;
-    text-transform: none;
-    color: #000;
-    letter-spacing: 0;
-    box-sizing: border-box;
-    padding: 2px 1px 2px 5px;
-    vertical-align: middle;
-    display: inline-block;
-    position: relative;
-    top: -0.5px;
+  font-size: 10pt;
+  text-transform: none;
+  color: #000;
+  letter-spacing: 0;
+  box-sizing: border-box;
+  padding: 2px 1px 2px 5px;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  top: -0.5px;
 }
 
 #locationGroupDiv label,
 #hwmGroupDiv label,
 #sensorsGroupDiv label,
 #eventGroupDiv label {
-    text-align: left !important;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 1px 0;
-    margin: 0 auto;
+  text-align: left !important;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1px 0;
+  margin: 0 auto;
 }
-
-
 
 /*MAP LAYERS*/
 #legendElement {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
-.legend-panel-body input[type='checkbox'] {
-    position: relative;
-    top: 5px;
-    margin-right: 5px;
-    color: rgba(0, 0, 0, 0.7) !important;
+.legend-panel-body input[type="checkbox"] {
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
+  color: rgba(0, 0, 0, 0.7) !important;
 }
 
 .esconder {
-    display: none;
-    /*visibility: hidden;*/
+  display: none;
+  /*visibility: hidden;*/
 }
 
 .nwisAlertClass {
-    position: absolute;
-    top: 10px;
-    left: 45px;
-    z-index: 3;
-    color: #333;
-    background-color: #0089e5;
-    border-color: #205493;
-    opacity: 0.75;
-    font-weight: bold;
-    display: none;
+  position: absolute;
+  top: 10px;
+  left: 45px;
+  z-index: 3;
+  color: #333;
+  background-color: #0089e5;
+  border-color: #205493;
+  opacity: 0.75;
+  font-weight: bold;
+  display: none;
 }
 
 .rtScaleAlertClass {
-    display: none;
-    font-size: small;
-    line-height: 100%;
-    display: inline-block;
-    max-width: -webkit-fit-content;
-    max-width: -moz-fit-content;
-    max-width: fit-content;
+  display: none;
+  font-size: small;
+  line-height: 100%;
+  display: inline-block;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
 .eventSelectAlert {
-    display: none;
+  display: none;
 }
 
 .select {
-    border-radius: 0px !important;
+  border-radius: 0px !important;
 }
 
 #btnSubmitEvent {
-    height: 34px;
-    width: 50px;
-    background-color: #345EBD;
-    border: 1px solid transparent;
-    color: white;
-    font-weight: 600;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    transition: 0.2s;
-    box-sizing: border-box;
+  height: 34px;
+  width: 50px;
+  background-color: #345ebd;
+  border: 1px solid transparent;
+  color: white;
+  font-weight: 600;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: 0.2s;
+  box-sizing: border-box;
 }
 
 #btnSubmitEvent:hover {
-    cursor: pointer;
-    background-color: #1E3668;
-    transition: 0.2s;
+  cursor: pointer;
+  background-color: #1e3668;
+  transition: 0.2s;
 }
 
 .select2-container--default .select2-selection--multiple {
-    background-color: white;
-    border: 1px solid #aaa;
-    border-radius: 0px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    cursor: text;
-    height: 34px;
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  cursor: text;
+  height: 34px;
 }
 
 .labelSpan {
-    margin-right: 2px;
-    margin-left: 2px;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 .label {
-    margin-left: 2px;
-    margin-right: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .panel-title {
-    border-top: 1px solid #E9EBF1;
-    transition: 0.2s !important;
+  border-top: 1px solid #e9ebf1;
+  transition: 0.2s !important;
 }
 
 .panel-title:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-top: 1px solid #D8D8D8;
-    transition: 0.2s !important;
-}
-
-#btnChangeFilters {
-    display: block;
-    width: 100% !important;
-    margin: 15px auto 15px auto;
-    box-sizing: border-box;
-    padding: 10px !important;
-    transition: 0.2s;
-    /*border-radius: 5px !important;*/
-    text-align: center !important;
-    background-color: #0071BC !important;
-    color: #FFF !important;
-    border-left: none !important;
-    border: 2px solid #00568F !important;
-    margin-bottom: 16px !important;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #d8d8d8;
+  transition: 0.2s !important;
 }
 
 #btnChangeFilters:hover {
-    cursor: pointer;
-    transition: 0.2s !important;
-    background-color: rgba(52, 94, 189, 0.8) !important;
+  cursor: pointer;
+  transition: 0.2s !important;
+  background-color: rgba(52, 94, 189, 0.8) !important;
 }
 
+.sidebarBlueBtn {
+  display: block;
+  width: 100% !important;
+  margin: 15px auto 15px auto;
+  box-sizing: border-box;
+  padding: 10px !important;
+  transition: 0.2s;
+  /*border-radius: 5px !important;*/
+  text-align: center !important;
+  background-color: #0071bc !important;
+  color: #fff !important;
+  border-left: none !important;
+  border: 2px solid #00568f !important;
+  margin-bottom: 16px !important;
+}
 
 .panel-body h3 {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 14pt;
-    font-weight: bolder;
-    letter-spacing: -0.5px;
-    color: rgba(0, 0, 0, 0.75);
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 14pt;
+  font-weight: bolder;
+  letter-spacing: -0.5px;
+  color: rgba(0, 0, 0, 0.75);
 }
-
 
 .labelSpan .label {
-    background-color: white !important;
-    color: rgba(0, 0, 0, 0.8) !important;
-    box-sizing: border-box !important;
-    padding: 5px !important;
-    font-size: 9pt !important;
-    margin: 3px;
+  background-color: white !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  box-sizing: border-box !important;
+  padding: 5px !important;
+  font-size: 9pt !important;
+  margin: 3px;
 }
 
-
 .modal-footer button {
-    display: inline-block !important;
-    box-sizing: border-box;
-    font-weight: bolder !important;
-    letter-spacing: 0.5px !important;
-    padding: 12px 15px !important;
-    color: rgba(0, 0, 0, 0.8) !important;
-    font-size: 10pt !important;
-    transition: 0.2s !important;
-    border-radius: 4px !important;
+  display: inline-block !important;
+  box-sizing: border-box;
+  font-weight: bolder !important;
+  letter-spacing: 0.5px !important;
+  padding: 12px 15px !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  font-size: 10pt !important;
+  transition: 0.2s !important;
+  border-radius: 4px !important;
 }
 
 #btnSubmitFilters {
-    color: white !important;
-    font-weight: 500 !important;
-    letter-spacing: 1px !important;
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-    border-top-left-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
+  color: white !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
 }
 
 #btnClearFilters {
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
-    border-top-left-radius: 0px !important;
-    border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
 }
 
 .modal-footer .close {
-    position: relative !important;
-    top: 4px !important;
+  position: relative !important;
+  top: 4px !important;
 }
 
 .modal-footer button:hover {
-    transition: 0.2s !important;
+  transition: 0.2s !important;
 }
 
 .legendClass {
-    border-radius: 4px !important;
+  border-radius: 4px !important;
 }
 
 .leaflet-control-layers-expanded {
-    border: none !important;
-    background-color: #FCFCFC !important;
-    background: none !important;
-    box-shadow: none !important;
+  border: none !important;
+  background-color: #fcfcfc !important;
+  background: none !important;
+  box-shadow: none !important;
 }
 
 #legendDiv p {
-    display: block;
-    box-sizing: border-box;
-    padding: 8px 0 0 0;
-    text-align: center;
-    font-size: 8pt;
-    color: rgba(0, 0, 0, 0.5) !important;
-    margin: 0 auto;
+  display: block;
+  box-sizing: border-box;
+  padding: 8px 0 0 0;
+  text-align: center;
+  font-size: 8pt;
+  color: rgba(0, 0, 0, 0.5) !important;
+  margin: 0 auto;
 }
 
 #legendDiv b {
-    box-sizing: border-box;
-    padding: 0 0 0 5px;
+  box-sizing: border-box;
+  padding: 0 0 0 5px;
 }
 
 .squareDiv {
-    float: left;
-    width: 14px;
-    height: 14px;
-    margin: 2px;
-    border: .1px solid rgba(255, 255, 255, 0);
+  float: left;
+  width: 14px;
+  height: 14px;
+  margin: 2px;
+  border: 0.1px solid rgba(255, 255, 255, 0);
 }
 
 .watershedColor {
-    border-color: gray;
-    Border-width: 2px;
+  border-color: gray;
+  border-width: 2px;
 }
 
 .modal-content {
-    border-radius: 3px !important;
+  border-radius: 3px !important;
 }
 
 h4.modal-title {
-    font-weight: 300 !important;
-    font-family: 'Open Sans', sans-serif;
-    position: relative;
-    top: 5px;
-    /* color: rgba(0,0,0,0.75) !important; */
-    max-width: 90%
+  font-weight: 300 !important;
+  font-family: "Open Sans", sans-serif;
+  position: relative;
+  top: 5px;
+  /* color: rgba(0,0,0,0.75) !important; */
+  max-width: 90%;
 }
 
 .modal-header button.close {
-    position: relative;
-    font-family: 'Arial', sans-serif;
-    top: -5px;
+  position: relative;
+  font-family: "Arial", sans-serif;
+  top: -5px;
 }
 
-input[type='checkbox'] {
-    margin-right: 5px;
-    position: relative;
-    top: -0.5px;
+input[type="checkbox"] {
+  margin-right: 5px;
+  position: relative;
+  top: -0.5px;
 }
 
 .dismissbutton {
-    display: inline-block;
-    margin-bottom: 15px;
-    margin-left: 15px;
-    font-weight: 400;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: white;
-    white-space: nowrap;
-    padding: 6px 12px;
-    font-size: 14px;
-    border-color: rgb(204, 204, 204);
+  display: inline-block;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: white;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-color: rgb(204, 204, 204);
 }
 
 #sapi-searchTextBox {
-    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
 }
 
 #searchSubmit {
-    padding: 6px 12px 7px 12px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.8px;
-    background-color: #3C69C5 !important;
-    color: rgba(255, 255, 255, 1) !important;
-    border: 1px solid transparent;
+  padding: 6px 12px 7px 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px;
+  background-color: #3c69c5 !important;
+  color: rgba(255, 255, 255, 1) !important;
+  border: 1px solid transparent;
 }
 
-
 .modal-body .panel-default {
-    border: none !important;
+  border: none !important;
 }
 
 .modal-body .form-group label {
-    text-transform: uppercase;
-    font-size: 8pt;
-    color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  font-size: 8pt;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .leaflet-control-layers-overlays label span i {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 .popup-title {
-    box-sizing: border-box;
-    padding: 0 0 6px 0;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 9pt;
+  box-sizing: border-box;
+  padding: 0 0 6px 0;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 9pt;
 }
 
 .leaflet-popup-close-button {
-    position: relative;
-    top: 5px;
-    right: 5px;
+  position: relative;
+  top: 5px;
+  right: 5px;
 }
 
-.leaflet-control-layers-overlays label input[type='checkbox'] {
-    top: 3px;
+.leaflet-control-layers-overlays label input[type="checkbox"] {
+  top: 3px;
 }
 
 .leaflet-control-layers-overlays label span i {
-    position: relative;
-    top: -2px;
-    width: 25px;
-    margin: 0 auto;
-    text-align: center;
+  position: relative;
+  top: -2px;
+  width: 25px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.table-condensed>thead>tr>th,
-.table-condensed>tbody>tr>th,
-.table-condensed>tfoot>tr>th,
-.table-condensed>thead>tr>td,
-.table-condensed>tbody>tr>td,
-.table-condensed>tfoot>tr>td {
-    padding: 2px;
-    padding-top: 2px;
-    padding-right: 2px;
-    padding-bottom: 2px;
-    padding-left: 2px;
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 2px;
+  padding-top: 2px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
 }
 
 .wim-table {
-    font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .data-disclaim {
-    background: transparent;
+  background: transparent;
 }
 
 .data-disclaim:hover {
-    background: #d3d3d3;
+  background: #d3d3d3;
 }
 
 .esri-leaflet-logo {
-    display: none !important;
+  display: none !important;
 }
 
 #currentFiltersHeading {
-    text-align: left;
-    height: 37px;
-    font-size: large;
-    font-weight: 700;
-    display: block;
-    margin-top: 15px;
-    /*float: left;*/
+  text-align: left;
+  height: 37px;
+  font-size: large;
+  font-weight: 700;
+  display: block;
+  margin-top: 15px;
+  /*float: left;*/
 }
 
 .sensor-data-table {
-    text-align: left;
+  text-align: left;
 }
 
 .sensor-data-table-div {
-    text-align: left;
+  text-align: left;
 }
 
-
 .sensor-modal-dialog {
-    overflow-y: initial !important
+  overflow-y: initial !important;
 }
 
 .sensor-modal-body {
-    /* height: 475px; */
-    overflow-y: auto;
+  /* height: 475px; */
+  overflow-y: auto;
 }

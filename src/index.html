@@ -627,6 +627,222 @@
     </div>
     <!-- end filters modal ---------------------------------------------------------------------------------- -->
 
+    <!-- begin compare events modal ---------------------------------------------------------------------------------- -->
+    <div id="compareEventsModal" class="modal fade" style="display: none;" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Compare Events</h4>
+                </div>
+                <div class="modal-body">
+
+                    <!-- begin filter panels -->
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group" >
+                                    <label for="evtSelect_filterModal" class="col-sm-2 control-label filterForms">Event:
+                                    </label>
+                                    <div class="col-sm-10 filterForms">
+                                        <select class="evtSelect" multiple
+                                            style="width: 100%"></select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" >
+                                <div class="form-group">
+                                    <label for="stateSelectCompare" class="col-sm-2 control-label filterForms">State</label>
+                                    <div class="col-sm-10 filterForms">
+                                        <select id="stateSelectCompare" style="width: 100%" multiple="multiple"
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="countySelectCompare" class="col-sm-2 control-label filterForms">County</label>
+                                    <div class="col-sm-10 filterForms">
+                                        <select id="countySelectCompare" style="width: 90%; float:right" multiple
+                                            class="clearable">
+                                            <option value=null>Please select state(s) first </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="selectionRadiosCompare"
+                                        class="control-label col-sm-2 masterFormLabel filterForms"
+                                        >Data type</label>
+                                    <div class="col-sm-10 filterForms">
+                                        <div class="btn-group" data-toggle="buttons" id="selectionRadiosCompare">
+                                            <label class="btn btn-default dataTypeRadio active">
+                                                <input type="radio" name="dataOptions" value="sensor"
+                                                    checked>Sensor Data
+                                            </label>
+                                            <label class="btn btn-default dataTypeRadio">
+                                                <input type="radio" name="dataOptions" value="hwm"
+                                                    >High-Water Mark Data
+                                            </label>
+                                            <label class="btn btn-default dataTypeRadio" >
+                                                <input type="radio" name="dataOptions" value="peak" >Peak
+                                                Summary Data
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal hiddenForm" role="form" id="sensorFormCompare">
+                                <div class="form-group">
+                                    <label for="sensorTypeSelectCompare" class="col-sm-3 control-label filterForms">Sensor
+                                        Type</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="sensorTypeSelectCompare" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sensorStatusSelectCompare"
+                                        class="col-sm-3 control-label filterForms">Status</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="sensorStatusSelectCompare" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" >
+                                    <label for="collectionConditionSelectCompare"
+                                        class="col-sm-3 control-label filterForms">Collection Condition</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="collectionConditionSelectCompare" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deployTypeSelectCompare" class="col-sm-3 control-label filterForms">Deployment
+                                        Type</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="deployTypeSelectCompare" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal hiddenForm" role="form" id="hwmForm">
+                                <div class="form-group" id="hwmTypeForm">
+                                    <label for="hwmTypeSelect" class="col-sm-3 control-label filterForms">HWM
+                                        Type</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="hwmTypeSelect" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hwmQualityForm">
+                                    <label for="hwmQualitySelect"
+                                        class="col-sm-3 control-label filterForms">Quality</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <select id="hwmQualitySelect" style="width: 100%" multiple
+                                            class="clearable"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="envForm">
+                                    <label for="envRadios"
+                                        class="col-sm-3 control-label filterForms">Environment</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <div class="btn-group" data-toggle="buttons" id="envRadios">
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="coastal" id="coastal">Coastal <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="river" id="riverine">Riverine <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="surveyedForm">
+                                    <label for="surveyedRadios" class="col-sm-3 control-label filterForms">Survey
+                                        Completed</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <div class="btn-group" data-toggle="buttons" id="surveyedRadios">
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="yes" id="surveyCompleteYes">Yes <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="no" id="surveyCompleteNo">No <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="stillwaterForm">
+                                    <label for="stillWtrRadios" class="col-sm-3 control-label filterForms">Stillwater
+                                        location</label>
+                                    <div class="col-sm-9 filterForms">
+                                        <div class="btn-group" data-toggle="buttons" id="stillWtrRadios">
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="yes" id="stillWaterYes">Yes <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                            <label class="btn btn-default check">
+                                                <input type="checkbox" name="no" id="stillWaterNo">No <span
+                                                    class="glyphicon glyphicon-ok selected"
+                                                    style="display: none"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal hiddenForm" role="form" id="peakForm">
+                                <div class="form-group" id="peakDateForm">
+                                    <label for="peakDatePicker" class="col-sm-3 control-label filterForms">Peak
+                                        Date</label>
+                                    <div class="col-sm-9 filterForms" id="peakDatePicker">
+                                        <div class="input-daterange input-group">
+                                            <input type="text" class="input-sm form-control" name="start"
+                                                id="peakStartDate" />
+                                            <span class="input-group-addon">to</span>
+                                            <input type="text" class="input-sm form-control" name="end"
+                                                id="peakEndDate" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- end filter panels -->
+                    <div class="alert alert-danger eventSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
+                            aria-hidden="true"></i> Please choose an event to proceed.</div>
+                </div>
+                <div class="modal-footer">
+                    <span>FEV requires an event selection to view data. You cannot clear the event filter, only change
+                        it.</span>
+                    <button id="btnClearFilters" class="btn btn-default" type="button" aria-hidden="true"
+                        style="color:gray;" class="btn btn-primary">Clear Filters</button>
+                    <button id="btnSubmitFilters" class="btn btn-primary btn-lg" type="button" aria-hidden="true"
+                        style="color:gray;" class="btn btn-primary">Filter</button>
+                    <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"
+                        style="color:gray;" class="btn btn-default">Close</button>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!-- end compare events modal ---------------------------------------------------------------------------------- -->
+
     <!-- begin sensor data modal ---------------------------------------------------------------------------------- -->
     <div class="modal fade overflow-y-hidden" id="sensorDataModal" style="display: none;" aria-hidden="true">
         <div class="modal-dialog sensor-modal-dialog modal-lg">
@@ -1181,8 +1397,7 @@
 
 
                         <div class="panel-body collapse in">
-
-                            <button id="btnChangeFilters" class="btn btn-default filtersBtn">Change
+                            <button id="btnChangeFilters" class="btn btn-default filtersBtn sidebarBlueBtn">Change
                                 Filters</button><br>
                             <div id="currentFiltersHeading">Current Filters</div>
 
@@ -1347,6 +1562,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <button id="btnCompareEvents" class="btn btn-default filtersBtn sidebarBlueBtn">Compare Events</button><br>
                             <p>Visit the <span><a href="https://stn.wim.usgs.gov/STNDataPortal" target="_blank">STN
                                         Data
                                         Portal <i class="fa fa-external-link" aria-hidden="true"></i></a></span> for
