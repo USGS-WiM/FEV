@@ -762,7 +762,6 @@ function checkLayerCount(layerCount) {
 }
 
 function createComparisonData(eventIDs) {
-  console.log("createComparisonData eventIDs", eventIDs);
   $(".esconder").hide();
   $(".labelSpan").empty();
   eventSelections = eventIDs;
@@ -783,78 +782,22 @@ function createComparisonData(eventIDs) {
   if ($("#countySelectCompare").val() !== null) {
     var countySelectionsArray = $("#countySelectCompare").val();
     countySelections = countySelectionsArray.toString();
-    /*
-    if ($("#countySelect").select2("data").length > 0) {
-      for (var i = 0; i < $("#countySelect").select2("data").length; i++) {
-        //sensorTypeSelectionsTextArray.push($('#sensorTypeSelect').select2('data')[i].text);
-        $("#countyDisplay").append(
-          '<span class="label label-default">' +
-            $("#countySelect").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#locationGroupDiv").show();
-    $("#countyDisplay_li").show(); */
-    //$('#countyDisplay').html(countySelections);
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //SENSORS
-
-  //check if any of the sensor filters have value, if so show the sensorsGroupDiv
-  /*
-  if (
-    $("#sensorTypeSelect").val() !== null ||
-    $("#sensorStatusSelect").val() !== null ||
-    $("#collectionConditionSelect").val() !== null ||
-    $("#deployTypeSelect").val() !== null
-  ) {
-    $("#sensorsGroupDiv").show();
-  } */
 
   //sensor type
   var sensorTypeSelections = "";
   if ($("#sensorTypeSelectCompare").val() !== null) {
     var sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
     sensorTypeSelections = sensorTypeSelectionArray.toString();
-    //var sensorTypeSelectionsTextArray = [];
-    /*
-    if ($("#sensorTypeSelectCompare").select2("data").length > 0) {
-      for (var i = 0; i < $("#sensorTypeSelect").select2("data").length; i++) {
-        //sensorTypeSelectionsTextArray.push($('#sensorTypeSelect').select2('data')[i].text);
-        $("#sensorTypeDisplay").append(
-          '<span class="label label-default">' +
-            $("#sensorTypeSelect").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#sensorTypeDisplay_li").show(); */
-    //$('#sensorTypeDisplay').html(sensorTypeSelectionsTextArray.toString());
   }
   //sensor status
   var sensorStatusSelections = "";
   if ($("#sensorStatusSelectCompare").val() !== null) {
     var sensorStatusSelectionArray = $("#sensorStatusSelectCompare").val();
     sensorStatusSelections = sensorStatusSelectionArray.toString();
-    /*
-    if ($("#sensorStatusSelect").select2("data").length > 0) {
-      for (
-        var i = 0;
-        i < $("#sensorStatusSelect").select2("data").length;
-        i++
-      ) {
-        //sensorStatusSelectionsTextArray.push($('#sensorStatusSelect').select2('data')[i].text)
-        $("#sensorStatusDisplay").append(
-          '<span class="label label-default">' +
-            $("#sensorStatusSelect").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#sensorStatusDisplay_li").show(); */
-    //$('#sensorStatusDisplay').html(sensorStatusSelectionsTextArray.toString());
   }
 
   //sensor collection condition
@@ -864,23 +807,6 @@ function createComparisonData(eventIDs) {
       "#collectionConditionSelectCompare"
     ).val();
     collectConditionSelections = collectConditionSelectionArray.toString();
-    /*
-    if ($("#collectionConditionSelectCompare").select2("data").length > 0) {
-      for (
-        var i = 0;
-        i < $("#collectionConditionSelectCompare").select2("data").length;
-        i++
-      ) {
-        //collectConditionSelectionsTextArray.push($('#collectionConditionSelect').select2('data')[i].text)
-        $("#collectConditionDisplay").append(
-          '<span class="label label-default">' +
-            $("#collectionConditionSelectCompare").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#collectConditionDisplay_li").show(); */
-    //$('#collectConditionDisplay').html(collectConditionSelectionsTextArray.toString());
   }
 
   //sensor deployment type
@@ -888,22 +814,9 @@ function createComparisonData(eventIDs) {
   if ($("#deployTypeSelectCompare").val() !== null) {
     var deploymentTypeSelectionArray = $("#deployTypeSelectCompare").val();
     deploymentTypeSelections = deploymentTypeSelectionArray.toString();
-    /*
-    if ($("#deployTypeSelect").select2("data").length > 0) {
-      for (var i = 0; i < $("#deployTypeSelect").select2("data").length; i++) {
-        $("#deployTypeDisplay").append(
-          '<span class="label label-default">' +
-            $("#deployTypeSelect").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#deployTypeDisplay_li").show(); */
-    //$('#deployTypeDisplay').html(deployTypeSelectionsTextArray.toString());
   }
 
   //query string including event status and event type params
-  //fev.queryStrings.sensorsQueryString = '?Event=' + eventSelections + '&EventType=' + eventTypeSelections + '&EventStatus=' + eventStatusSelection + '&States=' + stateSelections + '&County=' + countySelections + '&SensorType=' + sensorTypeSelections + '&CurrentStatus=' + sensorStatusSelections + '&CollectionCondition=' + collectConditionSelections + '&DeploymentType=' + deploymentTypeSelections;
   ////query string not including event status and event type params
   fev.queryStrings.sensorsQueryString =
     "?Event=" +
@@ -920,8 +833,6 @@ function createComparisonData(eventIDs) {
     collectConditionSelections +
     "&DeploymentType=" +
     deploymentTypeSelections;
-
-  //var resultIsEmpty = false;
 
   fev.urls.csvSensorsQueryURL =
     fev.urls.csvSensorsURLRoot + fev.queryStrings.sensorsQueryString;
@@ -944,90 +855,27 @@ function createComparisonData(eventIDs) {
     fev.urls.xmlSensorsQueryURL
   );
 
-  //return fev.queryStrings.sensorsQueryString;
-
-  //get geoJSON
-  // $.each([ 'baro','met','rdg','stormTide','waveHeight'], function( index, type ) {
-  //     displaySensorGeoJSON(type, fev.urls[type + 'GeoJSONViewURL'] + fev.queryStrings.sensorsQueryString, window[type + 'MarkerIcon']);
-  // });
-
-  //}
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //HWMs
-  //if ($('#hwmRad')[0].checked) {
-  //console.log('in HWM Radio listener function');
-
-  //check if any of the hwm filters have value, if so show the hwmGroupDiv
-  /*
-  if (
-    $("#hwmTypeSelect").val() !== null ||
-    $("#hwmQualitySelect").val() !== null ||
-    $("#coastal")[0].checked ||
-    $("#riverine")[0].checked ||
-    $("#surveyCompleteYes")[0].checked ||
-    $("#surveyCompleteNo")[0].checked ||
-    $("#stillWaterYes")[0].checked ||
-    $("#stillWaterNo")[0].checked
-  ) {
-    $("#hwmGroupDiv").show();
-  } */
   //HWM types
   var hwmTypeSelections = "";
   if ($("#hwmTypeSelectCompare").val() !== null) {
     var hwmTypeSelectionArray = $("#hwmTypeSelectCompare").val();
     hwmTypeSelections = hwmTypeSelectionArray.toString();
-    /*
-    if ($("#hwmTypeSelectCompare").select2("data").length > 0) {
-      for (var i = 0; i < $("#hwmTypeSelectCompare").select2("data").length; i++) {
-        //hwmTypeSelectionsTextArray.push($('#hwmTypeSelect').select2('data')[i].text)
-        $("#hwmTypeDisplayCompare").append(
-          '<span class="label label-default">' +
-            $("#hwmTypeSelectCompare").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#hwmTypeDisplay_li").show(); */
-    //$('#hwmTypeDisplay').html(hwmTypeSelectionsTextArray.toString());
   }
   //HWM quality
   var hwmQualitySelections = "";
   if ($("#hwmQualitySelectCompare").val() !== null) {
     var hwmQualitySelectionArray = $("#hwmQualitySelectCompare").val();
     hwmQualitySelections = hwmQualitySelectionArray.toString();
-    /*
-    if ($("#hwmQualitySelect").select2("data").length > 0) {
-      for (var i = 0; i < $("#hwmQualitySelect").select2("data").length; i++) {
-        //hwmQualitySelectionsTextArray.push($('#hwmQualitySelect').select2('data')[i].text)
-        $("#hwmQualityDisplay").append(
-          '<span class="label label-default">' +
-            $("#hwmQualitySelect").select2("data")[i].text +
-            "</span>"
-        );
-      }
-    }
-    $("#hwmQualityDisplay_li").show(); */
-    //$('#hwmQualityDisplay').html(hwmQualitySelectionsTextArray.toString());
   }
   ////HWM environment
   var hwmEnvSelectionArray = [];
   //HWM environment: coastal
   if ($("#coastalCompare")[0].checked && !$("#riverine")[0].checked) {
     hwmEnvSelectionArray.push("Coastal");
-    //  $("#hwmEnvDisplay_li").show();
-    //$('#hwmEnvDisplay').html('Coastal');
-    //  $("#hwmEnvDisplay").html(
-    //    '<span class="label label-default">Coastal</span>'
-    //   );
   }
   //HWM environment: riverine
   if ($("#riverineCompare")[0].checked && !$("#coastal")[0].checked) {
     hwmEnvSelectionArray.push("Riverine");
-    //$("#hwmEnvDisplay_li").show();
-    //$('#hwmEnvDisplay').html('Riverine');
-    // $("#hwmEnvDisplay").html(
-    //   '<span class="label label-default">Riverine</span>'
-    //  );
   }
   var hwmEnvSelections = hwmEnvSelectionArray.toString();
   //HWM survey status
@@ -1038,11 +886,6 @@ function createComparisonData(eventIDs) {
     !$("#surveyCompleteNoCompare")[0].checked
   ) {
     hwmSurveyStatusSelectionArray.push("true");
-    // $("#hwmSurveyCompDisplay_li").show();
-    //$('#hwmSurveyCompDisplay').html('True');
-    //  $("#hwmSurveyCompDisplay").html(
-    //   '<span class="label label-default">True</span>'
-    // );
   }
   ///HWM survey status: not complete
   if (
@@ -1050,11 +893,6 @@ function createComparisonData(eventIDs) {
     !$("#surveyCompleteYesCompare")[0].checked
   ) {
     hwmSurveyStatusSelectionArray.push("false");
-    // $("#hwmSurveyCompDisplay_li").show();
-    //$('#hwmSurveyCompDisplay').html('False');
-    //  $("#hwmSurveyCompDisplay").html(
-    //    '<span class="label label-default">False</span>'
-    //  );
   }
   var hwmSurveyStatusSelections = hwmSurveyStatusSelectionArray.toString();
   //HWM stillwater status
@@ -1065,11 +903,6 @@ function createComparisonData(eventIDs) {
     !$("#stillWaterNoCompare")[0].checked
   ) {
     hwmStillwaterStatusSelectionArray.push("true");
-    //$("#hwmStillWaterDisplay_li").show();
-    //$('#hwmStillWaterDisplay').html('True');
-    // $("#hwmStillWaterDisplay").html(
-    //   '<span class="label label-default">True</span>'
-    //  );
   }
   ///HWM stillwater status: no
   if (
@@ -1077,16 +910,10 @@ function createComparisonData(eventIDs) {
     !$("#stillWaterYesCompare")[0].checked
   ) {
     hwmStillwaterStatusSelectionArray.push("false");
-    //$("#hwmStillWaterDisplay_li").show();
-    //$('#hwmStillWaterDisplay').html('False');
-    // $("#hwmStillWaterDisplay").html(
-    //    '<span class="label label-default">False</span>'
-    // );
   }
   var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
 
   //query string including event status and event type params
-  //fev.queryStrings.hwmsQueryString = '?Event=' + eventSelections + '&EventType=' + eventTypeSelections + '&EventStatus=' + eventStatusSelection + '&States=' + stateSelections + '&County=' + countySelections + '&HWMType=' + hwmTypeSelections + '&HWMQuality=' + hwmQualitySelections + '&HWMEnvironment=' + hwmEnvSelections + '&SurveyComplete=' + hwmSurveyStatusSelections + '&StillWater=' + hwmStillwaterStatusSelections;
   //query string not including event status and event type params
   fev.queryStrings.hwmsQueryString =
     "?Event=" +
@@ -1105,8 +932,6 @@ function createComparisonData(eventIDs) {
     hwmSurveyStatusSelections +
     "&StillWater=" +
     hwmStillwaterStatusSelections;
-  //var resultIsEmpty = false;
-
   fev.urls.csvHWMsQueryURL =
     fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
   fev.urls.jsonHWMsQueryURL =
@@ -1119,35 +944,16 @@ function createComparisonData(eventIDs) {
   $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsQueryURL);
   $("#hwmDownloadButtonXMLCompare").attr("href", fev.urls.xmlHWMsQueryURL);
 
-  //get geoJSON
-  //displayHWMGeoJSON(fev.urls.hwmFilteredGeoJSONViewURL + fev.queryStrings.hwmsQueryString, hwmMarkerIcon);
-
-  //}
-  //PEAKS
-  //if ($('#peakRad')[0].checked) {
-  /*
-  if (
-    $("#peakStartDate")[0].value !== "" ||
-    $("#peakEndDate")[0].value !== ""
-  ) {
-    $("#peaksGroupDiv").show();
-  } */
-
   var peakStartDate;
   if ($("#peakStartDateCompare")[0].value !== "") {
-    // $("#peakStartDisplay_li").show();
     peakStartDate = $("#peakStartDateCompare")[0].value;
-    // $("#peakStartDisplay").html(moment(peakStartDate).format("D MMM YYYY"));
   }
   var peakEndDate;
   if ($("#peakEndDateCompare")[0].value !== "") {
-    //   $("#peakEndDisplay_li").show();
     peakEndDate = $("#peakEndDateCompare")[0].value;
-    // $("#peakEndDisplay").html(moment(peakEndDate).format("D MMM YYYY"));
   }
 
   //query string including event status and event type params
-  //fev.queryStrings.peaksQueryString = '?Event=' + eventSelections + '&EventType=' + eventTypeSelections + '&EventStatus=' + eventStatusSelection + '&States=' + stateSelections + '&County=' + countySelections + '&StartDate='  + peakStartDate + '&EndDate=' + peakEndDate;
   //query string not including event status and event type params
   fev.queryStrings.peaksQueryString =
     "?Event=" +
@@ -1160,8 +966,6 @@ function createComparisonData(eventIDs) {
     peakStartDate +
     "&EndDate=" +
     peakEndDate;
-
-  //var resultIsEmpty = false;
 
   fev.urls.csvPeaksQueryURL =
     fev.urls.csvPeaksURLRoot + fev.queryStrings.peaksQueryString;

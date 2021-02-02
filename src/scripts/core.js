@@ -477,31 +477,15 @@ $(document).on("ready", function () {
     }
   });
 
-  //MUST BE UPDATED FOR COMPARE EVENTS
+  //COMPARE EVENTS
   $("#btnSubmitFiltersCompare").on("click", function () {
     if ($("#evtSelect_compareModal").val() !== null) {
-      console.log("an event was selected");
       var eventIDs = $("#evtSelect_compareModal").val();
-      //retrieve event details
-      /*
-      for (var i = 0; i < fev.dataCompare.events.length; i++) {
-        if (fev.dataCompare.events[i].event_id == eventIDs) {
-          //set currentEventActive boolean var based on event_status_id value
-          setEventVars(
-            fev.dataCompare.events[i].event_name,
-            fev.dataCompare.events[i].event_id,
-            fev.dataCompare.events[i].event_status_id,
-            fev.dataCompare.events[i].event_start_date,
-            fev.dataCompare.events[i].event_end_date
-          );
-        }
-      } */
       createComparisonData(eventIDs);
       $(".eventSelectAlert").hide();
       $("#compareEventsModal").modal("hide");
     } else {
       //if no event selected, warn user with alert
-      //alert("Please choose an event to proceed.")
       $(".eventSelectAlert").show();
     }
   });
