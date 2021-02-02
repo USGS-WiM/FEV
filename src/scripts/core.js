@@ -481,10 +481,11 @@ $(document).on("ready", function () {
   $("#btnSubmitFiltersCompare").on("click", function () {
     if ($("#evtSelect_compareModal").val() !== null) {
       console.log("an event was selected");
-      var eventID = $("#evtSelect_compareModal").val()[0];
+      var eventIDs = $("#evtSelect_compareModal").val();
       //retrieve event details
+      /*
       for (var i = 0; i < fev.dataCompare.events.length; i++) {
-        if (fev.dataCompare.events[i].event_id == eventID) {
+        if (fev.dataCompare.events[i].event_id == eventIDs) {
           //set currentEventActive boolean var based on event_status_id value
           setEventVars(
             fev.dataCompare.events[i].event_name,
@@ -494,9 +495,8 @@ $(document).on("ready", function () {
             fev.dataCompare.events[i].event_end_date
           );
         }
-      }
-      //ADD IN PARTIAL
-      //filterMapData(eventID, false);
+      } */
+      createComparisonData(eventIDs);
       $(".eventSelectAlert").hide();
       $("#compareEventsModal").modal("hide");
     } else {

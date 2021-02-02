@@ -1583,15 +1583,15 @@
                     <div id="downloadPanelCompare" class="panel-collapse collapse" role="tabpanel"
                         aria-labelledby="downloadHeaderCompare">
                         <div class="panel-body collapse in">
-                            <p>Use buttons to access event-based data, reflecting the filters chosen below. See the
+                            <p>Compare data between multiple events based on the filters chosen below. See the
                                 <a href="https://my.usgs.gov/confluence/display/WSN/STN+Data+Dictionary+-+Top+Level"
                                     target="_blank" style="cursor: pointer;">STN Data Dictionary</a> for field names
                                 and
                                 definitions.</p>
-                            <div id="sensorDownloadButtonsCompare">
+                            <div id="sensorDownloadButtonsCompare" >
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle"
-                                        data-toggle="dropdown">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="sensorDataDownloadCompare"
+                                        data-toggle="dropdown" disabled >
                                         <span data-bind="label" value="Sensor">Sensor Data</span>&nbsp;<span
                                             class="caret"></span>
                                     </button>
@@ -1605,8 +1605,8 @@
                             </div>
                             <div id="hwmrDownloadButtonsCompare">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle"
-                                        data-toggle="dropdown">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="hwmDataDownloadCompare"
+                                        data-toggle="dropdown" disabled>
                                         <span data-bind="label" value="HWM">High-water Mark Data</span>&nbsp;<span
                                             class="caret"></span>
                                     </button>
@@ -1619,8 +1619,8 @@
                             </div>
                             <div id="peaksDownloadButtonsCompare">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle"
-                                        data-toggle="dropdown">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="peaksDataDownloadCompare"
+                                        data-toggle="dropdown" disabled>
                                         <span data-bind="label" value="Peaks">Peak Summary Data</span>&nbsp;<span
                                             class="caret"></span>
                                     </button>
