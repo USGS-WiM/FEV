@@ -1000,6 +1000,10 @@ input[type="radio"] {
   display: none;
 }
 
+.dataTypeSelectAlert {
+  display: none;
+}
+
 .select {
   border-radius: 0px !important;
 }

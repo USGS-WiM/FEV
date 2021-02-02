@@ -496,13 +496,24 @@ $(document).on("ready", function () {
   });
 
   $("#btnSubmitHwmFilters").on("click", function () {
-    if ($("#evtSelect_compareModal").val() !== null) {
-      var eventIDs = $("#evtSelect_compareModal").val();
-      createComparisonData(eventIDs);
-      $(".eventSelectAlert").hide();
-      //  $("#compareEventsModal").modal("hide");
+    var hwmMapChecked = document.getElementById("hwmMapViewCheckbox").checked;
+    var hwmDataChecked = document.getElementById("hwmDataViewCheckbox").checked;
+    if (hwmMapChecked == true || hwmDataChecked == true) {
+      if ($("#evtSelect_compareModal").val() !== null) {
+        var eventIDs = $("#evtSelect_compareModal").val();
+        createComparisonData(eventIDs);
+        $(".eventSelectAlert").hide();
+
+        $(".dataTypeSelectAlert").hide();
+      } else {
+        //if no event selected, warn user with alert
+        $(".eventSelectAlert").show();
+      }
     } else {
-      //if no event selected, warn user with alert
+      //if no data access option selected, warn user with alert
+      $(".dataTypeSelectAlert").show();
+    }
+    if ($("#evtSelect_compareModal").val() == null) {
       $(".eventSelectAlert").show();
     }
   });
