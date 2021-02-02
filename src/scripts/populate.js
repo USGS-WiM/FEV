@@ -14,6 +14,17 @@ $(document).ready(function () {
     $('.btn-group input[type="checkbox"]').prop("checked", false);
   });
 
+  $("#btnClearFiltersCompare").click(function () {
+    //clear all text inputs
+    $(".clearable").val("").trigger("change");
+    //hide all checkmark icons
+    $(".check").find("span").hide();
+    //make all inactive
+    $(".check").removeClass("active");
+    //set checked property to false for all
+    $('.btn-group input[type="checkbox"]').prop("checked", false);
+  });
+
   // Register Event type select as select2, retrieve values from jQuery ajax, sort, populate dropdown
   //stores values in fev.data.eventTypes array
   $("#evtTypeSelect").select2({
@@ -101,7 +112,7 @@ $(document).ready(function () {
   $(".evtSelectCompare").select2({
     placeholder: "Select event",
     allowClear: false,
-    maximumSelectionLength: 1,
+    maximumSelectionLength: 3,
   });
   $.ajax({
     dataType: "json",
@@ -124,7 +135,7 @@ $(document).ready(function () {
         }
       });
       for (var i = 0; i < data.length; i++) {
-        $(".evtSelect").append(
+        $(".evtSelectCompare").append(
           '<option value="' +
             data[i].event_id +
             '">' +
@@ -504,6 +515,32 @@ $(document).ready(function () {
     },
   });
 
+  $("#hwmTypeSelectCompare").select2({
+    placeholder: "All Types",
+  });
+  $.ajax({
+    dataType: "json",
+    type: "GET",
+    url: "https://stn.wim.usgs.gov/STNServices/hwmtypes.json",
+    headers: { Accept: "*/*" },
+    success: function (data) {
+      for (var i = 0; i < data.length; i++) {
+        $("#hwmTypeSelectCompare").append(
+          '<option value="' +
+            data[i].hwm_type_id +
+            '">' +
+            data[i].hwm_type +
+            "</option>"
+        );
+        data[i].id = data[i].hwm_type_id;
+        fev.dataCompare.hwmTypes.push(data[i]);
+      }
+    },
+    error: function (error) {
+      console.log("Error processing the JSON. The error is:" + error);
+    },
+  });
+
   // Register HWM quality select as select2, retrieve values from jQuery ajax, sort, populate dropdown
   //stores values in fev.data.hwmQualities array
   $("#hwmQualitySelect").select2({
@@ -525,6 +562,32 @@ $(document).ready(function () {
         );
         data[i].id = data[i].hwm_quality_id;
         fev.data.hwmQualities.push(data[i]);
+      }
+    },
+    error: function (error) {
+      console.log("Error processing the JSON. The error is:" + error);
+    },
+  });
+
+  $("#hwmQualitySelectCompare").select2({
+    placeholder: "All Qualities",
+  });
+  $.ajax({
+    dataType: "json",
+    type: "GET",
+    url: "https://stn.wim.usgs.gov/STNServices/hwmqualities.json",
+    headers: { Accept: "*/*" },
+    success: function (data) {
+      for (var i = 0; i < data.length; i++) {
+        $("#hwmQualitySelectCompare").append(
+          '<option value="' +
+            data[i].hwm_quality_id +
+            '">' +
+            data[i].hwm_quality +
+            "</option>"
+        );
+        data[i].id = data[i].hwm_quality_id;
+        fev.dataCompare.hwmQualities.push(data[i]);
       }
     },
     error: function (error) {

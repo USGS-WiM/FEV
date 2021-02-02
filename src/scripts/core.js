@@ -401,6 +401,18 @@ $(document).on("ready", function () {
     todayHighlight: true,
   });
 
+  $("#peakDatePickerCompare .input-daterange").datepicker({
+    format: "yyyy-mm-dd",
+    endDate: "today",
+    startView: 2,
+    maxViewMode: 3,
+    todayBtn: true,
+    clearBtn: true,
+    multidate: false,
+    autoclose: true,
+    todayHighlight: true,
+  });
+
   //listener for submit event button on welcome modal - sets event vars and passes event id to filterMapData function
   $("#btnSubmitEvent").on("click", function () {
     //check if an event has been selected
@@ -458,6 +470,35 @@ $(document).on("ready", function () {
       filterMapData(eventID, false);
       $(".eventSelectAlert").hide();
       $("#filtersModal").modal("hide");
+    } else {
+      //if no event selected, warn user with alert
+      //alert("Please choose an event to proceed.")
+      $(".eventSelectAlert").show();
+    }
+  });
+
+  //MUST BE UPDATED FOR COMPARE EVENTS
+  $("#btnSubmitFiltersCompare").on("click", function () {
+    if ($("#evtSelect_compareModal").val() !== null) {
+      console.log("an event was selected");
+      var eventID = $("#evtSelect_compareModal").val()[0];
+      //retrieve event details
+      for (var i = 0; i < fev.dataCompare.events.length; i++) {
+        if (fev.dataCompare.events[i].event_id == eventID) {
+          //set currentEventActive boolean var based on event_status_id value
+          setEventVars(
+            fev.dataCompare.events[i].event_name,
+            fev.dataCompare.events[i].event_id,
+            fev.dataCompare.events[i].event_status_id,
+            fev.dataCompare.events[i].event_start_date,
+            fev.dataCompare.events[i].event_end_date
+          );
+        }
+      }
+      //ADD IN PARTIAL
+      //filterMapData(eventID, false);
+      $(".eventSelectAlert").hide();
+      $("#compareEventsModal").modal("hide");
     } else {
       //if no event selected, warn user with alert
       //alert("Please choose an event to proceed.")
@@ -1677,8 +1718,33 @@ $(document).on("ready", function () {
   $("#peaksDownloadButtonJSON").attr("href", fev.urls.jsonPeaksURLRoot);
   $("#peaksDownloadButtonXML").attr("href", fev.urls.xmlPeaksURLRoot);
 
+  //populate comparison urls
+  $("#sensorDownloadButtonCSVCompare").attr("href", fev.urls.csvSensorsURLRoot);
+  $("#sensorDownloadButtonJSONCompare").attr(
+    "href",
+    fev.urls.jsonSensorsURLRoot
+  );
+  $("#sensorDownloadButtonXMLCompare").attr("href", fev.urls.xmlSensorsURLRoot);
+  $("#hwmDownloadButtonCSVCompare").attr("href", fev.urls.csvHWMsURLRoot);
+  $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsURLRoot);
+  $("#hwmDownloadButtonXMLCompare").attr("href", fev.urls.xmlHWMsURLRoot);
+  $("#peaksDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksURLRoot);
+  $("#peaksDownloadButtonJSONCompare").attr("href", fev.urls.jsonPeaksURLRoot);
+  $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksURLRoot);
+
   /* sets up data type radio buttons to hide/show the respective forms*/
   $(".dataTypeRadio").each(function () {
+    //for the clicked radio
+    $(this).on("click", function () {
+      var radioId = $(this).attr("id");
+      var formToShow = $("#" + radioId + "Form");
+      formToShow.show();
+      $(".hiddenForm").not(formToShow).hide();
+    });
+  });
+
+  /* sets up data type radio buttons to hide/show the respective forms*/
+  $(".dataTypeRadioCompare").each(function () {
     //for the clicked radio
     $(this).on("click", function () {
       var radioId = $(this).attr("id");
