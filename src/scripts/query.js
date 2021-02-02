@@ -915,9 +915,7 @@ function createComparisonData(eventIDs) {
 
   //query string including event status and event type params
   //query string not including event status and event type params
-  fev.queryStrings.hwmsQueryString =
-    "?Event=" +
-    eventSelections +
+  hwmQueryParameterString =
     "&States=" +
     stateSelections +
     "&County=" +
@@ -978,6 +976,67 @@ function createComparisonData(eventIDs) {
   $("#peaksDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksQueryURL);
   $("#peaksDownloadButtonJSONCompare").attr("href", fev.urls.jsonPeaksQueryURL);
   $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
+
+  ////Add HWM markers to map
+  hwmCompareLayer.clearLayers();
+  eventIcon0 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon1 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon2 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon3 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon4 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIconOptions = [
+    eventIcon0,
+    eventIcon1,
+    eventIcon2,
+    eventIcon3,
+    eventIcon4,
+  ];
+  console.log(
+    fev.urls.hwmFilteredGeoJSONViewURL +
+      "?Event=" +
+      eventIDs[1] +
+      hwmQueryParameterString
+  );
+  for (i = 0; i < eventIDs.length; i++) {
+    var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
+    multiDisplayHWMGeoJSON(
+      "High Water Mark",
+      fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
+      eventIconOptions[i],
+      eventTitles[i]
+    );
+  }
+  hwmCompareLayer.addTo(hwmMap);
 }
 
 function filterMapData(event, isUrlParam) {

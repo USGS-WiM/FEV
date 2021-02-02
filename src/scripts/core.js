@@ -291,6 +291,9 @@ var peak = L.layerGroup();
 var cameras = L.layerGroup();
 var tides = L.layerGroup();
 
+//compare event layers
+var hwmCompareLayer = L.layerGroup();
+
 // var editableLayers = new L.FeatureGroup();
 // var drawnItems = new L.FeatureGroup();
 // var drawLayer = new L.FeatureGroup();
