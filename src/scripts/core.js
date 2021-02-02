@@ -1777,6 +1777,8 @@ $(document).on("ready", function () {
     hwmMap = L.map("hwmMap", {
       maxZoom: 15,
     }).setView([39.833333, -98.583333], 3);
+    L.esri.basemapLayer("Topographic").addTo(hwmMap);
+    /*
     var osm = L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
@@ -1784,7 +1786,7 @@ $(document).on("ready", function () {
           '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors.',
       }
     );
-    osm.addTo(hwmMap);
+    osm.addTo(hwmMap); */
   });
 
   // FAQ Modal controls.
