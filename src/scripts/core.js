@@ -11,6 +11,7 @@ var hwmPageURLRoot = "https://stn.wim.usgs.gov/STNPublicInfo/#/HWMPage?Site=";
 var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site="; */
 
 var searchResults;
+var hwmMap;
 
 var fev = fev || {
   data: {
@@ -204,7 +205,7 @@ var fev = fev || {
 //L.esri.Support.cors = false;
 
 var map;
-var hwmMap;
+
 var markerCoords = [];
 var oms;
 
@@ -590,12 +591,6 @@ $(document).on("ready", function () {
       );
     }
   }
-
-  //create compare events maps
-  hwmMap = L.map("hwmMap", {
-    maxZoom: 15,
-  }).setView([39.833333, -98.583333], 3);
-  L.esri.basemapLayer("Topographic").addTo(hwmMap);
 
   /* create map */
   map = L.map("mapDiv").setView([39.833333, -98.583333], 4);
@@ -1776,6 +1771,20 @@ $(document).on("ready", function () {
     //update the event select within the filters modal to reflect current event
     //$('#evtSelect_filterModal').val([fev.vars.currentEventID_str]).trigger("change");
     showCompareEventsModal();
+  });
+  $("#hwmCompare").on("click", function () {
+    //create compare events maps
+    hwmMap = L.map("hwmMap", {
+      maxZoom: 15,
+    }).setView([39.833333, -98.583333], 3);
+    var osm = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors.',
+      }
+    );
+    osm.addTo(hwmMap);
   });
 
   // FAQ Modal controls.
