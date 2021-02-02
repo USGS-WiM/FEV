@@ -1139,6 +1139,16 @@ input[type="radio"] {
   border-bottom-left-radius: 0px !important;
 }
 
+.modalBlueBtn {
+  color: white !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
 #btnClearFilters {
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;

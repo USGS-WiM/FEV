@@ -735,15 +735,16 @@
                                 </div>
                             </form>
                             <form class="form-horizontal hiddenForm" role="form" id="hwmCompareForm">
+                            <div id="hwmCompareSelections">
                                 <div class="form-group">
                                     <label for="hwmDataType" class="col-sm-3 control-label filterForms">Data Access</label>
                                     <div class="col-sm-9 ">
                                         <label class="container" id="hwmMapView">Map View
-                                            <input type="checkbox" >
+                                            <input type="checkbox" id="hwmMapViewCheckbox">
                                             <span class="checkmark"></span>
                                           </label>
-                                          <label class="container" id=hwmDataDownload>Data Download
-                                            <input type="checkbox" >
+                                          <label class="container" id="hwmDataDownload">Data Download
+                                            <input type="checkbox" id="hwmDataViewCheckbox">
                                             <span class="checkmark"></span>
                                           </label>
                                     </div>
@@ -818,8 +819,11 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div id='hwmCompareMapResults'>
                                 <div id="hwmMap"></div>
-                                <div id="hwmMap2"></div>
+                            </div>
+                            <div id="hwmCompareDataResults">
                                 <div id="hwmrDownloadButtonsCompare">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="hwmDataDownloadCompare"
@@ -834,8 +838,11 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
                                 <button id="btnSubmitHwmFilters" class="btn btn-primary btn-lg" type="button" aria-hidden="true"
                         style="color:gray;" class="btn btn-primary">Submit HWM Filters</button>
+                        <button id="returnToHwmFilters" class="btn btn-primary btn-lg modalBlueBtn" type="button" aria-hidden="true"
+                        style="color:gray;" class="btn btn-primary">Return to Filters</button>
                             </form>
                             <form class="form-horizontal hiddenForm" role="form" id="peakCompareForm">
                                 <div class="form-group" >

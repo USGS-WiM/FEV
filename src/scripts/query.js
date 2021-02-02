@@ -1035,16 +1035,186 @@ function createComparisonData(eventIDs) {
       }
     }
   }
-  for (i = 0; i < eventIDs.length; i++) {
-    var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
-    multiDisplayHWMGeoJSON(
-      "High Water Mark",
-      fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
-      eventIconOptions[i],
-      eventNames[i]
-    );
+
+  if (document.getElementById("hwmMapViewCheckbox").checked == true) {
+    for (i = 0; i < eventIDs.length; i++) {
+      var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
+      multiDisplayHWMGeoJSON(
+        "High Water Mark",
+        fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
+        eventIconOptions[i],
+        eventNames[i]
+      );
+    }
+    $("#hwmCompareMapResults").show();
   }
+  if (document.getElementById("hwmDataViewCheckbox").checked == true) {
+    $("#hwmCompareDataResults").show();
+  }
+
   hwmCompareLayer.addTo(hwmMap);
+  $("#hwmCompareSelections").hide();
+  $("#btnSubmitHwmFilters").hide();
+  $("#returnToHwmFilters").show();
+}
+
+function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
+  var currentMarker = L.geoJson(false, {
+    pointToLayer: function (feature, latlng) {
+      markerCoords.push(latlng);
+      var marker = L.marker(latlng, {
+        icon: markerIcon,
+      });
+      return marker;
+    },
+    onEachFeature: function (feature, latlng) {
+      if (
+        feature.properties.longitude_dd == undefined ||
+        feature.properties.latitude_dd == undefined
+      ) {
+        console.log(
+          "Lat/lng undefined for HWM at site no: " + feature.properties.site_no
+        );
+        return;
+      }
+
+      if (
+        latlng.feature.geometry.coordinates[0] == null ||
+        latlng.feature.geometry.coordinates[1] == null
+      ) {
+        console.log(
+          "null coordinates returned for " + feature.properties.site_no
+        );
+      }
+      //add marker to overlapping marker spidifier
+      oms.addMarker(latlng);
+      // var popupContent = '';
+      var currentEvent = eventTitle;
+      var siteHWMArray = [
+        feature.properties.site_id,
+        feature.properties.hwm_id,
+      ];
+      var popupContent =
+        '<table class="table table-hover table-striped table-condensed wim-table">' +
+        '<caption class="popup-title">' +
+        name +
+        ' | <span style="color:gray">' +
+        currentEvent +
+        "</span></caption>" +
+        '<col style="width:50%"> <col style="width:50%">' +
+        '<tr><td><strong>STN Site No.: </strong></td><td><span id="hwmSiteNo">' +
+        feature.properties.site_no +
+        "</span></td></tr>" +
+        '<tr><td><strong>HWM Label: </strong></td><td><span id="hwmLabel">' +
+        feature.properties.hwm_label +
+        "</span></td></tr>" +
+        '<tr><td><strong>Elevation(ft): </strong></td><td><span id="hwmElev">' +
+        feature.properties.elev_ft +
+        "</span></td></tr>" +
+        '<tr><td><strong>Datum: </strong></td><td><span id="hwmWaterbody">' +
+        feature.properties.verticalDatumName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Height Above Ground: </strong></td><td><span id="hwmHtAboveGnd">' +
+        (feature.properties.height_above_gnd !== undefined
+          ? feature.properties.height_above_gnd
+          : "<i>No value recorded</i>") +
+        "</span></td></tr>" +
+        //'<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">'+ (feature.properties.approval_id == undefined || feature.properties.approval_id == 0 ? 'Provisional  <button type="button" class="btn btn-sm data-disclaim"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'  : 'Approved')+ '</span></td></tr>'+
+        '<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">' +
+        (feature.properties.approval_id == undefined ||
+        feature.properties.approval_id == 0
+          ? '<button type="button" class="btn btn-sm data-disclaim" title="Click to view provisional data statement">Provisional <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'
+          : "Approved") +
+        "</span></td></tr>" +
+        '<tr><td><strong>Type: </strong></td><td><span id="hwmType"></span>' +
+        feature.properties.hwmTypeName +
+        "</td></tr>" +
+        '<tr><td><strong>Marker: </strong></td><td><span id="hwmMarker">' +
+        feature.properties.markerName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Quality: </strong></td><td><span id="hwmQuality">' +
+        feature.properties.hwmQualityName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Waterbody: </strong></td><td><span id="hwmWaterbody">' +
+        feature.properties.waterbody +
+        "</span></td></tr>" +
+        '<tr><td><strong>County: </strong></td><td><span id="hwmCounty">' +
+        feature.properties.countyName +
+        "</span></td></tr>" +
+        '<tr><td><strong>State: </strong></td><td><span id="hwmState">' +
+        feature.properties.stateName +
+        "</span></td></tr>" +
+        '<tr><td><strong>Latitude, Longitude (DD): </strong></td><td><span class="latLng">' +
+        feature.properties.latitude_dd.toFixed(4) +
+        ", " +
+        feature.properties.longitude_dd.toFixed(4) +
+        "</span></td></tr>" +
+        '<tr><td><strong>Description: </strong></td><td><span id="hwmDescription">' +
+        feature.properties.hwm_locationdescription +
+        "</span></td></tr>" +
+        // '<tr><td><strong>Full data link: </strong></td><td><span id="sensorDataLink"><b><a target="blank" href=' + hwmPageURLRoot + feature.properties.site_id + '&HWM=' + feature.properties.hwm_id + '\>HWM data page</a></b></span></td></tr>' +
+        '<tr><td><strong>High Water Mark Detail: </strong></td><td><span id="hwmData"><button type="button" class="btn btn-sm hwm-data-btn" title="Click to view high water mark details" value="' +
+        siteHWMArray +
+        '">View Details</button></span></td></tr>' +
+        "</table>";
+      // $.each(feature.properties, function( index, value ) {
+      //     if (value && value != 'undefined') popupContent += '<b>' + index + '</b>:&nbsp;&nbsp;' + value + '</br>';
+      // });
+      latlng.bindPopup(popupContent);
+    },
+  });
+
+  $.getJSON(urlForEvent, function (data) {
+    if (data.length == 0) {
+      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
+      return;
+    }
+    if (data.features.length > 0) {
+      console.log(
+        data.features.length +
+          " " +
+          markerIcon.options.name +
+          " GeoJSON features found"
+      );
+      //check for bad lat/lon values
+      for (var i = data.features.length - 1; i >= 0; i--) {
+        //check that lat/lng are not NaN
+        if (
+          isNaN(data.features[i].geometry.coordinates[0]) ||
+          isNaN(data.features[i].geometry.coordinates[1])
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+        //check that lat/lng are within the US and also not 0
+        if (
+          (fev.vars.extentSouth <=
+            data.features[i].geometry.coordinates[0] <=
+            fev.vars.extentNorth &&
+            fev.vars.extentWest <=
+              data.features[i].geometry.coordinates[1] <=
+              fev.vars.extentEast) ||
+          data.features[i].geometry.coordinates[0] == 0 ||
+          data.features[i].geometry.coordinates[1] == 0
+        ) {
+          console.error(
+            "Bad latitude or latitude value for point: ",
+            data.features[i]
+          );
+          //remove it from array
+          data.features.splice(i, 1);
+        }
+      }
+      currentMarker.addData(data);
+      currentMarker.eachLayer(function (layer) {
+        layer.addTo(hwmCompareLayer);
+      });
+    }
+  });
 }
 
 function filterMapData(event, isUrlParam) {

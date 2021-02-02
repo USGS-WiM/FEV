@@ -1755,6 +1755,14 @@ $(document).on("ready", function () {
     });
   });
 
+  $("#returnToHwmFilters").on("click", function () {
+    $("#hwmCompareSelections").show();
+    $("#btnSubmitHwmFilters").show();
+    $("#hwmCompareMapResults").hide();
+    $("#hwmCompareDataResults").hide();
+    $("#returnToHwmFilters").hide();
+  });
+
   //toggle the appearance of the check box on click, including toggling the check icon
   $(".check").on("click", function () {
     $(this).find("span").toggle();
@@ -1793,19 +1801,12 @@ $(document).on("ready", function () {
       maxZoom: 15,
     }).setView([39.833333, -98.583333], 3);
     L.esri.basemapLayer("Topographic").addTo(hwmMap);
-    /*
-    var osm = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        attribution:
-          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors.',
-      }
-    );
-    osm.addTo(hwmMap); */
+    $("#hwmCompareMapResults").hide();
+    $("#hwmCompareDataResults").hide();
+    $("#returnToHwmFilters").hide();
   });
 
   // FAQ Modal controls.
-
   $(".faq-header").on("click", function (event) {
     var div = "#" + event.target.nextElementSibling.id;
     var angle = "#" + event.target.children[0].id;
