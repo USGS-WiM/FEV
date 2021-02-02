@@ -1027,13 +1027,21 @@ function createComparisonData(eventIDs) {
       eventIDs[1] +
       hwmQueryParameterString
   );
+  var eventNames = [];
+  for (var eventCount = 0; eventCount < eventIDs.length; eventCount++) {
+    for (var i = 0; i < fev.data.events.length; i++) {
+      if (fev.data.events[i].event_id == eventIDs[eventCount]) {
+        eventNames.push(fev.data.events[i].event_name);
+      }
+    }
+  }
   for (i = 0; i < eventIDs.length; i++) {
     var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
     multiDisplayHWMGeoJSON(
       "High Water Mark",
       fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
       eventIconOptions[i],
-      eventTitles[i]
+      eventNames[i]
     );
   }
   hwmCompareLayer.addTo(hwmMap);

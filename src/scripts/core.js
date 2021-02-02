@@ -495,6 +495,18 @@ $(document).on("ready", function () {
     }
   });
 
+  $("#btnSubmitHwmFilters").on("click", function () {
+    if ($("#evtSelect_compareModal").val() !== null) {
+      var eventIDs = $("#evtSelect_compareModal").val();
+      createComparisonData(eventIDs);
+      $(".eventSelectAlert").hide();
+      //  $("#compareEventsModal").modal("hide");
+    } else {
+      //if no event selected, warn user with alert
+      $(".eventSelectAlert").show();
+    }
+  });
+
   //'listener' for URL event params - sets event vars and passes event id to filterMapData function
   if (window.location.hash) {
     //user has arrived with an event name after the hash on the URL
