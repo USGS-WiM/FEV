@@ -204,6 +204,7 @@ var fev = fev || {
 //L.esri.Support.cors = false;
 
 var map;
+var hwmMap;
 var markerCoords = [];
 var oms;
 
@@ -589,6 +590,12 @@ $(document).on("ready", function () {
       );
     }
   }
+
+  //create compare events maps
+  hwmMap = L.map("hwmMap", {
+    maxZoom: 15,
+  }).setView([39.833333, -98.583333], 3);
+  L.esri.basemapLayer("Topographic").addTo(hwmMap);
 
   /* create map */
   map = L.map("mapDiv").setView([39.833333, -98.583333], 4);

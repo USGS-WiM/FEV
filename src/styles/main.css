@@ -894,10 +894,21 @@ input[type="radio"] {
   width: 100%;
 }
 #sensorDownloadButtonsCompare .btn-group,
-#hwmrDownloadButtonsCompare .btn-group,
+/* #hwmrDownloadButtonsCompare .btn-group, */
 #peaksDownloadButtonsCompare .btn-group {
   display: block;
   width: 100%;
+}
+
+#hwmrDownloadButtonsCompare .btn-group {
+  width: 30%;
+}
+/* Regional map container in modal */
+#hwmMap {
+  width: 100%;
+  min-width: 100%;
+  max-width: none;
+  height: 500px;
 }
 
 .filterItems {
@@ -1109,6 +1120,16 @@ input[type="radio"] {
 }
 
 #btnSubmitFiltersCompare {
+  color: white !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+#btnSubmitHwmFilters {
   color: white !important;
   font-weight: 500 !important;
   letter-spacing: 1px !important;
