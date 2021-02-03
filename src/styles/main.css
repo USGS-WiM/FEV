@@ -919,21 +919,18 @@ input[type="radio"] {
 }
 
 #sensorDownloadButtons .btn-group,
-#hwmrDownloadButtons .btn-group,
+#hwmDownloadButtons .btn-group,
 #peaksDownloadButtons .btn-group {
   display: block;
   width: 100%;
 }
 #sensorDownloadButtonsCompare .btn-group,
-/* #hwmrDownloadButtonsCompare .btn-group, */
+/* #hwmDownloadButtonsCompare .btn-group, */
 #peaksDownloadButtonsCompare .btn-group {
   display: block;
   width: 100%;
 }
 
-#hwmrDownloadButtonsCompare .btn-group {
-  width: 30%;
-}
 /* Regional map container in modal */
 #hwmMap {
   width: 100%;
@@ -1133,7 +1130,7 @@ input[type="radio"] {
 }
 
 .modal-footer button {
-  display: inline-block !important;
+  display: inline-block;
   box-sizing: border-box;
   font-weight: bolder !important;
   letter-spacing: 0.5px !important;
@@ -1165,6 +1162,16 @@ input[type="radio"] {
 }
 
 #btnSubmitHwmFilters {
+  color: white !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+#returnToHwmFilters {
   color: white !important;
   font-weight: 500 !important;
   letter-spacing: 1px !important;

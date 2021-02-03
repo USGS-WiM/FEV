@@ -768,7 +768,7 @@ function createComparisonData(eventIDs) {
 
   //enable data download buttons
   document.getElementById("sensorDataDownloadCompare").disabled = false;
-  document.getElementById("hwmDataDownloadCompare").disabled = false;
+  //document.getElementById("hwmDataDownloadCompare").disabled = false;
   document.getElementById("peaksDataDownloadCompare").disabled = false;
 
   //state
@@ -940,7 +940,7 @@ function createComparisonData(eventIDs) {
   //add download buttons
   $("#hwmDownloadButtonCSVCompare").attr("href", fev.urls.csvHWMsQueryURL);
   $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsQueryURL);
-  $("#hwmDownloadButtonXMLCompare").attr("href", fev.urls.xmlHWMsQueryURL);
+  //$("#hwmDownloadButtonXMLCompare").attr("href", fev.urls.xmlHWMsQueryURL);
 
   var peakStartDate;
   if ($("#peakStartDateCompare")[0].value !== "") {

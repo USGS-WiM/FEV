@@ -501,9 +501,9 @@ $(document).on("ready", function () {
     if (hwmMapChecked == true || hwmDataChecked == true) {
       if ($("#evtSelect_compareModal").val() !== null) {
         var eventIDs = $("#evtSelect_compareModal").val();
+        hwmMap.setView([39.833333, -98.583333], 4);
         createComparisonData(eventIDs);
         $(".eventSelectAlert").hide();
-
         $(".dataTypeSelectAlert").hide();
       } else {
         //if no event selected, warn user with alert
@@ -1799,6 +1799,7 @@ $(document).on("ready", function () {
     showFiltersModal();
   });
   function showCompareEventsModal() {
+    $("#sensorCompareForm").show();
     $("#compareEventsModal").modal("show");
   }
   $("#btnCompareEvents").on("click", function () {
