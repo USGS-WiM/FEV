@@ -1035,7 +1035,7 @@ function createComparisonData(eventIDs) {
       }
     }
   }
-
+  $("#hwmLegend").children().remove();
   if (document.getElementById("hwmMapViewCheckbox").checked == true) {
     for (i = 0; i < eventIDs.length; i++) {
       var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
@@ -1045,7 +1045,14 @@ function createComparisonData(eventIDs) {
         eventIconOptions[i],
         eventNames[i]
       );
+      var hwmMarkersLegend =
+        "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'><div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>" +
+        "<label style='margin-left: 5px;'>" +
+        eventNames[i] +
+        "</label></div>";
+      $("#hwmLegend").append(hwmMarkersLegend);
     }
+
     $("#hwmCompareMapResults").show();
   }
   if (document.getElementById("hwmDataViewCheckbox").checked == true) {

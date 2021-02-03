@@ -642,6 +642,37 @@ input:checked + .slider:before {
   border-radius: 0;
 }
 
+/* Actual legend items */
+.legend-item-wrapper {
+  display: block;
+  padding: 0 12px 10px 12px;
+  box-sizing: border-box;
+}
+.legend-item-wrapper .legend-item {
+  padding: 0 0;
+  display: -webkit-flex;
+  display: flex;
+}
+.legend-item-wrapper .legend-item img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 5px;
+}
+.legend-item-wrapper .legend-item b {
+  margin-bottom: 5px;
+  font-size: 13px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  justify-content: center;
+  font-weight: 500;
+  line-height: 13px;
+  box-sizing: border-box;
+  padding-left: 8px;
+}
+
 .lgi-zoom {
   color: white;
   background-color: black;
@@ -1362,4 +1393,12 @@ input[type="checkbox"] {
 .sensor-modal-body {
   /* height: 475px; */
   overflow-y: auto;
+}
+
+.hwmCircle {
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-radius: 50%;
+  border: 1px black;
 }
