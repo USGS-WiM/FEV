@@ -1014,6 +1014,13 @@ function createComparisonData(eventIDs) {
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
+  var hwmCSS = [
+    "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+  ];
   eventIconOptions = [
     eventIcon0,
     eventIcon1,
@@ -1046,7 +1053,8 @@ function createComparisonData(eventIDs) {
         eventNames[i]
       );
       var hwmMarkersLegend =
-        "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'><div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>" +
+        "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+        hwmCSS[i] +
         "<label style='margin-left: 5px;'>" +
         eventNames[i] +
         "</label></div>";
