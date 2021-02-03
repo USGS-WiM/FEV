@@ -761,15 +761,10 @@ function checkLayerCount(layerCount) {
   }
 }
 
-function createComparisonData(eventIDs) {
+function createComparisonData(eventIDs, dataTypeSubmitted) {
   $(".esconder").hide();
   $(".labelSpan").empty();
   eventSelections = eventIDs;
-
-  //enable data download buttons
-  document.getElementById("sensorDataDownloadCompare").disabled = false;
-  //document.getElementById("hwmDataDownloadCompare").disabled = false;
-  document.getElementById("peaksDataDownloadCompare").disabled = false;
 
   //state
   var stateSelections = "";
@@ -784,310 +779,322 @@ function createComparisonData(eventIDs) {
     countySelections = countySelectionsArray.toString();
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //SENSORS
+  // start SENSOR section
+  if (dataTypeSubmitted == "submitSensors") {
+    //sensor type
+    var sensorTypeSelections = "";
+    if ($("#sensorTypeSelectCompare").val() !== null) {
+      var sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
+      sensorTypeSelections = sensorTypeSelectionArray.toString();
+    }
+    //sensor status
+    var sensorStatusSelections = "";
+    if ($("#sensorStatusSelectCompare").val() !== null) {
+      var sensorStatusSelectionArray = $("#sensorStatusSelectCompare").val();
+      sensorStatusSelections = sensorStatusSelectionArray.toString();
+    }
 
-  //sensor type
-  var sensorTypeSelections = "";
-  if ($("#sensorTypeSelectCompare").val() !== null) {
-    var sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
-    sensorTypeSelections = sensorTypeSelectionArray.toString();
-  }
-  //sensor status
-  var sensorStatusSelections = "";
-  if ($("#sensorStatusSelectCompare").val() !== null) {
-    var sensorStatusSelectionArray = $("#sensorStatusSelectCompare").val();
-    sensorStatusSelections = sensorStatusSelectionArray.toString();
-  }
+    //sensor collection condition
+    var collectConditionSelections = "";
+    if ($("#collectionConditionSelectCompare").val() !== null) {
+      var collectConditionSelectionArray = $(
+        "#collectionConditionSelectCompare"
+      ).val();
+      collectConditionSelections = collectConditionSelectionArray.toString();
+    }
 
-  //sensor collection condition
-  var collectConditionSelections = "";
-  if ($("#collectionConditionSelectCompare").val() !== null) {
-    var collectConditionSelectionArray = $(
-      "#collectionConditionSelectCompare"
-    ).val();
-    collectConditionSelections = collectConditionSelectionArray.toString();
-  }
+    //sensor deployment type
+    var deploymentTypeSelections = "";
+    if ($("#deployTypeSelectCompare").val() !== null) {
+      var deploymentTypeSelectionArray = $("#deployTypeSelectCompare").val();
+      deploymentTypeSelections = deploymentTypeSelectionArray.toString();
+    }
 
-  //sensor deployment type
-  var deploymentTypeSelections = "";
-  if ($("#deployTypeSelectCompare").val() !== null) {
-    var deploymentTypeSelectionArray = $("#deployTypeSelectCompare").val();
-    deploymentTypeSelections = deploymentTypeSelectionArray.toString();
-  }
-
-  //query string including event status and event type params
-  ////query string not including event status and event type params
-  fev.queryStrings.sensorsQueryString =
-    "?Event=" +
-    eventSelections +
-    "&States=" +
-    stateSelections +
-    "&County=" +
-    countySelections +
-    "&SensorType=" +
-    sensorTypeSelections +
-    "&CurrentStatus=" +
-    sensorStatusSelections +
-    "&CollectionCondition=" +
-    collectConditionSelections +
-    "&DeploymentType=" +
-    deploymentTypeSelections;
-
-  fev.urls.csvSensorsQueryURL =
-    fev.urls.csvSensorsURLRoot + fev.queryStrings.sensorsQueryString;
-  fev.urls.jsonSensorsQueryURL =
-    fev.urls.jsonSensorsURLRoot + fev.queryStrings.sensorsQueryString;
-  fev.urls.xmlSensorsQueryURL =
-    fev.urls.xmlSensorsURLRoot + fev.queryStrings.sensorsQueryString;
-
-  //add download buttons
-  $("#sensorDownloadButtonCSVCompare").attr(
-    "href",
-    fev.urls.csvSensorsQueryURL
-  );
-  $("#sensorDownloadButtonJSONCompare").attr(
-    "href",
-    fev.urls.jsonSensorsQueryURL
-  );
-  $("#sensorDownloadButtonXMLCompare").attr(
-    "href",
-    fev.urls.xmlSensorsQueryURL
-  );
-
-  //HWM types
-  var hwmTypeSelections = "";
-  if ($("#hwmTypeSelectCompare").val() !== null) {
-    var hwmTypeSelectionArray = $("#hwmTypeSelectCompare").val();
-    hwmTypeSelections = hwmTypeSelectionArray.toString();
-  }
-  //HWM quality
-  var hwmQualitySelections = "";
-  if ($("#hwmQualitySelectCompare").val() !== null) {
-    var hwmQualitySelectionArray = $("#hwmQualitySelectCompare").val();
-    hwmQualitySelections = hwmQualitySelectionArray.toString();
-  }
-  ////HWM environment
-  var hwmEnvSelectionArray = [];
-  //HWM environment: coastal
-  if ($("#coastalCompare")[0].checked && !$("#riverine")[0].checked) {
-    hwmEnvSelectionArray.push("Coastal");
-  }
-  //HWM environment: riverine
-  if ($("#riverineCompare")[0].checked && !$("#coastal")[0].checked) {
-    hwmEnvSelectionArray.push("Riverine");
-  }
-  var hwmEnvSelections = hwmEnvSelectionArray.toString();
-  //HWM survey status
-  var hwmSurveyStatusSelectionArray = [];
-  ///HWM survey status: complete
-  if (
-    $("#surveyCompleteYesCompare")[0].checked &&
-    !$("#surveyCompleteNoCompare")[0].checked
-  ) {
-    hwmSurveyStatusSelectionArray.push("true");
-  }
-  ///HWM survey status: not complete
-  if (
-    $("#surveyCompleteNoCompare")[0].checked &&
-    !$("#surveyCompleteYesCompare")[0].checked
-  ) {
-    hwmSurveyStatusSelectionArray.push("false");
-  }
-  var hwmSurveyStatusSelections = hwmSurveyStatusSelectionArray.toString();
-  //HWM stillwater status
-  var hwmStillwaterStatusSelectionArray = [];
-  ///HWM stillwater status: yes
-  if (
-    $("#stillWaterYesCompare")[0].checked &&
-    !$("#stillWaterNoCompare")[0].checked
-  ) {
-    hwmStillwaterStatusSelectionArray.push("true");
-  }
-  ///HWM stillwater status: no
-  if (
-    $("#stillWaterNoCompare")[0].checked &&
-    !$("#stillWaterYesCompare")[0].checked
-  ) {
-    hwmStillwaterStatusSelectionArray.push("false");
-  }
-  var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
-
-  fev.queryStrings.hwmsQueryString =
-    "?Event=" +
-    eventSelections +
-    "&States=" +
-    stateSelections +
-    "&County=" +
-    countySelections +
-    "&HWMType=" +
-    hwmTypeSelections +
-    "&HWMQuality=" +
-    hwmQualitySelections +
-    "&HWMEnvironment=" +
-    hwmEnvSelections +
-    "&SurveyComplete=" +
-    hwmSurveyStatusSelections +
-    "&StillWater=" +
-    hwmStillwaterStatusSelections;
-
-  hwmQueryParameterString =
-    "&States=" +
-    stateSelections +
-    "&County=" +
-    countySelections +
-    "&HWMType=" +
-    hwmTypeSelections +
-    "&HWMQuality=" +
-    hwmQualitySelections +
-    "&HWMEnvironment=" +
-    hwmEnvSelections +
-    "&SurveyComplete=" +
-    hwmSurveyStatusSelections +
-    "&StillWater=" +
-    hwmStillwaterStatusSelections;
-
-  fev.urls.csvHWMsQueryURL =
-    fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
-  fev.urls.jsonHWMsQueryURL =
-    fev.urls.jsonHWMsURLRoot + fev.queryStrings.hwmsQueryString;
-  fev.urls.xmlHWMsQueryURL =
-    fev.urls.xmlHWMsURLRoot + fev.queryStrings.hwmsQueryString;
-
-  //add download buttons
-  $("#hwmDownloadButtonCSVCompare").attr("href", fev.urls.csvHWMsQueryURL);
-  $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsQueryURL);
-  //$("#hwmDownloadButtonXMLCompare").attr("href", fev.urls.xmlHWMsQueryURL);
-
-  var peakStartDate;
-  if ($("#peakStartDateCompare")[0].value !== "") {
-    peakStartDate = $("#peakStartDateCompare")[0].value;
-  }
-  var peakEndDate;
-  if ($("#peakEndDateCompare")[0].value !== "") {
-    peakEndDate = $("#peakEndDateCompare")[0].value;
-  }
-
-  //query string including event status and event type params
-  //query string not including event status and event type params
-  fev.queryStrings.peaksQueryString =
-    "?Event=" +
-    eventSelections +
-    "&States=" +
-    stateSelections +
-    "&County=" +
-    countySelections +
-    "&StartDate=" +
-    peakStartDate +
-    "&EndDate=" +
-    peakEndDate;
-
-  fev.urls.csvPeaksQueryURL =
-    fev.urls.csvPeaksURLRoot + fev.queryStrings.peaksQueryString;
-  fev.urls.jsonPeaksQueryURL =
-    fev.urls.jsonPeaksURLRoot + fev.queryStrings.peaksQueryString;
-  fev.urls.xmlPeaksQueryURL =
-    fev.urls.xmlPeaksURLRoot + fev.queryStrings.peaksQueryString;
-
-  //add download buttons
-  $("#peaksDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksQueryURL);
-  $("#peaksDownloadButtonJSONCompare").attr("href", fev.urls.jsonPeaksQueryURL);
-  $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
-
-  ////Add HWM markers to map
-  hwmCompareLayer.clearLayers();
-  eventIcon0 = L.divIcon({
-    name: "High Water Mark",
-    className:
-      "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-    iconAnchor: [7, 10],
-    popupAnchor: [0, 2],
-  });
-  eventIcon1 = L.divIcon({
-    name: "High Water Mark",
-    className:
-      "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-    iconAnchor: [7, 10],
-    popupAnchor: [0, 2],
-  });
-  eventIcon2 = L.divIcon({
-    name: "High Water Mark",
-    className:
-      "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-    iconAnchor: [7, 10],
-    popupAnchor: [0, 2],
-  });
-  eventIcon3 = L.divIcon({
-    name: "High Water Mark",
-    className:
-      "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-    iconAnchor: [7, 10],
-    popupAnchor: [0, 2],
-  });
-  eventIcon4 = L.divIcon({
-    name: "High Water Mark",
-    className:
-      "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-    iconAnchor: [7, 10],
-    popupAnchor: [0, 2],
-  });
-  var hwmCSS = [
-    "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-  ];
-  eventIconOptions = [
-    eventIcon0,
-    eventIcon1,
-    eventIcon2,
-    eventIcon3,
-    eventIcon4,
-  ];
-  console.log(
-    fev.urls.hwmFilteredGeoJSONViewURL +
+    //query string including event status and event type params
+    ////query string not including event status and event type params
+    fev.queryStrings.sensorsQueryString =
       "?Event=" +
-      eventIDs[1] +
-      hwmQueryParameterString
-  );
-  var eventNames = [];
-  for (var eventCount = 0; eventCount < eventIDs.length; eventCount++) {
-    for (var i = 0; i < fev.data.events.length; i++) {
-      if (fev.data.events[i].event_id == eventIDs[eventCount]) {
-        eventNames.push(fev.data.events[i].event_name);
+      eventSelections +
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&SensorType=" +
+      sensorTypeSelections +
+      "&CurrentStatus=" +
+      sensorStatusSelections +
+      "&CollectionCondition=" +
+      collectConditionSelections +
+      "&DeploymentType=" +
+      deploymentTypeSelections;
+
+    fev.urls.csvSensorsQueryURL =
+      fev.urls.csvSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+    fev.urls.jsonSensorsQueryURL =
+      fev.urls.jsonSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+    fev.urls.xmlSensorsQueryURL =
+      fev.urls.xmlSensorsURLRoot + fev.queryStrings.sensorsQueryString;
+
+    //add download buttons
+    $("#sensorDownloadButtonCSVCompare").attr(
+      "href",
+      fev.urls.csvSensorsQueryURL
+    );
+    $("#sensorDownloadButtonJSONCompare").attr(
+      "href",
+      fev.urls.jsonSensorsQueryURL
+    );
+    $("#sensorDownloadButtonXMLCompare").attr(
+      "href",
+      fev.urls.xmlSensorsQueryURL
+    );
+  }
+  //end sensor section
+
+  //start HWM section
+  if (dataTypeSubmitted == "submitHWMs") {
+    //HWM types
+    var hwmTypeSelections = "";
+    if ($("#hwmTypeSelectCompare").val() !== null) {
+      var hwmTypeSelectionArray = $("#hwmTypeSelectCompare").val();
+      hwmTypeSelections = hwmTypeSelectionArray.toString();
+    }
+    //HWM quality
+    var hwmQualitySelections = "";
+    if ($("#hwmQualitySelectCompare").val() !== null) {
+      var hwmQualitySelectionArray = $("#hwmQualitySelectCompare").val();
+      hwmQualitySelections = hwmQualitySelectionArray.toString();
+    }
+    ////HWM environment
+    var hwmEnvSelectionArray = [];
+    //HWM environment: coastal
+    if ($("#coastalCompare")[0].checked && !$("#riverine")[0].checked) {
+      hwmEnvSelectionArray.push("Coastal");
+    }
+    //HWM environment: riverine
+    if ($("#riverineCompare")[0].checked && !$("#coastal")[0].checked) {
+      hwmEnvSelectionArray.push("Riverine");
+    }
+    var hwmEnvSelections = hwmEnvSelectionArray.toString();
+    //HWM survey status
+    var hwmSurveyStatusSelectionArray = [];
+    ///HWM survey status: complete
+    if (
+      $("#surveyCompleteYesCompare")[0].checked &&
+      !$("#surveyCompleteNoCompare")[0].checked
+    ) {
+      hwmSurveyStatusSelectionArray.push("true");
+    }
+    ///HWM survey status: not complete
+    if (
+      $("#surveyCompleteNoCompare")[0].checked &&
+      !$("#surveyCompleteYesCompare")[0].checked
+    ) {
+      hwmSurveyStatusSelectionArray.push("false");
+    }
+    var hwmSurveyStatusSelections = hwmSurveyStatusSelectionArray.toString();
+    //HWM stillwater status
+    var hwmStillwaterStatusSelectionArray = [];
+    ///HWM stillwater status: yes
+    if (
+      $("#stillWaterYesCompare")[0].checked &&
+      !$("#stillWaterNoCompare")[0].checked
+    ) {
+      hwmStillwaterStatusSelectionArray.push("true");
+    }
+    ///HWM stillwater status: no
+    if (
+      $("#stillWaterNoCompare")[0].checked &&
+      !$("#stillWaterYesCompare")[0].checked
+    ) {
+      hwmStillwaterStatusSelectionArray.push("false");
+    }
+    var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
+
+    fev.queryStrings.hwmsQueryString =
+      "?Event=" +
+      eventSelections +
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&HWMType=" +
+      hwmTypeSelections +
+      "&HWMQuality=" +
+      hwmQualitySelections +
+      "&HWMEnvironment=" +
+      hwmEnvSelections +
+      "&SurveyComplete=" +
+      hwmSurveyStatusSelections +
+      "&StillWater=" +
+      hwmStillwaterStatusSelections;
+
+    hwmQueryParameterString =
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&HWMType=" +
+      hwmTypeSelections +
+      "&HWMQuality=" +
+      hwmQualitySelections +
+      "&HWMEnvironment=" +
+      hwmEnvSelections +
+      "&SurveyComplete=" +
+      hwmSurveyStatusSelections +
+      "&StillWater=" +
+      hwmStillwaterStatusSelections;
+
+    fev.urls.csvHWMsQueryURL =
+      fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+    fev.urls.jsonHWMsQueryURL =
+      fev.urls.jsonHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+    fev.urls.xmlHWMsQueryURL =
+      fev.urls.xmlHWMsURLRoot + fev.queryStrings.hwmsQueryString;
+
+    //add download buttons
+    $("#hwmDownloadButtonCSVCompare").attr("href", fev.urls.csvHWMsQueryURL);
+    $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsQueryURL);
+
+    ////Add HWM markers to map
+    hwmCompareLayer.clearLayers();
+    eventIcon0 = L.divIcon({
+      name: "High Water Mark",
+      className:
+        "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      iconAnchor: [7, 10],
+      popupAnchor: [0, 2],
+    });
+    eventIcon1 = L.divIcon({
+      name: "High Water Mark",
+      className:
+        "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      iconAnchor: [7, 10],
+      popupAnchor: [0, 2],
+    });
+    eventIcon2 = L.divIcon({
+      name: "High Water Mark",
+      className:
+        "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      iconAnchor: [7, 10],
+      popupAnchor: [0, 2],
+    });
+    eventIcon3 = L.divIcon({
+      name: "High Water Mark",
+      className:
+        "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      iconAnchor: [7, 10],
+      popupAnchor: [0, 2],
+    });
+    eventIcon4 = L.divIcon({
+      name: "High Water Mark",
+      className:
+        "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      iconAnchor: [7, 10],
+      popupAnchor: [0, 2],
+    });
+    var hwmHTML = [
+      "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+      "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+      "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+      "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+      "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    ];
+    eventIconOptions = [
+      eventIcon0,
+      eventIcon1,
+      eventIcon2,
+      eventIcon3,
+      eventIcon4,
+    ];
+    console.log(
+      fev.urls.hwmFilteredGeoJSONViewURL +
+        "?Event=" +
+        eventIDs[1] +
+        hwmQueryParameterString
+    );
+    var eventNames = [];
+    for (var eventCount = 0; eventCount < eventIDs.length; eventCount++) {
+      for (var i = 0; i < fev.data.events.length; i++) {
+        if (fev.data.events[i].event_id == eventIDs[eventCount]) {
+          eventNames.push(fev.data.events[i].event_name);
+        }
       }
     }
-  }
-  $("#hwmLegend").children().remove();
-  if (document.getElementById("hwmMapViewCheckbox").checked == true) {
-    for (i = 0; i < eventIDs.length; i++) {
-      var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
-      multiDisplayHWMGeoJSON(
-        "High Water Mark",
-        fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
-        eventIconOptions[i],
-        eventNames[i]
-      );
-      var hwmMarkersLegend =
-        "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
-        hwmCSS[i] +
-        "<label style='margin-left: 5px;'>" +
-        eventNames[i] +
-        "</label></div>";
-      $("#hwmLegend").append(hwmMarkersLegend);
+    $("#hwmLegend").children().remove();
+    if (document.getElementById("hwmMapViewCheckbox").checked == true) {
+      for (i = 0; i < eventIDs.length; i++) {
+        var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
+        multiDisplayHWMGeoJSON(
+          "High Water Mark",
+          fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
+          eventIconOptions[i],
+          eventNames[i]
+        );
+        var hwmMarkersLegend =
+          "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+          hwmHTML[i] +
+          "<label style='margin-left: 5px;'>" +
+          eventNames[i] +
+          "</label></div>";
+        $("#hwmLegend").append(hwmMarkersLegend);
+      }
+
+      $("#hwmCompareMapResults").show();
+    }
+    if (document.getElementById("hwmDataViewCheckbox").checked == true) {
+      $("#hwmCompareDataResults").show();
     }
 
-    $("#hwmCompareMapResults").show();
+    hwmCompareLayer.addTo(hwmMap);
+    $("#hwmCompareSelections").hide();
+    $("#btnSubmitHwmFilters").hide();
+    $("#filtersForAllDataCompare").hide();
+    $("#returnToHwmFilters").show();
   }
-  if (document.getElementById("hwmDataViewCheckbox").checked == true) {
-    $("#hwmCompareDataResults").show();
-  }
+  //end hwm section
 
-  hwmCompareLayer.addTo(hwmMap);
-  $("#hwmCompareSelections").hide();
-  $("#btnSubmitHwmFilters").hide();
-  $("#returnToHwmFilters").show();
+  //start PEAK section
+  if (dataTypeSubmitted == "sumbitPeaks") {
+    var peakStartDate;
+    if ($("#peakStartDateCompare")[0].value !== "") {
+      peakStartDate = $("#peakStartDateCompare")[0].value;
+    }
+    var peakEndDate;
+    if ($("#peakEndDateCompare")[0].value !== "") {
+      peakEndDate = $("#peakEndDateCompare")[0].value;
+    }
+
+    //query string including event status and event type params
+    //query string not including event status and event type params
+    fev.queryStrings.peaksQueryString =
+      "?Event=" +
+      eventSelections +
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&StartDate=" +
+      peakStartDate +
+      "&EndDate=" +
+      peakEndDate;
+
+    fev.urls.csvPeaksQueryURL =
+      fev.urls.csvPeaksURLRoot + fev.queryStrings.peaksQueryString;
+    fev.urls.jsonPeaksQueryURL =
+      fev.urls.jsonPeaksURLRoot + fev.queryStrings.peaksQueryString;
+    fev.urls.xmlPeaksQueryURL =
+      fev.urls.xmlPeaksURLRoot + fev.queryStrings.peaksQueryString;
+
+    //add download buttons
+    $("#peaksDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksQueryURL);
+    $("#peaksDownloadButtonJSONCompare").attr(
+      "href",
+      fev.urls.jsonPeaksQueryURL
+    );
+    $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
+  }
+  //end peaks section
 }
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {

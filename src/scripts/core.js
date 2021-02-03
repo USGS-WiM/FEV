@@ -12,6 +12,8 @@ var hwmPageURLRoot = "https://test.wim.usgs.gov/publicInfoTest/#/HWMPage?Site=";
 
 var searchResults;
 var hwmMap;
+var sensorMap;
+var peakMap;
 
 var fev = fev || {
   data: {
@@ -482,19 +484,7 @@ $(document).on("ready", function () {
     }
   });
 
-  //COMPARE EVENTS
-  $("#btnSubmitFiltersCompare").on("click", function () {
-    if ($("#evtSelect_compareModal").val() !== null) {
-      var eventIDs = $("#evtSelect_compareModal").val();
-      createComparisonData(eventIDs);
-      $(".eventSelectAlert").hide();
-      $("#compareEventsModal").modal("hide");
-    } else {
-      //if no event selected, warn user with alert
-      $(".eventSelectAlert").show();
-    }
-  });
-
+  //submit HWM filters in compare modal
   $("#btnSubmitHwmFilters").on("click", function () {
     var hwmMapChecked = document.getElementById("hwmMapViewCheckbox").checked;
     var hwmDataChecked = document.getElementById("hwmDataViewCheckbox").checked;
@@ -502,7 +492,58 @@ $(document).on("ready", function () {
       if ($("#evtSelect_compareModal").val() !== null) {
         var eventIDs = $("#evtSelect_compareModal").val();
         hwmMap.setView([39.833333, -98.583333], 4);
-        createComparisonData(eventIDs);
+        createComparisonData(eventIDs, "submitHWMs");
+        $(".eventSelectAlert").hide();
+        $(".dataTypeSelectAlert").hide();
+      } else {
+        //if no event selected, warn user with alert
+        $(".eventSelectAlert").show();
+      }
+    } else {
+      //if no data access option selected, warn user with alert
+      $(".dataTypeSelectAlert").show();
+    }
+    if ($("#evtSelect_compareModal").val() == null) {
+      $(".eventSelectAlert").show();
+    }
+  });
+
+  //submit Sensor filters in compare modal
+  $("#btnSubmitSensorFilters").on("click", function () {
+    var sensorMapChecked = document.getElementById("sensorMapViewCheckbox")
+      .checked;
+    var sensorDataChecked = document.getElementById("sensorDataViewCheckbox")
+      .checked;
+    if (sensorMapChecked == true || sensorDataChecked == true) {
+      if ($("#evtSelect_compareModal").val() !== null) {
+        var eventIDs = $("#evtSelect_compareModal").val();
+        sensorMap.setView([39.833333, -98.583333], 4);
+        createComparisonData(eventIDs, "submitSensors");
+        $(".eventSelectAlert").hide();
+        $(".dataTypeSelectAlert").hide();
+      } else {
+        //if no event selected, warn user with alert
+        $(".eventSelectAlert").show();
+      }
+    } else {
+      //if no data access option selected, warn user with alert
+      $(".dataTypeSelectAlert").show();
+    }
+    if ($("#evtSelect_compareModal").val() == null) {
+      $(".eventSelectAlert").show();
+    }
+  });
+
+  //submit Peak filters in compare modal
+  $("#btnSubmitPeakFilters").on("click", function () {
+    var peakMapChecked = document.getElementById("peakMapViewCheckbox").checked;
+    var peakDataChecked = document.getElementById("peakDataViewCheckbox")
+      .checked;
+    if (peakMapChecked == true || peakDataChecked == true) {
+      if ($("#evtSelect_compareModal").val() !== null) {
+        var eventIDs = $("#evtSelect_compareModal").val();
+        sensorMap.setView([39.833333, -98.583333], 4);
+        createComparisonData(eventIDs, "sumbitPeaks");
         $(".eventSelectAlert").hide();
         $(".dataTypeSelectAlert").hide();
       } else {
@@ -1769,6 +1810,7 @@ $(document).on("ready", function () {
   $("#returnToHwmFilters").on("click", function () {
     $("#hwmCompareSelections").show();
     $("#btnSubmitHwmFilters").show();
+    $("#filtersForAllDataCompare").show();
     $("#hwmCompareMapResults").hide();
     $("#hwmCompareDataResults").hide();
     $("#returnToHwmFilters").hide();
@@ -1798,24 +1840,65 @@ $(document).on("ready", function () {
       .trigger("change");
     showFiltersModal();
   });
+  /*
   function showCompareEventsModal() {
-    $("#sensorCompareForm").show();
     $("#compareEventsModal").modal("show");
-  }
+  } */
   $("#btnCompareEvents").on("click", function () {
+    $("#compareEventsModal").modal("show");
     //update the event select within the filters modal to reflect current event
     //$('#evtSelect_filterModal').val([fev.vars.currentEventID_str]).trigger("change");
-    showCompareEventsModal();
+    // showCompareEventsModal();
   });
+  //click on hwm section of the compare modal
   $("#hwmCompare").on("click", function () {
     //create compare events maps
-    hwmMap = L.map("hwmMap", {
-      maxZoom: 15,
-    }).setView([39.833333, -98.583333], 3);
-    L.esri.basemapLayer("Topographic").addTo(hwmMap);
+    if (hwmMap == null) {
+      hwmMap = L.map("hwmMap", {
+        maxZoom: 15,
+      }).setView([39.833333, -98.583333], 3);
+      L.esri.basemapLayer("Topographic").addTo(hwmMap);
+    }
     $("#hwmCompareMapResults").hide();
     $("#hwmCompareDataResults").hide();
     $("#returnToHwmFilters").hide();
+    $("#hwmCompareSelections").show();
+    $("#btnSubmitHwmFilters").show();
+    $("#filtersForAllDataCompare").show();
+  });
+
+  //click on sensor sectin of the compare modal
+  $("#sensorCompare").on("click", function () {
+    //create compare events maps
+    if (sensorMap == null) {
+      sensorMap = L.map("sensorMap", {
+        maxZoom: 15,
+      }).setView([39.833333, -98.583333], 3);
+      L.esri.basemapLayer("Topographic").addTo(sensorMap);
+    }
+
+    $("#hwmCompareMapResults").hide();
+    $("#hwmCompareDataResults").hide();
+    $("#returnToHwmFilters").hide();
+    $("#hwmCompareSelections").show();
+    $("#btnSubmitHwmFilters").show();
+    $("#filtersForAllDataCompare").show();
+  });
+  //click on peak sectin of the compare modal
+  $("#peakCompare").on("click", function () {
+    //create compare events maps
+    if (peakMap == null) {
+      peakMap = L.map("peakMap", {
+        maxZoom: 15,
+      }).setView([39.833333, -98.583333], 3);
+      L.esri.basemapLayer("Topographic").addTo(peakMap);
+    }
+    $("#hwmCompareMapResults").hide();
+    $("#hwmCompareDataResults").hide();
+    $("#returnToHwmFilters").hide();
+    $("#hwmCompareSelections").show();
+    $("#btnSubmitHwmFilters").show();
+    $("#filtersForAllDataCompare").show();
   });
 
   // FAQ Modal controls.

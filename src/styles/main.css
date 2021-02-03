@@ -931,8 +931,20 @@ input[type="radio"] {
   width: 100%;
 }
 
-/* Regional map container in modal */
+/* compare modal map containers*/
 #hwmMap {
+  width: 100%;
+  min-width: 100%;
+  max-width: none;
+  height: 500px;
+}
+#sensorMap {
+  width: 100%;
+  min-width: 100%;
+  max-width: none;
+  height: 500px;
+}
+#peakMap {
   width: 100%;
   min-width: 100%;
   max-width: none;
@@ -1162,16 +1174,6 @@ input[type="radio"] {
 }
 
 #btnSubmitHwmFilters {
-  color: white !important;
-  font-weight: 500 !important;
-  letter-spacing: 1px !important;
-  border-top-right-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-top-left-radius: 0px !important;
-  border-bottom-left-radius: 0px !important;
-}
-
-#returnToHwmFilters {
   color: white !important;
   font-weight: 500 !important;
   letter-spacing: 1px !important;
