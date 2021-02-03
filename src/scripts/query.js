@@ -336,10 +336,13 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
   });
 }
 
-function displayPeaksGeoJSON(type, name, url, markerIcon) {
+function displayPeaksGeoJSON(type, name, url, markerIcon, mainMap) {
+  console.log("displayPeaksGeoJSON url", url);
   //increment layerCount
-  layerCount++;
-  peak.clearLayers();
+  if (mainMap == true) {
+    layerCount++;
+    peak.clearLayers();
+  }
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
       var labelText =
@@ -460,12 +463,19 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
         }
       }
       currentMarker.addData(data);
-      currentMarker.eachLayer(function (layer) {
-        layer.addTo(peak);
-      });
-      peak.addTo(map);
-      var peaksCheckBox = document.getElementById("peaksToggle");
-      peaksCheckBox.checked = true;
+      if (mainMap == true) {
+        currentMarker.eachLayer(function (layer) {
+          layer.addTo(peak);
+        });
+        peak.addTo(map);
+        var peaksCheckBox = document.getElementById("peaksToggle");
+        peaksCheckBox.checked = true;
+      }
+      if (mainMap == false) {
+        currentMarker.eachLayer(function (layer) {
+          layer.addTo(peakCompareLayer);
+        });
+      }
     }
   });
 }
@@ -766,6 +776,66 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   $(".labelSpan").empty();
   eventSelections = eventIDs;
 
+  //change these icons later to a style not associated with a specific event (circle?)
+  eventIcon0 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon1 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon2 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon3 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  eventIcon4 = L.divIcon({
+    name: "High Water Mark",
+    className:
+      "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+    iconAnchor: [7, 10],
+    popupAnchor: [0, 2],
+  });
+  var hwmHTML = [
+    "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+  ];
+  eventIconOptions = [
+    eventIcon0,
+    eventIcon1,
+    eventIcon2,
+    eventIcon3,
+    eventIcon4,
+  ];
+
+  var eventNames = [];
+  for (var eventCount = 0; eventCount < eventIDs.length; eventCount++) {
+    for (var i = 0; i < fev.data.events.length; i++) {
+      if (fev.data.events[i].event_id == eventIDs[eventCount]) {
+        eventNames.push(fev.data.events[i].event_name);
+      }
+    }
+  }
+
   //state
   var stateSelections = "";
   if ($("#stateSelectCompare").val() !== null) {
@@ -779,7 +849,9 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     countySelections = countySelectionsArray.toString();
   }
 
-  // start SENSOR section
+  //////////////////////////
+  // start SENSOR section///
+  //////////////////////////
   if (dataTypeSubmitted == "submitSensors") {
     //sensor type
     var sensorTypeSelections = "";
@@ -848,10 +920,17 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       "href",
       fev.urls.xmlSensorsQueryURL
     );
+
+    //if map was checked, plot the sensor markers
+    if (document.getElementById("sensorMapViewCheckbox").checked == true) {
+      //displaySensorGeoJSON()
+    }
   }
   //end sensor section
 
-  //start HWM section
+  /////////////////////
+  //start HWM section//
+  /////////////////////
   if (dataTypeSubmitted == "submitHWMs") {
     //HWM types
     var hwmTypeSelections = "";
@@ -957,72 +1036,9 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     $("#hwmDownloadButtonJSONCompare").attr("href", fev.urls.jsonHWMsQueryURL);
 
     ////Add HWM markers to map
-    hwmCompareLayer.clearLayers();
-    eventIcon0 = L.divIcon({
-      name: "High Water Mark",
-      className:
-        "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-      iconAnchor: [7, 10],
-      popupAnchor: [0, 2],
-    });
-    eventIcon1 = L.divIcon({
-      name: "High Water Mark",
-      className:
-        "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-      iconAnchor: [7, 10],
-      popupAnchor: [0, 2],
-    });
-    eventIcon2 = L.divIcon({
-      name: "High Water Mark",
-      className:
-        "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-      iconAnchor: [7, 10],
-      popupAnchor: [0, 2],
-    });
-    eventIcon3 = L.divIcon({
-      name: "High Water Mark",
-      className:
-        "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-      iconAnchor: [7, 10],
-      popupAnchor: [0, 2],
-    });
-    eventIcon4 = L.divIcon({
-      name: "High Water Mark",
-      className:
-        "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
-      iconAnchor: [7, 10],
-      popupAnchor: [0, 2],
-    });
-    var hwmHTML = [
-      "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-      "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-      "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-      "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-      "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    ];
-    eventIconOptions = [
-      eventIcon0,
-      eventIcon1,
-      eventIcon2,
-      eventIcon3,
-      eventIcon4,
-    ];
-    console.log(
-      fev.urls.hwmFilteredGeoJSONViewURL +
-        "?Event=" +
-        eventIDs[1] +
-        hwmQueryParameterString
-    );
-    var eventNames = [];
-    for (var eventCount = 0; eventCount < eventIDs.length; eventCount++) {
-      for (var i = 0; i < fev.data.events.length; i++) {
-        if (fev.data.events[i].event_id == eventIDs[eventCount]) {
-          eventNames.push(fev.data.events[i].event_name);
-        }
-      }
-    }
-    $("#hwmLegend").children().remove();
     if (document.getElementById("hwmMapViewCheckbox").checked == true) {
+      hwmCompareLayer.clearLayers();
+      $("#hwmLegend").children().remove();
       for (i = 0; i < eventIDs.length; i++) {
         var eventURL = "?Event=" + eventIDs[i] + hwmQueryParameterString;
         multiDisplayHWMGeoJSON(
@@ -1040,13 +1056,13 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
         $("#hwmLegend").append(hwmMarkersLegend);
       }
 
+      hwmCompareLayer.addTo(hwmMap);
       $("#hwmCompareMapResults").show();
     }
     if (document.getElementById("hwmDataViewCheckbox").checked == true) {
       $("#hwmCompareDataResults").show();
     }
 
-    hwmCompareLayer.addTo(hwmMap);
     $("#hwmCompareSelections").hide();
     $("#btnSubmitHwmFilters").hide();
     $("#filtersForAllDataCompare").hide();
@@ -1054,7 +1070,9 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   }
   //end hwm section
 
-  //start PEAK section
+  //////////////////////
+  //start PEAK section//
+  //////////////////////
   if (dataTypeSubmitted == "sumbitPeaks") {
     var peakStartDate;
     if ($("#peakStartDateCompare")[0].value !== "") {
@@ -1079,6 +1097,16 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       "&EndDate=" +
       peakEndDate;
 
+    peakQueryParameterString =
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&StartDate=" +
+      peakStartDate +
+      "&EndDate=" +
+      peakEndDate;
+
     fev.urls.csvPeaksQueryURL =
       fev.urls.csvPeaksURLRoot + fev.queryStrings.peaksQueryString;
     fev.urls.jsonPeaksQueryURL =
@@ -1093,6 +1121,43 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       fev.urls.jsonPeaksQueryURL
     );
     $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
+
+    //if map was checked, plot the sensor markers
+    if (document.getElementById("peakMapViewCheckbox").checked == true) {
+      peakCompareLayer.clearLayers();
+      $("#peakLegend").children().remove();
+      for (i = 0; i < eventIDs.length; i++) {
+        var eventURL = "?Event=" + eventIDs[i] + peakQueryParameterString;
+        console.log(
+          "fev.urls.peaksFilteredGeoJSONViewURL",
+          fev.urls.peaksFilteredGeoJSONViewURL
+        );
+        console.log("eventURL", eventURL);
+        displayPeaksGeoJSON(
+          "peak",
+          "Peaks Summary",
+          fev.urls.peaksFilteredGeoJSONViewURL + eventURL,
+          eventIconOptions[i],
+          false
+        );
+        /*
+        multiDisplayHWMGeoJSON(
+          "High Water Mark",
+          fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
+          eventIconOptions[i],
+          eventNames[i]
+        ); */
+        var peakMarkersLegend =
+          "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+          hwmHTML[i] +
+          "<label style='margin-left: 5px;'>" +
+          eventNames[i] +
+          "</label></div>";
+        $("#peakLegend").append(peakMarkersLegend);
+      }
+      peakCompareLayer.addTo(peakMap);
+      $("#peakCompareMapResults").show();
+    }
   }
   //end peaks section
 }
@@ -1744,7 +1809,8 @@ function filterMapData(event, isUrlParam) {
         layer.Name,
         fev.urls.peaksFilteredGeoJSONViewURL +
           fev.queryStrings.peaksQueryString,
-        peakMarkerIcon
+        peakMarkerIcon,
+        true
       );
     setTimeout(() => {
       if (layer.ID == "tides")

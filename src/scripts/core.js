@@ -295,6 +295,8 @@ var tides = L.layerGroup();
 
 //compare event layers
 var hwmCompareLayer = L.layerGroup();
+var sensorCompareLayer = L.layerGroup();
+var peakCompareLayer = L.layerGroup();
 
 // var editableLayers = new L.FeatureGroup();
 // var drawnItems = new L.FeatureGroup();
@@ -542,7 +544,7 @@ $(document).on("ready", function () {
     if (peakMapChecked == true || peakDataChecked == true) {
       if ($("#evtSelect_compareModal").val() !== null) {
         var eventIDs = $("#evtSelect_compareModal").val();
-        sensorMap.setView([39.833333, -98.583333], 4);
+        peakMap.setView([39.833333, -98.583333], 4);
         createComparisonData(eventIDs, "sumbitPeaks");
         $(".eventSelectAlert").hide();
         $(".dataTypeSelectAlert").hide();
@@ -2591,7 +2593,8 @@ function clickPeaks() {
       "peak",
       "Peak Summary",
       fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString,
-      peakMarkerIcon
+      peakMarkerIcon,
+      true
     );
   }
   //Remove symbol and layer name from legend when box is unchecked
