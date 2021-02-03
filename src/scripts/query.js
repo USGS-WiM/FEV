@@ -913,8 +913,24 @@ function createComparisonData(eventIDs) {
   }
   var hwmStillwaterStatusSelections = hwmStillwaterStatusSelectionArray.toString();
 
-  //query string including event status and event type params
-  //query string not including event status and event type params
+  fev.queryStrings.hwmsQueryString =
+    "?Event=" +
+    eventSelections +
+    "&States=" +
+    stateSelections +
+    "&County=" +
+    countySelections +
+    "&HWMType=" +
+    hwmTypeSelections +
+    "&HWMQuality=" +
+    hwmQualitySelections +
+    "&HWMEnvironment=" +
+    hwmEnvSelections +
+    "&SurveyComplete=" +
+    hwmSurveyStatusSelections +
+    "&StillWater=" +
+    hwmStillwaterStatusSelections;
+
   hwmQueryParameterString =
     "&States=" +
     stateSelections +
@@ -930,6 +946,7 @@ function createComparisonData(eventIDs) {
     hwmSurveyStatusSelections +
     "&StillWater=" +
     hwmStillwaterStatusSelections;
+
   fev.urls.csvHWMsQueryURL =
     fev.urls.csvHWMsURLRoot + fev.queryStrings.hwmsQueryString;
   fev.urls.jsonHWMsQueryURL =
