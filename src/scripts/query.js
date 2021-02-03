@@ -336,8 +336,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
   });
 }
 
-function displayPeaksGeoJSON(type, name, url, markerIcon, mainMap) {
-  console.log("displayPeaksGeoJSON url", url);
+function displayPeaksGeoJSON(type, name, url, markerIcon, mainMap, multiTitle) {
   //increment layerCount
   if (mainMap == true) {
     layerCount++;
@@ -360,7 +359,12 @@ function displayPeaksGeoJSON(type, name, url, markerIcon, mainMap) {
       //add marker to overlapping marker spidifier
       oms.addMarker(latlng);
       //var popupContent = '';
-      var currentEvent = fev.vars.currentEventName;
+      if (mainMap == true) {
+        var currentEvent = fev.vars.currentEventName;
+      }
+      if (mainMap == false) {
+        var currentEvent = multiTitle;
+      }
       //If peak is not estimated, keep the original popup
       if (feature.properties.is_peak_estimated == 0) {
         //set popup content using moment js to pretty format the date value
@@ -1115,12 +1119,12 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       fev.urls.xmlPeaksURLRoot + fev.queryStrings.peaksQueryString;
 
     //add download buttons
-    $("#peaksDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksQueryURL);
-    $("#peaksDownloadButtonJSONCompare").attr(
+    $("#peakDownloadButtonCSVCompare").attr("href", fev.urls.csvPeaksQueryURL);
+    $("#peakDownloadButtonJSONCompare").attr(
       "href",
       fev.urls.jsonPeaksQueryURL
     );
-    $("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
+    //$("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
 
     //if map was checked, plot the sensor markers
     if (document.getElementById("peakMapViewCheckbox").checked == true) {
@@ -1128,25 +1132,14 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       $("#peakLegend").children().remove();
       for (i = 0; i < eventIDs.length; i++) {
         var eventURL = "?Event=" + eventIDs[i] + peakQueryParameterString;
-        console.log(
-          "fev.urls.peaksFilteredGeoJSONViewURL",
-          fev.urls.peaksFilteredGeoJSONViewURL
-        );
-        console.log("eventURL", eventURL);
         displayPeaksGeoJSON(
           "peak",
           "Peaks Summary",
           fev.urls.peaksFilteredGeoJSONViewURL + eventURL,
           eventIconOptions[i],
-          false
-        );
-        /*
-        multiDisplayHWMGeoJSON(
-          "High Water Mark",
-          fev.urls.hwmFilteredGeoJSONViewURL + eventURL,
-          eventIconOptions[i],
+          false,
           eventNames[i]
-        ); */
+        );
         var peakMarkersLegend =
           "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
           hwmHTML[i] +
@@ -1159,8 +1152,16 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       $("#peakCompareMapResults").show();
     }
   }
-  //end peaks section
+  if (document.getElementById("peakDataViewCheckbox").checked == true) {
+    $("#peakDownloadButtonsCompare").show();
+  }
+
+  $("#peakCompareSelections").hide();
+  $("#btnSubmitPeakFilters").hide();
+  $("#filtersForAllDataCompare").hide();
+  $("#returnToPeakFilters").show();
 }
+//end peaks section
 
 function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
   var currentMarker = L.geoJson(false, {
@@ -1810,7 +1811,8 @@ function filterMapData(event, isUrlParam) {
         fev.urls.peaksFilteredGeoJSONViewURL +
           fev.queryStrings.peaksQueryString,
         peakMarkerIcon,
-        true
+        true,
+        ""
       );
     setTimeout(() => {
       if (layer.ID == "tides")

@@ -1809,6 +1809,25 @@ $(document).on("ready", function () {
     });
   });
 
+  //Go Back button for hwms
+  $("#returnToHwmFilters").on("click", function () {
+    $("#hwmCompareSelections").show();
+    $("#btnSubmitHwmFilters").show();
+    $("#filtersForAllDataCompare").show();
+    $("#hwmCompareMapResults").hide();
+    $("#hwmCompareDataResults").hide();
+    $("#returnToHwmFilters").hide();
+  });
+  //Go Back button for sensors
+  $("#returnToPeakFilters").on("click", function () {
+    $("#peakCompareSelections").show();
+    $("#btnSubmitPeakFilters").show();
+    $("#filtersForAllDataCompare").show();
+    $("#peakCompareMapResults").hide();
+    $("#peakDownloadButtonsCompare").hide();
+    $("#returnToPeakFilters").hide();
+  });
+  //Go Back button for peaks
   $("#returnToHwmFilters").on("click", function () {
     $("#hwmCompareSelections").show();
     $("#btnSubmitHwmFilters").show();
@@ -1878,12 +1897,11 @@ $(document).on("ready", function () {
       }).setView([39.833333, -98.583333], 3);
       L.esri.basemapLayer("Topographic").addTo(sensorMap);
     }
-
-    $("#hwmCompareMapResults").hide();
-    $("#hwmCompareDataResults").hide();
-    $("#returnToHwmFilters").hide();
-    $("#hwmCompareSelections").show();
-    $("#btnSubmitHwmFilters").show();
+    $("#sensorCompareMapResults").hide();
+    $("#sensorDownloadButtonsCompare").hide();
+    $("#returnToSensorFilters").hide();
+    $("#sensorCompareSelections").show();
+    $("#btnSubmitSensorFilters").show();
     $("#filtersForAllDataCompare").show();
   });
   //click on peak sectin of the compare modal
@@ -1895,11 +1913,11 @@ $(document).on("ready", function () {
       }).setView([39.833333, -98.583333], 3);
       L.esri.basemapLayer("Topographic").addTo(peakMap);
     }
-    $("#hwmCompareMapResults").hide();
-    $("#hwmCompareDataResults").hide();
-    $("#returnToHwmFilters").hide();
-    $("#hwmCompareSelections").show();
-    $("#btnSubmitHwmFilters").show();
+    $("#peakCompareMapResults").hide();
+    $("#peakDownloadButtonsCompare").hide();
+    $("#returnToPeakFilters").hide();
+    $("#peakCompareSelections").show();
+    $("#btnSubmitPeakFilters").show();
     $("#filtersForAllDataCompare").show();
   });
 
@@ -2594,7 +2612,8 @@ function clickPeaks() {
       "Peak Summary",
       fev.urls.peaksFilteredGeoJSONViewURL + fev.queryStrings.peaksQueryString,
       peakMarkerIcon,
-      true
+      true,
+      ""
     );
   }
   //Remove symbol and layer name from legend when box is unchecked

@@ -718,36 +718,38 @@
                                           </label>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="sensorTypeSelectCompare" class="col-sm-3 control-label filterForms">Sensor
-                                        Type</label>
-                                    <div class="col-sm-9 filterForms">
-                                        <select id="sensorTypeSelectCompare" style="width: 100%" multiple
-                                            class="clearable"></select>
+                                <div id="sensorCompareSelections"> 
+                                    <div class="form-group">
+                                        <label for="sensorTypeSelectCompare" class="col-sm-3 control-label filterForms">Sensor
+                                            Type</label>
+                                        <div class="col-sm-9 filterForms">
+                                            <select id="sensorTypeSelectCompare" style="width: 100%" multiple
+                                                class="clearable"></select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sensorStatusSelectCompare"
-                                        class="col-sm-3 control-label filterForms">Status</label>
-                                    <div class="col-sm-9 filterForms">
-                                        <select id="sensorStatusSelectCompare" style="width: 100%" multiple
-                                            class="clearable"></select>
+                                    <div class="form-group">
+                                        <label for="sensorStatusSelectCompare"
+                                            class="col-sm-3 control-label filterForms">Status</label>
+                                        <div class="col-sm-9 filterForms">
+                                            <select id="sensorStatusSelectCompare" style="width: 100%" multiple
+                                                class="clearable"></select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group" >
-                                    <label for="collectionConditionSelectCompare"
-                                        class="col-sm-3 control-label filterForms">Collection Condition</label>
-                                    <div class="col-sm-9 filterForms">
-                                        <select id="collectionConditionSelectCompare" style="width: 100%" multiple
-                                            class="clearable"></select>
+                                    <div class="form-group" >
+                                        <label for="collectionConditionSelectCompare"
+                                            class="col-sm-3 control-label filterForms">Collection Condition</label>
+                                        <div class="col-sm-9 filterForms">
+                                            <select id="collectionConditionSelectCompare" style="width: 100%" multiple
+                                                class="clearable"></select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="deployTypeSelectCompare" class="col-sm-3 control-label filterForms">Deployment
-                                        Type</label>
-                                    <div class="col-sm-9 filterForms">
-                                        <select id="deployTypeSelectCompare" style="width: 100%" multiple
-                                            class="clearable"></select>
+                                    <div class="form-group">
+                                        <label for="deployTypeSelectCompare" class="col-sm-3 control-label filterForms">Deployment
+                                            Type</label>
+                                        <div class="col-sm-9 filterForms">
+                                            <select id="deployTypeSelectCompare" style="width: 100%" multiple
+                                                class="clearable"></select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div id='sensorCompareMapResults' style="margin-bottom: 5px">
@@ -879,32 +881,35 @@
                             
                  </div> </form>
                             <form class="form-horizontal hiddenForm" role="form" id="peakCompareForm">
-                                <div class="form-group">
-                                    <label for="peakDataType" class="col-sm-3 control-label filterForms">Data Access</label>
-                                    <div class="col-sm-9 ">
-                                        <label class="container" id="peakMapView" style="font-weight:normal; font-size:small;">Map View
-                                            <input type="checkbox" id="peakMapViewCheckbox">
-                                            <span class="checkmark"></span>
-                                          </label>
-                                          <label class="container" id="peakDataDownload" style="font-weight:normal; font-size:small;">Data Download
-                                            <input type="checkbox" id="peakDataViewCheckbox">
-                                            <span class="checkmark"></span>
-                                          </label>
-                                    </div>
-                                </div>
-                                <div class="form-group" >
-                                    <label for="peakDatePickerCompare" class="col-sm-3 control-label filterForms">Peak
-                                        Date</label>
-                                    <div class="col-sm-9 filterForms" id="peakDatePickerCompare">
-                                        <div class="input-daterange input-group">
-                                            <input type="text" class="input-sm form-control" name="start"
-                                                id="peakStartDateCompare" />
-                                            <span class="input-group-addon">to</span>
-                                            <input type="text" class="input-sm form-control" name="end"
-                                                id="peakEndDateCompare" />
+                                <div id="peakCompareSelections">
+                                    <div class="form-group">
+                                        <label for="peakDataType" class="col-sm-3 control-label filterForms">Data Access</label>
+                                        <div class="col-sm-9 ">
+                                            <label class="container" id="peakMapView" style="font-weight:normal; font-size:small;">Map View
+                                                <input type="checkbox" id="peakMapViewCheckbox">
+                                                <span class="checkmark"></span>
+                                              </label>
+                                              <label class="container" id="peakDataDownload" style="font-weight:normal; font-size:small;">Data Download
+                                                <input type="checkbox" id="peakDataViewCheckbox">
+                                                <span class="checkmark"></span>
+                                              </label>
                                         </div>
                                     </div>
-                                </div>                            <div id='peakCompareMapResults' style="margin-bottom: 5px">
+                                    <div class="form-group" >
+                                        <label for="peakDatePickerCompare" class="col-sm-3 control-label filterForms">Peak
+                                            Date</label>
+                                        <div class="col-sm-9 filterForms" id="peakDatePickerCompare">
+                                            <div class="input-daterange input-group">
+                                                <input type="text" class="input-sm form-control" name="start"
+                                                    id="peakStartDateCompare" />
+                                                <span class="input-group-addon">to</span>
+                                                <input type="text" class="input-sm form-control" name="end"
+                                                    id="peakEndDateCompare" />
+                                            </div>
+                                        </div>
+                                    </div>       
+                                </div>
+                                <div id='peakCompareMapResults' style="margin-bottom: 5px">
                                     <div id="peakMap"></div> 
                                     <div id="peakLegend" style="margin-top: 5px"></div>
                                 </div>
