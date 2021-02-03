@@ -1818,7 +1818,7 @@ $(document).on("ready", function () {
     $("#hwmCompareDataResults").hide();
     $("#returnToHwmFilters").hide();
   });
-  //Go Back button for sensors
+  //Go Back button for peaks
   $("#returnToPeakFilters").on("click", function () {
     $("#peakCompareSelections").show();
     $("#btnSubmitPeakFilters").show();
@@ -1827,14 +1827,14 @@ $(document).on("ready", function () {
     $("#peakDownloadButtonsCompare").hide();
     $("#returnToPeakFilters").hide();
   });
-  //Go Back button for peaks
-  $("#returnToHwmFilters").on("click", function () {
-    $("#hwmCompareSelections").show();
-    $("#btnSubmitHwmFilters").show();
+  //Go Back button for sensors
+  $("#returnToSensorFilters").on("click", function () {
+    $("#sensorCompareSelections").show();
+    $("#btnSubmitSensorFilters").show();
     $("#filtersForAllDataCompare").show();
-    $("#hwmCompareMapResults").hide();
-    $("#hwmCompareDataResults").hide();
-    $("#returnToHwmFilters").hide();
+    $("#sensorCompareMapResults").hide();
+    $("#sensorDownloadButtonsCompare").hide();
+    $("#returnToSensorFilters").hide();
   });
 
   //toggle the appearance of the check box on click, including toggling the check icon
@@ -2348,7 +2348,8 @@ $(document).on("ready", function () {
             fev.urls["rdg" + "GeoJSONViewURL"] +
               fev.queryStrings.sensorsQueryString,
             window["rdg" + "MarkerIcon"],
-            true
+            true,
+            ""
           );
         }, 2000);
       }

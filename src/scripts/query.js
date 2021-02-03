@@ -4,7 +4,14 @@
 ///function to grab all values from the inputs, form into arrays, and build query strings
 var layerCount = 0;
 //ajax retrieval function
-function displaySensorGeoJSON(type, name, url, markerIcon, mainMap) {
+function displaySensorGeoJSON(
+  type,
+  name,
+  url,
+  markerIcon,
+  mainMap,
+  eventPopupName
+) {
   //increment layerCount
   if (mainMap == true) {
     layerCount++;
@@ -65,7 +72,12 @@ function displaySensorGeoJSON(type, name, url, markerIcon, mainMap) {
           if (type == "rdg") {
             return;
           }
-          var currentEvent = fev.vars.currentEventName;
+          if (mainMap == true) {
+            var currentEvent = fev.vars.currentEventName;
+          }
+          if (mainMap == false) {
+            var currentEvent = eventPopupName;
+          }
           var siteInstrumentArray = [
             feature.properties.site_id,
             feature.properties.instrument_id,
@@ -873,6 +885,8 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     if ($("#sensorTypeSelectCompare").val() !== null) {
       var sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
       sensorTypeSelections = sensorTypeSelectionArray.toString();
+      console.log("sensorTypeSelectionArray", sensorTypeSelectionArray);
+      console.log("sensorTypeSelections", sensorTypeSelections);
     }
     //sensor status
     var sensorStatusSelections = "";
@@ -958,13 +972,34 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       $("#sensorLegend").children().remove();
       for (i = 0; i < eventIDs.length; i++) {
         var eventURL = "?Event=" + eventIDs[i] + sensorQueryParameterString;
-        displaySensorGeoJSON(
-          "baro",
-          selectedSensorType,
-          sensorBaseURL + eventURL,
-          eventIconOptions[i],
-          false
-        );
+        for (x = 0; x < sensorTypeSelectionArray.length; x++) {
+          if (sensorTypeSelectionArray[x] == 1) {
+            selectedSensorType = "Pressure Transducer";
+          }
+          if (sensorTypeSelectionArray[x] == 2) {
+            selectedSensorType = "Meteorological Station";
+          }
+          if (sensorTypeSelectionArray[x] == 3) {
+            selectedSensorType = "Thermometer";
+          }
+          if (sensorTypeSelectionArray[x] == 4) {
+            selectedSensorType = "Webcam";
+          }
+          if (sensorTypeSelectionArray[x] == 5) {
+            selectedSensorType = "Rapid Deployment Gage";
+          }
+          if (sensorTypeSelectionArray[x] == 6) {
+            selectedSensorType = "Rain Gage";
+          }
+          displaySensorGeoJSON(
+            "",
+            selectedSensorType,
+            sensorBaseURL + eventURL,
+            eventIconOptions[i],
+            false,
+            eventNames[i]
+          );
+        }
         var sensorMarkersLegend =
           "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
           hwmHTML[i] +
@@ -1850,7 +1885,8 @@ function filterMapData(event, isUrlParam) {
         fev.urls[layer.ID + "GeoJSONViewURL"] +
           fev.queryStrings.sensorsQueryString,
         window[layer.ID + "MarkerIcon"],
-        true
+        true,
+        ""
       );
     if (layer.ID == "hwm")
       displayHWMGeoJSON(
