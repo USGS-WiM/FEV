@@ -660,9 +660,7 @@
                                                 <input type="radio" name="dataOptions" value="peak" >Peak
                                                 Summary Data
                                             </label>
-                                            <label class="btn btn-default dataTypeRadio" id="allCompare">
-                                                <input type="radio" name="dataOptions" value="peak" >All Data
-                                            </label>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -832,13 +830,7 @@
                                 </div>
                             </div>
                             
-                <div class="modal-footer">
-                                <button id="btnSubmitHwmFilters" class="btn btn-primary btn-lg" type="button" aria-hidden="true"
-                        style="color:gray;" class="btn btn-primary">Submit HWM Filters</button>
-                        <button id="returnToHwmFilters" class="btn btn-primary btn-lg modalBlueBtn" type="button" aria-hidden="true"
-                        style="color:gray;" class="btn btn-primary">Return to Filters</button> <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"
-                        style="color:gray;" class="btn btn-default">Close</button></div> </div> </form>
-                            </form>
+                 </div> </form>
                             <form class="form-horizontal hiddenForm" role="form" id="peakCompareForm">
                                 <div class="form-group" >
                                     <label for="peakDatePickerCompare" class="col-sm-3 control-label filterForms">Peak
@@ -857,20 +849,23 @@
                         </div>
                     </div>
                     <!-- end filter panels -->
-                    <div class="alert alert-danger eventSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
-                            aria-hidden="true"></i> Please choose an event to proceed.</div><br> 
-                            <div class="alert alert-danger dataTypeSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
-                                aria-hidden="true"></i> Please choose at least one data access option to proceed.</div>
+                    
                 </div>
-                
+                <div class="alert alert-danger eventSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
+                    aria-hidden="true"></i> Please choose an event to proceed.</div><br> 
+                    <div class="alert alert-danger dataTypeSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
+                        aria-hidden="true"></i> Please choose at least one data access option to proceed.</div>
                 <div class="modal-footer">
-                    <span>FEV requires an event selection to view data. You cannot clear the event filter, only change
-                        it.</span>
+                    <button id="btnSubmitHwmFilters" class="btn btn-primary btn-lg pull-left" type="button" aria-hidden="true"
+                        style="color:gray;" class="btn btn-primary">Submit HWM Filters</button>
+                        <button id="returnToHwmFilters" class="btn btn-primary btn-lg modalBlueBtn pull-left" type="button" aria-hidden="true"
+                        style="color:gray;" class="btn btn-primary">Return to Filters</button>
                     <button id="btnClearFiltersCompare" class="btn btn-default" type="button" aria-hidden="true"
                         style="color:gray;" class="btn btn-primary">Clear Filters</button>
                     <button id="btnSubmitFiltersCompare" class="btn btn-primary btn-lg" type="button" aria-hidden="true"
                         style="color:gray;" class="btn btn-primary">Filter</button>
-                    
+                        <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"
+                        style="color:gray;" class="btn btn-default">Close</button>
                 </div>
 
             </div><!-- /.modal-content -->

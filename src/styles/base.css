@@ -16,7 +16,7 @@ a:focus {
   text-decoration: none;
 }
 #navbar {
-  background-color: #1e2732;
+  background-color: #1E2732;
   box-sizing: border-box;
 }
 #navbar .navbar-toggle {
@@ -43,7 +43,7 @@ a:focus {
   background-color: rgba(255, 255, 255, 0.1);
 }
 #navbar .navbar-toggle:hover .icon-bar {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 #navbar .navbar-brand {
   padding: 0 0 0 15px;
@@ -53,7 +53,7 @@ a:focus {
   height: 50px !important;
 }
 #navbar .navbar-brand span {
-  color: #ffffff;
+  color: #FFFFFF;
   font-weight: 300;
   letter-spacing: 1.25px;
   box-sizing: border-box;
@@ -65,7 +65,7 @@ a:focus {
 #navbar .navbar-text {
   color: #ffffff;
   font-weight: 200;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   letter-spacing: -0.5px;
 }
 @media (max-width: 1015px) {
@@ -74,7 +74,7 @@ a:focus {
   }
 }
 #navbar button {
-  background-color: #4574cc;
+  background-color: #4574CC;
   letter-spacing: 0.5px;
   box-sizing: border-box;
   font-size: 9pt;
@@ -85,7 +85,7 @@ a:focus {
   border-radius: 0;
   transition: 0.15s;
   text-transform: uppercase;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 #navbar button:hover {
   cursor: pointer;
@@ -99,8 +99,8 @@ a:focus {
   top: 1px;
 }
 #sidebar {
-  background-color: #eceef3;
-  font-family: "Open Sans", sans-serif;
+  background-color: #ECEEF3;
+  font-family: 'Open Sans', sans-serif;
   min-height: 0 !important;
 }
 @media (max-width: 991px) {
@@ -111,16 +111,16 @@ a:focus {
 #sidebar .groupHeading {
   font-weight: 700;
   letter-spacing: 1px;
-  color: #6f758e;
+  color: #6F758E;
   font-size: 9pt;
   text-transform: capitalize;
-  border-bottom: 1px solid #eceef3;
+  border-bottom: 1px solid #ECEEF3;
   display: block;
   box-sizing: border-box;
   padding: 12px 5px 5px 12px;
 }
 #sidebar .wim-sidebar-panel {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   margin: 0 auto;
   border: none;
 }
@@ -141,14 +141,14 @@ a:focus {
   display: block;
   width: 100%;
   padding: 15px;
-  color: #6f758e;
-  background-color: #eceef3;
+  color: #6F758E;
+  background-color: #ECEEF3;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:after {
   padding: 0 0 0 10px;
-  content: "\f3d3";
-  font-family: "ionicons";
-  color: #6f758e;
+  content: '\f3d3';
+  font-family: 'ionicons';
+  color: #6F758E;
 }
 #sidebar .wim-sidebar-panel .panel-heading h4 a:hover {
   cursor: pointer;
@@ -162,7 +162,7 @@ a:focus {
   background-color: rgba(69, 116, 204, 0.2);
 }
 #sidebar .panel-collapse {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 #sidebar .panel-collapse .btn-group-vertical {
   border: none;
@@ -174,7 +174,7 @@ a:focus {
   color: #333333;
   font-weight: 500 !important;
   font-size: 9pt;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   padding: 6px 10px;
   border-radius: 0;
   margin: 0 auto;
@@ -190,7 +190,7 @@ a:focus {
   cursor: pointer;
   transition: 0.15s;
   background-color: rgba(236, 238, 243, 0.2);
-  border-left: 4px solid #1e2732;
+  border-left: 4px solid #1E2732;
 }
 #sidebar .panel-collapse .btn-group-vertical label {
   border: none;
@@ -207,7 +207,7 @@ a:focus {
   cursor: pointer;
   transition: 0.15s;
   background-color: rgba(236, 238, 243, 0.2);
-  border-left: 2px solid #1e2732;
+  border-left: 2px solid #1E2732;
   color: #333;
 }
 #sidebar .panel-collapse .btn-group-vertical label.active {
@@ -220,7 +220,7 @@ a:focus {
   cursor: pointer;
   transition: 0.15s;
   background-color: rgba(236, 238, 243, 0.2);
-  border-left: 2px solid #1e2732;
+  border-left: 2px solid #1E2732;
 }
 #sidebar .basemapBtn {
   border: none;
@@ -234,7 +234,7 @@ a:focus {
   display: block;
   width: 100%;
   text-align: left;
-  color: #6f758e;
+  color: #6F758E;
   margin: 0 auto;
   border-left: 4px solid transparent;
 }
@@ -254,11 +254,11 @@ a:focus {
   background-color: rgba(236, 238, 243, 0.5);
 }
 #sidebar .basemapBtn:focus {
-  background-color: #eceef3;
-  border-color: #4574cc;
+  background-color: #ECEEF3;
+  border-color: #4574CC;
 }
 .opacitySlider {
-  background-color: #1e2732;
+  background-color: #1E2732;
   opacity: 1;
   border-radius: 3px;
   border: none;
@@ -272,7 +272,7 @@ a:focus {
 }
 .opacitySlider .opacityClose {
   font-weight: lighter;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   color: rgba(255, 255, 255, 0.5);
   position: relative;
   top: -2px;
@@ -280,12 +280,12 @@ a:focus {
 }
 .opacitySlider .opacityClose:hover {
   cursor: pointer;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 #zonalStatsPanel p {
   font-size: 9pt;
   text-align: justify;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   padding: 0 0 10px 0;
 }
@@ -295,21 +295,21 @@ a:focus {
   outline: none;
   width: 100%;
   font-weight: 500;
-  color: #6f758e;
+  color: #6F758E;
   font-size: 9pt;
   letter-spacing: 0.5px;
   border-radius: 0;
   text-transform: uppercase;
   box-sizing: border-box;
-  background-color: #eceef3;
+  background-color: #ECEEF3;
   padding: 12px;
-  border: 1px solid #dddddd;
+  border: 1px solid #DDDDDD;
   display: block;
 }
 #zonalStatsPanel #drawCustom:hover,
 #zonalStatsPanel #selectParcels:hover,
 #zonalStatsPanel #selectParcelsDraw:hover {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 #zonalStatsPanel #drawCustom:active,
 #zonalStatsPanel #selectParcels:active,
@@ -318,7 +318,7 @@ a:focus {
 }
 #zonalStatsPanel #calculateStats,
 #zonalStatsPanel #displayStats {
-  background-color: #00a896;
+  background-color: #00A896;
   border: none;
   font-weight: lighter;
   letter-spacing: 0.5px;
@@ -348,7 +348,7 @@ a:focus {
   outline: none;
 }
 #zonalStatsPanel #clearSelection {
-  background-color: #ea485c;
+  background-color: #EA485C;
   border: none;
   font-weight: lighter;
   letter-spacing: 0.5px;
@@ -369,8 +369,8 @@ a:focus {
 #addBookmarkButton,
 #removeBookmarksButton {
   border-radius: 0;
-  background-color: #eceef3;
-  color: #6f758e;
+  background-color: #ECEEF3;
+  color: #6F758E;
   border: none;
 }
 #addBookmarkButton:nth-child(2),
@@ -393,69 +393,69 @@ a:focus {
 }
 .identification a {
   font-weight: 700;
-  color: #4574cc;
+  color: #4574CC;
 }
 .identification:hover {
   opacity: 1;
 }
-input[type="range"] {
+input[type=range] {
   -webkit-appearance: none;
   width: 100%;
 }
-input[type="range"]::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
-input[type="range"]:focus {
+input[type=range]:focus {
   outline: none;
 }
-input[type="range"]::-ms-track {
+input[type=range]::-ms-track {
   width: 100%;
   cursor: pointer;
   background: transparent;
   border-color: transparent;
   color: transparent;
 }
-input[type="range"]::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #4574cc;
+  background: #4574CC;
   cursor: pointer;
   margin-top: -7px;
 }
-input[type="range"]::-moz-range-thumb {
+input[type=range]::-moz-range-thumb {
   -webkit-appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #4574cc;
+  background: #4574CC;
   cursor: pointer;
   margin-top: -7px;
 }
 /* All the same stuff for IE */
-input[type="range"]::-ms-thumb {
+input[type=range]::-ms-thumb {
   -webkit-appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 8px;
-  background: #4574cc;
+  background: #4574CC;
   cursor: pointer;
   margin-top: -7px;
 }
-input[type="range"]::-webkit-slider-runnable-track {
+input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 3px;
   cursor: pointer;
-  background: #ffffff;
+  background: #FFFFFF;
 }
-input[type="range"]::-moz-range-track {
+input[type=range]::-moz-range-track {
   width: 100%;
   height: 3px;
   cursor: pointer;
-  background: #ffffff;
+  background: #FFFFFF;
 }
-input[type="range"]::-ms-track {
+input[type=range]::-ms-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
@@ -464,22 +464,22 @@ input[type="range"]::-ms-track {
   border-width: 16px 0;
   color: transparent;
 }
-input[type="range"]::-ms-fill-lower {
+input[type=range]::-ms-fill-lower {
   background: #2a6495;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-input[type="range"]:focus::-ms-fill-lower {
+input[type=range]:focus::-ms-fill-lower {
   background: #3071a9;
 }
-input[type="range"]::-ms-fill-upper {
+input[type=range]::-ms-fill-upper {
   background: #3071a9;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-input[type="range"]:focus::-ms-fill-upper {
+input[type=range]:focus::-ms-fill-upper {
   background: #367ebd;
 }
 #mapDiv_zoom_slider {
@@ -492,7 +492,7 @@ input[type="range"]:focus::-ms-fill-upper {
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.1), 0 3px 6px rgba(30, 39, 50, 0.1);
 }
 #mapDiv_zoom_slider span {
-  color: #6f758e;
+  color: #6F758E;
 }
 #mapDiv_zoom_slider .esriSimpleSliderVertical,
 #mapDiv_zoom_slider .esriSimpleSliderIncrementButton,
@@ -516,7 +516,7 @@ input[type="range"]:focus::-ms-fill-upper {
 }
 .LocateButton .zoomLocateButton {
   background-color: transparent;
-  color: #1e2732;
+  color: #1E2732;
 }
 #homeButton {
   background-color: #6f758e;
@@ -537,7 +537,7 @@ input[type="range"]:focus::-ms-fill-upper {
   background-color: #666;
 }
 #measurementElement {
-  background-color: #6f758e;
+  background-color: #6F758E;
   border-radius: 0px;
   border-color: transparent;
   margin: 0;
@@ -546,10 +546,10 @@ input[type="range"]:focus::-ms-fill-upper {
 }
 #measurementElement #measurementHeading {
   background-color: transparent;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 #measurementElement #measurementHeading .panel-title {
-  color: #ffffff;
+  color: #FFFFFF;
   font-weight: lighter;
   letter-spacing: 0.5px;
 }
@@ -560,10 +560,10 @@ input[type="range"]:focus::-ms-fill-upper {
 #measurementElement #measurementCollapse {
   box-sizing: border-box;
   padding: 5px;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 #measurementElement #measurementCollapse .dijitInline.esriButton {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 #measurementElement #measurementCollapse .dijitInline.esriButton:hover {
   cursor: pointer;
@@ -579,21 +579,21 @@ input[type="range"]:focus::-ms-fill-upper {
   display: none;
 }
 #measurementElement #measurementCollapse .dijitButtonText {
-  color: #ffffff;
+  color: #FFFFFF;
 }
 #measurementElement #measurementCollapse .esriMeasurementResultLabel {
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid #FFFFFF;
   font-weight: 500;
   box-sizing: border-box;
   padding: 10px 0 5px 0;
   letter-spacing: 0.75px;
 }
 #latLngScale {
-  background-color: #eceef3;
+  background-color: #ECEEF3;
   border-radius: 0;
   border: none;
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
-  color: #6f758e;
+  color: #6F758E;
   font-size: 9pt;
   letter-spacing: 1px;
   left: 15px;
@@ -623,8 +623,8 @@ input[type="range"]:focus::-ms-fill-upper {
   }
 }
 #legendElement #legendHeading {
-  background-color: #ffffff;
-  color: #6f758e;
+  background-color: #FFFFFF;
+  color: #6F758E;
   text-transform: uppercase;
   padding: 0;
 }
@@ -640,7 +640,7 @@ input[type="range"]:focus::-ms-fill-upper {
 }
 #legendElement #legendHeading h4 a:hover {
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 #legendElement #legendDiv {
   background-color: rgba(255, 255, 255, 0.2);
@@ -656,7 +656,7 @@ input[type="range"]:focus::-ms-fill-upper {
   padding: 0 0px;
 }
 .modal-content #aboutModalBody ul {
-  background-color: #eceef3;
+  background-color: #ECEEF3;
   border: none;
   padding: 0;
   margin: 0 auto;
@@ -673,16 +673,16 @@ input[type="range"]:focus::-ms-fill-upper {
   margin: 0 auto;
   border-radius: 0;
   padding: 10px 15px 9px 15px;
-  background-color: #6f758e;
-  color: #ffffff;
+  background-color: #6F758E;
+  color: #FFFFFF;
 }
 .modal-content #aboutModalBody ul li.active a:hover {
   border: none;
-  background-color: #6f758e;
+  background-color: #6F758E;
 }
 .modal-content #aboutModalBody ul li a {
   border-radius: 0;
-  color: #6f758e;
+  color: #6F758E;
   border: none;
   font-weight: 300;
   letter-spacing: 0.5px;
@@ -694,7 +694,7 @@ input[type="range"]:focus::-ms-fill-upper {
 .modal-content #aboutModalBody .tab-content {
   box-sizing: border-box;
   padding: 25px;
-  color: #6f758e;
+  color: #6F758E;
 }
 .modal-content #aboutModalBody .tab-content h3 {
   margin: 0 auto;
@@ -712,7 +712,7 @@ input[type="range"]:focus::-ms-fill-upper {
   display: block;
   margin: 0 auto;
   margin-left: 0 !important;
-  color: #6f758e;
+  color: #6F758E;
 }
 .modal-content .modal-footer p a img {
   box-sizing: border-box;
@@ -742,5 +742,5 @@ body,
 html {
   padding: 0;
   margin: 0 auto;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
