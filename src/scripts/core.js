@@ -2347,7 +2347,8 @@ $(document).on("ready", function () {
             "Rapid Deployment Gage",
             fev.urls["rdg" + "GeoJSONViewURL"] +
               fev.queryStrings.sensorsQueryString,
-            window["rdg" + "MarkerIcon"]
+            window["rdg" + "MarkerIcon"],
+            true
           );
         }, 2000);
       }
@@ -2482,7 +2483,6 @@ function togglePeakLabels() {
         myMarker.showLabel();
       });
       peakLabels = true;
-      console.log("show");
       return;
     }
     if (peakLabels === true) {
@@ -2495,7 +2495,6 @@ function togglePeakLabels() {
         myMarker.bindLabel("Peak: " + labelText);
       });
       peakLabels = false;
-      console.log("hide");
       return;
     }
   }

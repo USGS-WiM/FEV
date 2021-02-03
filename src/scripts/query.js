@@ -4,11 +4,14 @@
 ///function to grab all values from the inputs, form into arrays, and build query strings
 var layerCount = 0;
 //ajax retrieval function
-function displaySensorGeoJSON(type, name, url, markerIcon) {
+function displaySensorGeoJSON(type, name, url, markerIcon, mainMap) {
   //increment layerCount
-  layerCount++;
-  var currentSubGroup = eval(type);
-  currentSubGroup.clearLayers();
+  if (mainMap == true) {
+    layerCount++;
+    var currentSubGroup = eval(type);
+    currentSubGroup.clearLayers();
+  }
+
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
       markerCoords.push(latlng);
@@ -160,14 +163,22 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
         }
       }
       currentMarker.addData(data);
-      currentMarker.eachLayer(function (layer) {
-        layer.addTo(currentSubGroup);
-      });
-      currentSubGroup.addTo(map);
-      if (currentSubGroup == "rdg") {
-        alert("RDG feature created");
+      if (mainMap == true) {
+        currentMarker.eachLayer(function (layer) {
+          layer.addTo(currentSubGroup);
+        });
+        currentSubGroup.addTo(map);
+        if (currentSubGroup == "rdg") {
+          alert("RDG feature created");
+        }
+        checkLayerCount(layerCount);
       }
-      checkLayerCount(layerCount);
+      if (mainMap == false) {
+        currentMarker.eachLayer(function (layer) {
+          layer.addTo(sensorCompareLayer);
+        });
+        sensorCompareLayer.addTo(sensorMap);
+      }
     }
   });
 }
@@ -853,9 +864,9 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     countySelections = countySelectionsArray.toString();
   }
 
-  //////////////////////////
-  // start SENSOR section///
-  //////////////////////////
+  /////////////////////////
+  // start SENSOR section//
+  /////////////////////////
   if (dataTypeSubmitted == "submitSensors") {
     //sensor type
     var sensorTypeSelections = "";
@@ -904,6 +915,20 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       "&DeploymentType=" +
       deploymentTypeSelections;
 
+    sensorQueryParameterString =
+      "&States=" +
+      stateSelections +
+      "&County=" +
+      countySelections +
+      "&SensorType=" +
+      sensorTypeSelections +
+      "&CurrentStatus=" +
+      sensorStatusSelections +
+      "&CollectionCondition=" +
+      collectConditionSelections +
+      "&DeploymentType=" +
+      deploymentTypeSelections;
+
     fev.urls.csvSensorsQueryURL =
       fev.urls.csvSensorsURLRoot + fev.queryStrings.sensorsQueryString;
     fev.urls.jsonSensorsQueryURL =
@@ -920,15 +945,44 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       "href",
       fev.urls.jsonSensorsQueryURL
     );
-    $("#sensorDownloadButtonXMLCompare").attr(
-      "href",
-      fev.urls.xmlSensorsQueryURL
-    );
+
+    var sensorBaseURL;
+    var selectedSensorType = "TEST";
+    //if (selectedSensorType == "baro") {
+    sensorBaseURL = fev.urls.baroGeoJSONViewURL;
+    //}
 
     //if map was checked, plot the sensor markers
     if (document.getElementById("sensorMapViewCheckbox").checked == true) {
-      //displaySensorGeoJSON()
+      sensorCompareLayer.clearLayers();
+      $("#sensorLegend").children().remove();
+      for (i = 0; i < eventIDs.length; i++) {
+        var eventURL = "?Event=" + eventIDs[i] + sensorQueryParameterString;
+        displaySensorGeoJSON(
+          "baro",
+          selectedSensorType,
+          sensorBaseURL + eventURL,
+          eventIconOptions[i],
+          false
+        );
+        var sensorMarkersLegend =
+          "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+          hwmHTML[i] +
+          "<label style='margin-left: 5px;'>" +
+          eventNames[i] +
+          "</label></div>";
+        $("#sensorLegend").append(sensorMarkersLegend);
+      }
+      sensorCompareLayer.addTo(sensorMap);
+      $("#sensorCompareMapResults").show();
     }
+    if (document.getElementById("sensorDataViewCheckbox").checked == true) {
+      $("#sensorDownloadButtonsCompare").show();
+    }
+    $("#sensorCompareSelections").hide();
+    $("#btnSubmitSensorFilters").hide();
+    $("#filtersForAllDataCompare").hide();
+    $("#returnToSensorFilters").show();
   }
   //end sensor section
 
@@ -1795,7 +1849,8 @@ function filterMapData(event, isUrlParam) {
         layer.Name,
         fev.urls[layer.ID + "GeoJSONViewURL"] +
           fev.queryStrings.sensorsQueryString,
-        window[layer.ID + "MarkerIcon"]
+        window[layer.ID + "MarkerIcon"],
+        true
       );
     if (layer.ID == "hwm")
       displayHWMGeoJSON(
@@ -1848,7 +1903,6 @@ function queryNWISRainGages(bbox) {
 
   //var url = 'https://waterdata.usgs.gov/' + state[i] + '/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
   //var url = 'https://waterdata.usgs.gov/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
-  console.log(url);
 
   $.ajax({
     url: url,
@@ -1920,7 +1974,6 @@ function queryNWISTideGages(bbox) {
 
   //var url = 'https://waterdata.usgs.gov/' + state[i] + '/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
   //var url = 'https://waterdata.usgs.gov/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
-  console.log(url);
 
   $.ajax({
     url: url,
@@ -1961,7 +2014,6 @@ function queryNWISTideGages(bbox) {
 
           $("#nwisLoadingAlert").fadeOut(2000);
         });
-      console.log(data);
     },
     error: function (xml) {
       $("#nwisLoadingAlert").fadeOut(2000);
