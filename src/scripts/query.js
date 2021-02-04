@@ -802,6 +802,7 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   $(".esconder").hide();
   $(".labelSpan").empty();
   eventSelections = eventIDs;
+  var sensorTypeSelectionArray = [];
 
   //change these icons later to a style not associated with a specific event (circle?)
   eventIcon0 = L.divIcon({
@@ -883,10 +884,8 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     //sensor type
     var sensorTypeSelections = "";
     if ($("#sensorTypeSelectCompare").val() !== null) {
-      var sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
+      sensorTypeSelectionArray = $("#sensorTypeSelectCompare").val();
       sensorTypeSelections = sensorTypeSelectionArray.toString();
-      console.log("sensorTypeSelectionArray", sensorTypeSelectionArray);
-      console.log("sensorTypeSelections", sensorTypeSelections);
     }
     //sensor status
     var sensorStatusSelections = "";
@@ -965,6 +964,10 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
     //if (selectedSensorType == "baro") {
     sensorBaseURL = fev.urls.baroGeoJSONViewURL;
     //}
+
+    if (sensorTypeSelectionArray.length == 0) {
+      sensorTypeSelectionArray = [1, 2, 3, 4, 5, 6];
+    }
 
     //if map was checked, plot the sensor markers
     if (document.getElementById("sensorMapViewCheckbox").checked == true) {
@@ -1213,7 +1216,6 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       "href",
       fev.urls.jsonPeaksQueryURL
     );
-    //$("#peaksDownloadButtonXMLCompare").attr("href", fev.urls.xmlPeaksQueryURL);
 
     //if map was checked, plot the sensor markers
     if (document.getElementById("peakMapViewCheckbox").checked == true) {
