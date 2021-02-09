@@ -294,7 +294,22 @@ var cameras = L.layerGroup();
 var tides = L.layerGroup();
 
 //compare event layers
-var hwmCompareLayer = L.layerGroup();
+var hwmCompareLayer = new L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 20,
+  iconCreateFunction: function (cluster) {
+    var markers = cluster.getAllChildMarkers();
+    var html =
+      '<div style="text-align: center; margin-top: 7px; color: white">' +
+      markers.length +
+      "</div>";
+    return L.divIcon({
+      html: html,
+      className: "allHwmIcon",
+      iconSize: L.point(32, 32),
+    });
+  },
+});
 var sensorCompareLayer = L.layerGroup();
 var peakCompareLayer = L.layerGroup();
 

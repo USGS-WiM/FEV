@@ -1431,3 +1431,18 @@ input[type="checkbox"] {
   border-radius: 50%;
   border: 1px black;
 }
+
+.allHwmIcon {
+  height: 32px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  width: 32px;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  margin-top: 6px;
+  background-color: rgb(161, 158, 161);
+  border: 2px solid gray;
+  opacity: 1;
+}

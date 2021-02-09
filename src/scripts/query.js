@@ -959,49 +959,105 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
       fev.urls.jsonSensorsQueryURL
     );
 
-    var sensorBaseURL;
-    var selectedSensorType = "TEST";
-    //if (selectedSensorType == "baro") {
-    sensorBaseURL = fev.urls.baroGeoJSONViewURL;
-    //}
+    var sensorViewURL = "/SensorViews.geojson?ViewType=";
+    var sensorTypes = [
+      [
+        "rdg_view&",
+        "Rapid Deployment Gage",
+        "wmm-circle wmm-icon-triangle wmm-icon-black wmm-size-20",
+      ],
+      [
+        "baro_view&",
+        "Barometric Pressure Sensor",
+        "wmm-diamond wmm-icon-diamond wmm-icon-black wmm-size-20",
+      ],
+      [
+        "stormtide_view&",
+        "Water Level Sensor",
+        "wmm-pin wmm-icon-diamond wmm-icon-black wmm-size-20",
+      ],
+      [
+        "met_view&",
+        "Meteorological Sensor",
+        "wmm-square wmm-icon-diamond wmm-icon-black wmm-size-20",
+      ],
+      [
+        "waveheight_view&",
+        "Wave Height Sensor",
+        "wmm-circle wmm-icon-diamond wmm-icon-black wmm-size-20 wmm-borderless",
+      ],
+    ];
 
-    if (sensorTypeSelectionArray.length == 0) {
-      sensorTypeSelectionArray = [1, 2, 3, 4, 5, 6];
-    }
+    var sensorShapes =
+      "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+      "<div class= 'wmm-circle wmm-white wmm-icon-triangle wmm-icon-black wmm-size-20 '></div>" +
+      "<label style='margin-left: 5px;'>" +
+      "Rapid Deployment Gage" +
+      "</label></div>" +
+      "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+      "<div class= 'wmm-diamond wmm-white wmm-icon-diamond wmm-icon-black wmm-size-15 '></div>" +
+      "<label style='margin-left: 5px;'>" +
+      "Barometric Pressure" +
+      "</label></div>" +
+      "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+      "<div class= 'wmm-pin wmm-white wmm-icon-diamond wmm-icon-black wmm-size-25 '></div>" +
+      "<label style='margin-left: 5px;'>" +
+      "Water Level Sensor" +
+      "</label></div>" +
+      "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+      "<div class= 'wmm-square wmm-white wmm-icon-diamond wmm-icon-black wmm-size-20 '></div>" +
+      "<label style='margin-left: 5px;'>" +
+      "Meteorological Sensor" +
+      "</label></div>" +
+      "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
+      "<div class= 'wmm-circle wmm-white wmm-icon-diamond wmm-icon-black wmm-size-20 wmm-borderless '></div>" +
+      "<label style='margin-left: 5px;'>" +
+      "Wave Height Sensor" +
+      "</label></div>";
+
+    var eventColor = [
+      "wmm-blue",
+      "wmm-red",
+      "wmm-purple",
+      "wmm-gray",
+      "wmm-green",
+    ];
+    //could also use marker clusters instead of changing the offset,
+    //but then you can't see the genral layout of colors and shapes without zooming way in
+    var uniqueMarkerOffset_x = -10;
+    var uniqueMarkerOffset_y = -15;
 
     //if map was checked, plot the sensor markers
     if (document.getElementById("sensorMapViewCheckbox").checked == true) {
       sensorCompareLayer.clearLayers();
       $("#sensorLegend").children().remove();
+      $("#sensorTypeLegend").children().remove();
       for (i = 0; i < eventIDs.length; i++) {
-        var eventURL = "?Event=" + eventIDs[i] + sensorQueryParameterString;
-        for (x = 0; x < sensorTypeSelectionArray.length; x++) {
-          if (sensorTypeSelectionArray[x] == 1) {
-            selectedSensorType = "Pressure Transducer";
-          }
-          if (sensorTypeSelectionArray[x] == 2) {
-            selectedSensorType = "Meteorological Station";
-          }
-          if (sensorTypeSelectionArray[x] == 3) {
-            selectedSensorType = "Thermometer";
-          }
-          if (sensorTypeSelectionArray[x] == 4) {
-            selectedSensorType = "Webcam";
-          }
-          if (sensorTypeSelectionArray[x] == 5) {
-            selectedSensorType = "Rapid Deployment Gage";
-          }
-          if (sensorTypeSelectionArray[x] == 6) {
-            selectedSensorType = "Rain Gage";
-          }
+        for (
+          var sensorTypeCount = 0;
+          sensorTypeCount < sensorTypes.length;
+          sensorTypeCount++
+        ) {
+          var sensorIconClass =
+            sensorTypes[sensorTypeCount][2] + " " + eventColor[i];
+          console.log("sensorIconClass", sensorIconClass);
+          var eventURL = "?Event=" + eventIDs[i] + sensorQueryParameterString;
           displaySensorGeoJSON(
             "",
-            selectedSensorType,
-            sensorBaseURL + eventURL,
-            eventIconOptions[i],
+            sensorTypes[sensorTypeCount][1],
+            stnServicesURL +
+              sensorViewURL +
+              sensorTypes[sensorTypeCount][0] +
+              eventURL,
+            L.divIcon({
+              className: sensorIconClass,
+              iconAnchor: [uniqueMarkerOffset_x, uniqueMarkerOffset_y],
+            }),
             false,
             eventNames[i]
           );
+          uniqueMarkerOffset_x = uniqueMarkerOffset_x + 3;
+          uniqueMarkerOffset_y = uniqueMarkerOffset_y + 2;
         }
         var sensorMarkersLegend =
           "<div class='legend-icon' style='margin-left: 10px; margin-bottom: 5px;'>" +
@@ -1009,8 +1065,11 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
           "<label style='margin-left: 5px;'>" +
           eventNames[i] +
           "</label></div>";
+
         $("#sensorLegend").append(sensorMarkersLegend);
       }
+      $("#sensorTypeLegend").append(sensorShapes);
+
       sensorCompareLayer.addTo(sensorMap);
       $("#sensorCompareMapResults").show();
     }
