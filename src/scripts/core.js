@@ -210,6 +210,8 @@ var map;
 
 var markerCoords = [];
 var oms;
+var omsSensorMap;
+var omsHwmMap;
 
 // divIcons using WIM marker maker
 var baroMarkerIcon = L.divIcon({
@@ -503,6 +505,8 @@ $(document).on("ready", function () {
 
   //submit HWM filters in compare modal
   $("#btnSubmitHwmFilters").on("click", function () {
+    $(".eventSelectAlert").hide();
+    $(".dataTypeSelectAlert").hide();
     var hwmMapChecked = document.getElementById("hwmMapViewCheckbox").checked;
     var hwmDataChecked = document.getElementById("hwmDataViewCheckbox").checked;
     if (hwmMapChecked == true || hwmDataChecked == true) {
@@ -527,6 +531,8 @@ $(document).on("ready", function () {
 
   //submit Sensor filters in compare modal
   $("#btnSubmitSensorFilters").on("click", function () {
+    $(".eventSelectAlert").hide();
+    $(".dataTypeSelectAlert").hide();
     var sensorMapChecked = document.getElementById("sensorMapViewCheckbox")
       .checked;
     var sensorDataChecked = document.getElementById("sensorDataViewCheckbox")
@@ -553,6 +559,8 @@ $(document).on("ready", function () {
 
   //submit Peak filters in compare modal
   $("#btnSubmitPeakFilters").on("click", function () {
+    $(".eventSelectAlert").hide();
+    $(".dataTypeSelectAlert").hide();
     var peakMapChecked = document.getElementById("peakMapViewCheckbox").checked;
     var peakDataChecked = document.getElementById("peakDataViewCheckbox")
       .checked;

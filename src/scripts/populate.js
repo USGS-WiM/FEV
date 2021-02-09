@@ -316,7 +316,9 @@ $(document).ready(function () {
           return 0;
         }
       });
-      for (var i = 0; i < data.length; i++) {
+      //for (var i = 0; i < data.length; i++) {
+      var validSensorTypes = [1, 2, 5];
+      for (i in validSensorTypes) {
         $("#sensorTypeSelectCompare").append(
           '<option value="' +
             data[i].sensor_type_id +
@@ -472,7 +474,9 @@ $(document).ready(function () {
     url: "https://stn.wim.usgs.gov/STNServices/deploymenttypes.json",
     headers: { Accept: "*/*" },
     success: function (data) {
-      for (var i = 0; i < data.length; i++) {
+      //the first five are the only ones with any associated data, so remove other options
+      //for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < 5; i++) {
         $("#deployTypeSelectCompare").append(
           '<option value="' +
             data[i].deployment_type_id +

@@ -67,7 +67,12 @@ function displaySensorGeoJSON(
             hydroPopupText = noHydrograph;
           }
           //add marker to overlapping marker spidifier
-          oms.addMarker(latlng);
+          if (mainMap == true) {
+            oms.addMarker(latlng);
+          }
+          if (mainMap == false) {
+            omsSensorMap.addMarker(latlng);
+          }
           //var popupContent = '';
           if (type == "rdg") {
             return;
@@ -881,6 +886,10 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   // start SENSOR section//
   /////////////////////////
   if (dataTypeSubmitted == "submitSensors") {
+    //overlapping marker spidifier
+    omsSensorMap = new OverlappingMarkerSpiderfier(sensorMap, {
+      keepSpiderfied: true,
+    });
     //sensor type
     var sensorTypeSelections = "";
     if ($("#sensorTypeSelectCompare").val() !== null) {
@@ -1087,6 +1096,9 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   //start HWM section//
   /////////////////////
   if (dataTypeSubmitted == "submitHWMs") {
+    omsHwmMap = new OverlappingMarkerSpiderfier(hwmMap, {
+      keepSpiderfied: true,
+    });
     //HWM types
     var hwmTypeSelections = "";
     if ($("#hwmTypeSelectCompare").val() !== null) {
@@ -1342,7 +1354,7 @@ function multiDisplayHWMGeoJSON(name, urlForEvent, markerIcon, eventTitle) {
         );
       }
       //add marker to overlapping marker spidifier
-      oms.addMarker(latlng);
+      omsHwmMap.addMarker(latlng);
       // var popupContent = '';
       var currentEvent = eventTitle;
       var siteHWMArray = [
