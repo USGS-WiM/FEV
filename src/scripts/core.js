@@ -1114,7 +1114,25 @@ $(document).on('ready', function () {
 		$(this).find('span').toggle();
 	});
 	$('#geosearchNav').on('click', function () {
-		showGeosearchModal();
+		// create search_api widget in element "geosearch"
+		var isItUP = true;
+		try {
+			search_api
+		}
+		catch (err) {
+			isItUP = false;
+			console.log("did not work")
+		}
+
+		if (isItUP) {
+			showGeosearchModal();
+		} else {
+			showsearchDownModal();
+		}
+
+		function showsearchDownModal() {
+			$('#searchDownModal').modal('show');
+		}
 	});
 	function showAboutModal() {
 		$('#aboutModal').modal('show');
