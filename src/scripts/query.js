@@ -813,44 +813,44 @@ function createComparisonData(eventIDs, dataTypeSubmitted) {
   eventIcon0 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-circle wmm-blue wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
   eventIcon1 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-circle wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
   eventIcon2 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-circle wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
   eventIcon3 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-circle wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
   eventIcon4 = L.divIcon({
     name: "High Water Mark",
     className:
-      "wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
+      "wmm-circle wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20",
     iconAnchor: [7, 10],
     popupAnchor: [0, 2],
   });
   var hwmHTML = [
-    "<div class= 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
-    "<div class= 'wmm-diamond wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-circle wmm-blue wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-circle wmm-red wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-circle wmm-purple wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-circle wmm-gray wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
+    "<div class= 'wmm-circle wmm-green wmm-icon-circle wmm-icon-A0522D wmm-size-20'></div>",
   ];
   eventIconOptions = [
     eventIcon0,
