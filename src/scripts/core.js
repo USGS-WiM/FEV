@@ -198,6 +198,7 @@ var tides = L.layerGroup();
 // var drawLayer = new L.FeatureGroup();
 
 var peakLabels = false;
+var hwmLabels = false;
 
 var watershedStyle = {
 	"color": 'gray',
@@ -1590,7 +1591,6 @@ function togglePeakLabels() {
 				myMarker.showLabel();
 			});
 			peakLabels = true;
-			console.log('show');
 			return;
 		}
 		if (peakLabels === true) {
@@ -1600,12 +1600,37 @@ function togglePeakLabels() {
 				myMarker.bindLabel("Peak: " + labelText);
 			});
 			peakLabels = false;
-			console.log('hide');
 			return;
 		}
 	}
-
 }
+
+function toggleHWMLabels() {
+	if (map.getZoom() < 9) {
+		document.getElementById("hwmToggle").disabled = true;
+	} else if (map.getZoom() >= 9) {
+		document.getElementById("hwmToggle").disabled = false;
+		if (hwmLabels === false) {
+			hwm.eachLayer(function (myMarker) {
+				myMarker.unbindLabel();
+				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+				myMarker.bindLabel("HWM: " + labelText, { noHide: true });
+				myMarker.showLabel();
+			});
+			hwmLabels = true;
+			return;
+		}
+		if (hwmLabels === true) {
+			hwm.eachLayer(function (myMarker) {
+				myMarker.unbindLabel();
+				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+				myMarker.bindLabel("HWM: " + labelText);
+			});
+			hwmLabels = false;
+			return;
+		}
+	}
+} 
 
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
