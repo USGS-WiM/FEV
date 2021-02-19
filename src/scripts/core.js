@@ -515,6 +515,7 @@ $(document).on('ready', function () {
 	var observedOverlays = {};
 	var interpretedOverlays = {};
 	var supportingLayers = {};
+  var hwmToggleHTML = "<label id='hwmLabelToggle' style='height: 13px; margin-top: 13px; display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='hwmToggle' type='checkbox'><span onclick='toggleHWMLabels()' class='slider round'></label>"
 	populateCameraLayer();
 	if (noAdvisories) {
 		var div = document.getElementById('noTrackAdvisory');
@@ -550,7 +551,7 @@ $(document).on('ready', function () {
 			} else if (layer.ID == 'waveheight') {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.waveheight + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'hwm') {
-				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label>" + hwmToggleHTML + "</div>"] = window[layer.ID];
 			} else {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -1430,6 +1431,16 @@ $(document).on('ready', function () {
 				});
 				$('#peakCheckbox').click();
 				peakLabels = false;
+				return;
+			}
+      if (hwmLabels === true) {
+				hwm.eachLayer(function (myMarker) {
+					myMarker.unbindLabel();
+					var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+					myMarker.bindLabel("HWM: " + labelText);
+				});
+				$('#hwmToggle').click();
+				hwmLabels = false;
 				return;
 			}
 		}
