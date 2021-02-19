@@ -198,6 +198,7 @@ var tides = L.layerGroup();
 // var drawLayer = new L.FeatureGroup();
 
 var peakLabels = false;
+var hwmLabels = false;
 
 var watershedStyle = {
 	"color": 'gray',
@@ -539,7 +540,6 @@ $(document).on('ready', function () {
 		}
 
 		if (layer.Category == 'observed') {
-
 			if (layer.ID == 'baro') {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.baro_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'stormtide') {
@@ -549,7 +549,8 @@ $(document).on('ready', function () {
 			} else if (layer.ID == 'waveheight') {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.waveheight + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'hwm') {
-				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
+				//leaflet doesn't like to have an input element in the layer div, so creating negative margin to overlap label toggle element
+				observedOverlays["<div class='legend-icon' style='margin-bottom:-40px'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label>"  + "</div>"] = window[layer.ID];
 			} else {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -1425,10 +1426,21 @@ $(document).on('ready', function () {
 				peak.eachLayer(function (myMarker) {
 					myMarker.unbindLabel();
 					var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-					myMarker.bindLabel("Peak: " + labelText);
+					myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction:'right' });
+				
 				});
 				$('#peakCheckbox').click();
 				peakLabels = false;
+				return;
+			}
+			if (hwmLabels === true) {
+				hwm.eachLayer(function (myMarker) {
+					myMarker.unbindLabel();
+					var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+					myMarker.bindLabel(labelText, { className: 'hwmLabelColor', direction:'left' });
+				});
+				$('#hwmToggle').click();
+				hwmLabels = false;
 				return;
 			}
 		}
@@ -1586,26 +1598,51 @@ function togglePeakLabels() {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-				myMarker.bindLabel("Peak: " + labelText, { noHide: true });
+				myMarker.bindLabel(labelText, { noHide: true, className: 'peakLabelColor', direction:'right' });
 				myMarker.showLabel();
 			});
 			peakLabels = true;
-			console.log('show');
 			return;
 		}
 		if (peakLabels === true) {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-				myMarker.bindLabel("Peak: " + labelText);
+				myMarker.bindLabel(labelText, {className: 'peakLabelColor', direction:'right' });
 			});
 			peakLabels = false;
-			console.log('hide');
 			return;
 		}
 	}
 
 }
+
+function toggleHWMLabels() {
+	if (map.getZoom() < 9) {
+		document.getElementById("hwmToggle").disabled = true;
+	} else if (map.getZoom() >= 9) {
+		document.getElementById("hwmToggle").disabled = false;
+		if (hwmLabels === false) {
+			hwm.eachLayer(function (myMarker) {
+				myMarker.unbindLabel({className: 'hwmLabelColor'});
+				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+				myMarker.bindLabel(labelText, { noHide: true, className: 'hwmLabelColor', direction:'left' });
+				myMarker.showLabel();
+			});
+			hwmLabels = true;
+			return;
+		}
+		if (hwmLabels === true) {
+			hwm.eachLayer(function (myMarker) {
+				myMarker.unbindLabel();
+				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
+				myMarker.bindLabel(labelText, {className: 'hwmLabelColor', direction:'left' });
+			});
+			hwmLabels = false;
+			return;
+		}
+	}
+} 
 
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));

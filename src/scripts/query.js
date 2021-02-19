@@ -178,10 +178,14 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
   hwm.clearLayers();
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
+      var labelText =
+        feature.properties.elev_ft !== undefined
+          ? feature.properties.elev_ft.toString()
+          : "No Value";
       markerCoords.push(latlng);
       var marker = L.marker(latlng, {
         icon: markerIcon,
-      });
+      }).bindLabel(labelText, {className: 'hwmLabelColor', direction:'left' });;
       return marker;
     },
     onEachFeature: function (feature, latlng) {
@@ -349,7 +353,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
       markerCoords.push(latlng);
       var marker = L.marker(latlng, {
         icon: markerIcon,
-      }).bindLabel("Peak: " + labelText);
+      }).bindLabel(labelText, {className: 'peakLabelColor', direction:'right' });
       return marker;
     },
     onEachFeature: function (feature, latlng) {
