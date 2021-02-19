@@ -540,7 +540,6 @@ $(document).on('ready', function () {
 		}
 
 		if (layer.Category == 'observed') {
-
 			if (layer.ID == 'baro') {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.baro_legend + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'stormtide') {
@@ -559,8 +558,6 @@ $(document).on('ready', function () {
 
 		if (layer.Category == 'supporting') supportingLayers["<img class='legendSwatch' src='images/camera-solid.png'></img>&nbsp;" + layer.Name] = window[layer.ID];
 	});
-
-	//document.getElementById("hwmLegend").appendChild(hwmToggleHTML);
 
 	//attach the listener for data disclaimer button after the popup is opened - needed b/c popup content not in DOM right away
 	map.on('popupopen', function () {
@@ -1605,7 +1602,6 @@ function togglePeakLabels() {
 				myMarker.showLabel();
 			});
 			peakLabels = true;
-			console.log('show');
 			return;
 		}
 		if (peakLabels === true) {
@@ -1615,7 +1611,6 @@ function togglePeakLabels() {
 				myMarker.bindLabel(labelText, {className: 'peakLabelColor', direction:'right' });
 			});
 			peakLabels = false;
-			console.log('hide');
 			return;
 		}
 	}
