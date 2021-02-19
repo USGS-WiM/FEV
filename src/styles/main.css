@@ -1318,3 +1318,20 @@ input[type='checkbox'] {
     /* height: 475px; */
     overflow-y: auto;
 }
+
+.hwmLabelColor {
+    color: rgb(131, 73, 35);
+}
+.peakLabelColor {
+    color: blue;
+}
+.hwmLabelToggle {
+    height: 13px; 
+    margin-left: 120px; 
+    position: relative; 
+    left: 10px;
+    bottom: 8px;
+}
+.observedMargin {
+    margin-bottom: 10px;
+}

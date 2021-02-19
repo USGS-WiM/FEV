@@ -1426,10 +1426,12 @@
                                 <div id="observedToggleDiv">
                                     <b>Observed Event Data</b>
                                 </div>
+                                <label class='hwmLabelToggle switch'><input id='hwmToggle' type='checkbox'><span onclick='toggleHWMLabels()' class='slider round'></span></label>
+                                <div class="observedMargin"></div>
                                 <div id="interpretedToggleDiv">
                                     <b>Interpreted Event Data</b>
                                 </div>
-                                <div style="text-align: left; margin-left: 6px;">
+                                <div style="text-align: left; margin-left: 6px; margin-top: -8px">
                                     <label>
                                         <input type="checkbox" id=peaksToggle onclick="clickPeaks()" />
                                         <div class='legend-icon'>
@@ -1441,7 +1443,7 @@
                                     </label>
                                 <label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>
                                 </div>
-                                    <div id="supportingToggleDiv">
+                                    <div id="supportingToggleDiv" style="margin-top: 10px">
                                     <b>Supporting Layers</b>
                                     <div id="noTrackAdvisory"></div>
 
