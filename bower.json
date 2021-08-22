@@ -1,6 +1,6 @@
 {
   "name": "flood-event-viewer",
-  "version": "2.3.5",
+  "version": "v2.6.5",
   "dependencies": {
     "jquery": "^2.1.3",
     "fontawesome": "^4.3.0",

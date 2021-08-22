@@ -96,6 +96,26 @@
         </script>
     </div>
 
+    <!-- searchDownModal -->
+    <div id="searchDownModal" aria-hidden="true" class="modal fade overflow-y-hidden" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="text-align: center">The USGS Search is currently down.</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Unfortunately, the Find Location tool is not available at the moment.</p>
+                </div>
+                <div class="modal-footer">
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #ffd1d1">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End searchDownModal modal -->
+
     <!-- Welcome modal - only displays when 1)user arrive without event in URL and 2) have not checked "don't show me this again"(preference stored in cookies)-->
     <div class="modal fade overflow-y-hidden" id="welcomeModal" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
@@ -1384,10 +1404,12 @@
                                 <div id="observedToggleDiv">
                                     <b>Observed Event Data</b>
                                 </div>
+                                <label class='hwmLabelToggle switch'><input id='hwmToggle' type='checkbox'><span onclick='toggleHWMLabels()' class='slider round'></span></label>
+                                <div class="observedMargin"></div>
                                 <div id="interpretedToggleDiv">
                                     <b>Interpreted Event Data</b>
                                 </div>
-                                <div style="text-align: left; margin-left: 6px;">
+                                <div style="text-align: left; margin-left: 6px; margin-top: -8px">
                                     <label>
                                         <input type="checkbox" id=peaksToggle onclick="clickPeaks()" />
                                         <div class='legend-icon'>
@@ -1399,7 +1421,7 @@
                                     </label>
                                 <label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>
                                 </div>
-                                    <div id="supportingToggleDiv">
+                                    <div id="supportingToggleDiv" style="margin-top: 10px">
                                     <b>Supporting Layers</b>
                                     <div id="noTrackAdvisory"></div>
 

@@ -126,24 +126,6 @@ var fev = fev || {
 			"Type": "real-time",
 			"Category": "real-time"
 		}
-		// {
-		// 	"ID": "nwisrain",
-		// 	"Name": "Real-time Ran Gage",
-		// 	"Type": "nwis",
-		// 	"Category": "real-time"
-		// },
-		// {
-		// 	"ID": "nwisstreamgage",
-		// 	"Name": "Real-time Stream Gage",
-		// 	"Type": "nwis",
-		// 	"Category": "real-time"
-		// },
-		// {
-		// 	"ID": "nwistides",
-		// 	"Name": "Tidal Gage",
-		// 	"Type": "nwis",
-		// 	"Category": "real-time"
-		// },
 	],
 	markerClasses: {
 		baro: 'wmm-diamond wmm-yellow wmm-icon-diamond wmm-icon-black wmm-size-20',
