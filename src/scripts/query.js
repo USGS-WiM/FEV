@@ -116,16 +116,9 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
 
   $.getJSON(url, function (data) {
     if (data.length == 0) {
-      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
       return;
     }
     if (data.features.length > 0) {
-      console.log(
-        data.features.length +
-          " " +
-          markerIcon.options.name +
-          " GeoJSON features found"
-      );
       //check for bad lat/lon values
       for (var i = data.features.length - 1; i >= 0; i--) {
         //check that lat/lng are not NaN
@@ -193,9 +186,6 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
         feature.properties.longitude_dd == undefined ||
         feature.properties.latitude_dd == undefined
       ) {
-        console.log(
-          "Lat/lng undefined for HWM at site no: " + feature.properties.site_no
-        );
         return;
       }
 
@@ -203,9 +193,6 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
         latlng.feature.geometry.coordinates[0] == null ||
         latlng.feature.geometry.coordinates[1] == null
       ) {
-        console.log(
-          "null coordinates returned for " + feature.properties.site_no
-        );
       }
       //add marker to overlapping marker spidifier
       oms.addMarker(latlng);
@@ -287,16 +274,9 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
 
   $.getJSON(url, function (data) {
     if (data.length == 0) {
-      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
       return;
     }
     if (data.features.length > 0) {
-      console.log(
-        data.features.length +
-          " " +
-          markerIcon.options.name +
-          " GeoJSON features found"
-      );
       //check for bad lat/lon values
       for (var i = data.features.length - 1; i >= 0; i--) {
         //check that lat/lng are not NaN
@@ -357,7 +337,6 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
       return marker;
     },
     onEachFeature: function (feature, latlng) {
-      console.log(feature.properties.is_peak_estimated);
       //add marker to overlapping marker spidifier
       oms.addMarker(latlng);
       //var popupContent = '';
@@ -386,7 +365,6 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
       }
       //If peak is estimated, indicate that in popup
       if (feature.properties.is_peak_estimated == 1) {
-        console.log(feature.properties);
         //set popup content using moment js to pretty format the date value
         var popupContent =
           '<table class="table table-condensed table-striped table-hover wim-table">' +
@@ -419,16 +397,9 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
 
   $.getJSON(url, function (data) {
     if (data.length == 0) {
-      console.log("0 " + markerIcon.options.name + " GeoJSON features found");
       return;
     }
     if (data.features.length > 0) {
-      console.log(
-        data.features.length +
-          " " +
-          markerIcon.options.name +
-          " GeoJSON features found"
-      );
 
       //check for bad lat/lon values
       for (var i = data.features.length - 1; i >= 0; i--) {
@@ -575,6 +546,20 @@ function populateCameraLayer(type, name, url, markerIcon) {
         coordinates: [-70.07738, 42.05048],
       },
     },
+    {
+      type: "Feature",
+      properties: {
+        name: "Marconi Beach, MA",
+        url:
+          "https://cmgp-coastcam.s3-us-west-2.amazonaws.com/cameras/caco-02/latest/c1_snap.jpg",
+        source:
+          "https://www.usgs.gov/centers/whcmsc/science/using-video-imagery-study-marconi-beach",
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [-69.963405, 41.893817],
+      },
+    },
   ];
 
   var cameraIcon = new L.Icon({
@@ -586,7 +571,6 @@ function populateCameraLayer(type, name, url, markerIcon) {
 
   var cameraFeatures = L.geoJson(cameraLocations, {
     pointToLayer: function (feature, latlng) {
-      // console.log(latlng, feature);
       return L.marker(latlng, {
         icon: cameraIcon,
       });
@@ -669,18 +653,10 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
     headers: { Accept: "*/*" },
     //jsonpCallback: 'MyJSONPCallback', // specify the callback name if you're hard-coding it
     success: function (data) {
-      console.log(data);
       if (data.stations.length == 0) {
-        console.log("0 " + markerIcon.options.name + " GeoJSON features found");
         return;
       }
       if (data.stations.length > 0) {
-        console.log(
-          data.stations.length +
-            " " +
-            markerIcon.options.name +
-            " GeoJSON features found"
-        );
         //loop through every gage in the geojson
         for (var i = data.stations.length - 1; i >= 0; i--) {
           //retrieve lat/lon coordinates
@@ -1255,6 +1231,13 @@ function filterMapData(event, isUrlParam) {
           fev.queryStrings.peaksQueryString,
         peakMarkerIcon
       );
+    if (layer.ID == "sofar")
+      getSofarData(
+        layer.ID,
+        layer.Name,
+        "https://api.sofarocean.com /api/wave-data?spotterId=SPOT-0222",
+        peakMarkerIcon
+      );
     setTimeout(() => {
       if (layer.ID == "tides")
         displayTidesGeoJSON(
@@ -1289,7 +1272,6 @@ function queryNWISRainGages(bbox) {
 
   //var url = 'https://waterdata.usgs.gov/' + state[i] + '/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
   //var url = 'https://waterdata.usgs.gov/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
-  console.log(url);
 
   $.ajax({
     url: url,
@@ -1361,7 +1343,6 @@ function queryNWISTideGages(bbox) {
 
   //var url = 'https://waterdata.usgs.gov/' + state[i] + '/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
   //var url = 'https://waterdata.usgs.gov/nwis/current?type=precip&group_key=county_cd&format=sitefile_output&sitefile_output_format=xml&column_name=agency_cd&column_name=site_no&column_name=station_nm&column_name=site_tp_cd&column_name=dec_lat_va&column_name=dec_long_va&column_name=agency_use_cd';
-  console.log(url);
 
   $.ajax({
     url: url,
@@ -1402,7 +1383,6 @@ function queryNWISTideGages(bbox) {
 
           $("#nwisLoadingAlert").fadeOut(2000);
         });
-      console.log(data);
     },
     error: function (xml) {
       $("#nwisLoadingAlert").fadeOut(2000);
