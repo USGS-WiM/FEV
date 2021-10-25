@@ -12,7 +12,7 @@
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-sidebar/dist/js/sidebar.js"></script>
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
@@ -24,7 +24,7 @@
     <script src="bower_components/highcharts/highcharts-more.js"></script>
     <script src="bower_components/highcharts/modules/exporting.js"></script>
     <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
     <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -42,7 +42,6 @@
     <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css" />
-
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -269,7 +268,7 @@
                                 data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp;About the application</a>
                         </li>
                         <li role="presentation"><a id="disclaimerTab" href="#disclaimerTabPane" data-toggle="tab"><i
-                                    class="fa fa-table"></i>&nbsp;Data Limitations</a></li>
+                                    class="fa fa-table"></i>&nbsp;Disclaimers</a></li>
                         <li role="presentation"><a id="liveTab" href="#faqTabPane" data-toggle="tab"><i
                                     class="fa fa-question-circle"></i>&nbsp;FAQs</a></li>
                     </ul>
@@ -296,26 +295,11 @@
                                 data sources, which are maintained separately from STN and FEV.</p>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="disclaimerTabPane"></br>
-                            <h3>Data Limitations</h3>
-                            <p>Data are provisional and are subject to revision until thoroughly reviewed and approved.
+                            <h3>Disclaimers</h3>
+                            <p>These data are preliminary or provisional and are subject to revision. They are being provided to meet the need for timely best science. The data have not received final approval by the U.S. Geological Survey (USGS) and are provided on the condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the data.
                             </p>
 
-                            <p>Real-time data relayed by satellite or other telemetry are automatically screened to not
-                                display improbable values until they can be verified.</p>
-
-                            <p>Provisional data may be inaccurate due to instrument malfunctions or physical changes at
-                                the measurement site. Subsequent review based on field inspections and measurements may
-                                result in significant revisions to the data.</p>
-
-                            <p>The data are being provided to meet the need for timely best science and are released on
-                                the condition that neither the USGS nor the U.S. Government may be held liable for any
-                                damages resulting from authorized or unauthorized use of the information. Data users are
-                                cautioned to consider carefully the provisional nature of the information before using
-                                it for decisions that concern personal or public safety or the conduct of business that
-                                involves substantial monetary or operational consequences.</p>
-
-                            <p>Information concerning the accuracy and appropriate uses of these data or concerning
-                                other hydrologic data may be obtained from the USGS.</p>
+                            <p>Inundated areas shown should not be used for navigation, regulatory, permitting, or other legal purposes. The U.S. Geological Survey provides these maps "as-is" for a quick reference, emergency planning tool but assumes no legal liability or responsibility resulting from the use of this information.</p>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="faqTabPane"></br>
                             <h3>Frequently Asked Questions</h3>
@@ -401,6 +385,9 @@
                     <p style="color:black; margin-left:35px;text-align:left">
                         For more information about the Flood Event Viewer please contact <a href="https://wim.usgs.gov/"
                             target="_blank"><img src="images/wimvectorxs.png" id="wim_logo"></a>
+                    </p>
+                    <p style="color:black; margin-left:35px;text-align:left">
+                        Current version: v2.6.6
                     </p>
                     <button class=" btn btn-default close" type="button" data-dismiss="modal" aria-hidden="true"
                         style="color:gray;" class="btn btn-default">Close</button>
