@@ -629,6 +629,7 @@ $(document).on('ready', function () {
 								$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
 								$('#location_description').html(fev.data.currentSelection.instrument.location_description);
 								$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
+								$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
 								$('#vented').html(fev.data.currentSelection.instrument.vented);
 
 								var deployedInstrumentStatusID;
@@ -638,19 +639,77 @@ $(document).on('ready', function () {
 								for (var i = 0; i < fev.data.currentSelection.instrument.instrument_status.length; i++) {
 									if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Deployed') {
 										// creates a named field (with object value) for the deployed instrument status
+										let status = fev.data.currentSelection.instrument.instrument_status[i];
 										fev.data.currentSelection.instrument.deployed = fev.data.currentSelection.instrument.instrument_status[i];
 										deployedInstrumentStatusID = fev.data.currentSelection.instrument.deployed.instrument_status_id;
+										let opMeasurementUrl = 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json';
+										
 										$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
 										$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
+
+										// sensor elevation
+										if (status.sensor_elevation !== undefined) {
+											$('#deployed_elev').html(status.sensor_elevation)
+										}
+
+										// ground elevation
+										if (status.gs_elevation !== undefined) {
+											$('#deployed_gs_elev').html(status.gs_elevation)
+										} else {
+											$('#deployed_gs_elev').html('---')
+										}
+
+										// water elevation
+										if (status.ws_elevation !== undefined) {
+											$('#deployed_ws_elev').html(status.ws_elevation)
+										} else {
+											$('#deployed_ws_elev').html('---')
+										}
+
+										// getting op measurements
+										$.ajax({
+											url: opMeasurementUrl,
+											dataType: 'json',
+											headers: { 'Accept': '*/*' },
+											success: function (opMeasurement) {
+												// water elevation
+												if (opMeasurement.ground_surface !== undefined) {
+													$('#deployed_ground_surface').html(opMeasurement.ground_surface)
+												} else {
+													$('#deployed_ground_surface').html('---')
+												}
+											}
+										}
+										)
 
 									}
 									if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Retrieved') {
 										// creates a named field (with object value) for the deployed instrument status
+										let status = fev.data.currentSelection.instrument.instrument_status[i];
 										fev.data.currentSelection.instrument.retrieved = fev.data.currentSelection.instrument.instrument_status[i];
 										retrievedInstrumentStatusID = fev.data.currentSelection.instrument.retrieved.instrument_status_id;
 										$('#ret_sensor_status').html(fev.data.currentSelection.instrument.retrieved.status);
 										$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
 										$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+
+										// sensor elevation
+										if (status.sensor_elevation !== undefined) {
+											$('#retrieved_elev').html(status.sensor_elevation)
+										}
+
+										// ground elevation
+										if (status.gs_elevation !== undefined) {
+											$('#retrieved_gs_elev').html(status.gs_elevation)
+										} else {
+											$('#retrieved_gs_elev').html('---')
+										}
+
+										// water elevation
+										if (status.ws_elevation !== undefined) {
+											$('#retrieved_ws_elev').html(status.ws_elevation)
+										} else {
+											$('#retrieved_ws_elev').html('---')
+										}
 									}
 								}
 
