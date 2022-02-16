@@ -627,9 +627,11 @@ $(document).on('ready', function () {
 								$('#housing_serial_number').html(fev.data.currentSelection.instrument_housing_serial_number ? fev.data.currentSelection.instrument_housing_serial_number : '---');
 								$('#housing_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.housing_type_id, 'housing_type_id', 'type_name', fev.data.housingTypes));
 								$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
+								$('#location_description').html('');
 								$('#location_description').html(fev.data.currentSelection.instrument.location_description);
+								$('#interval').html('');
 								$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
-								$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
+								$('#vented').html('');
 								$('#vented').html(fev.data.currentSelection.instrument.vented);
 
 								var deployedInstrumentStatusID;
@@ -645,6 +647,7 @@ $(document).on('ready', function () {
 										let opMeasurementUrl = 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json';
 
 										$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+										$('#deployed_note').html('');
 										$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
 
 										// sensor elevation
@@ -698,6 +701,7 @@ $(document).on('ready', function () {
 										retrievedInstrumentStatusID = fev.data.currentSelection.instrument.retrieved.instrument_status_id;
 										let opMeasurementUrl = 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json';
 										$('#ret_sensor_status').html(fev.data.currentSelection.instrument.retrieved.status);
+										$('#retrieved_note').html('');
 										$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
 										$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
 
