@@ -1,25 +1,25 @@
 {
   "name": "flood-event-viewer",
-  "version": "v2.6.6",
+  "version": "v2.6.7",
   "description": "USGS Flood Event Viewer",
   "repository": {
     "type": "git",
     "url": "https://github.com/USGS-WiM/FEV.git"
   },
   "devDependencies": {
+    "del": "^1.1.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "0.0.7",
     "gulp-connect": "^2.0.5",
     "gulp-csso": "^0.2.8",
     "gulp-filter": "^0.4.1",
-    "gulp-less": "^3.0.5",
     "gulp-jshint": "^1.5.5",
+    "gulp-less": "^3.0.5",
     "gulp-load-plugins": "^0.5.0",
     "gulp-size": "^0.3.0",
     "gulp-uglify": "^0.2.1",
     "gulp-useref": "^0.4.3",
     "gulp-util": "^2.2.14",
-    "del": "^1.1.1",
     "open": "6.0.0",
     "wiredep": "^1.4.4"
   },
