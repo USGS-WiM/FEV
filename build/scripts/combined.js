@@ -2626,7 +2626,7 @@ $(document).on('ready', function () {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.waveheight + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'hwm') {
 				//leaflet doesn't like to have an input element in the layer div, so creating negative margin to overlap label toggle element
-				observedOverlays["<div class='legend-icon' style='margin-bottom:-40px'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label>"  + "</div>"] = window[layer.ID];
+				observedOverlays["<div class='legend-icon' style='margin-bottom:-40px'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label>" + "</div>"] = window[layer.ID];
 			} else {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -2675,8 +2675,8 @@ $(document).on('ready', function () {
 
 						$('#site_no').html(fev.data.currentSelection.site.site_no);
 						$('#site_description').html(fev.data.currentSelection.site.site_description);
-						$('#latitude').html(fev.data.currentSelection.site.latitude);
-						$('#longitude').html(fev.data.currentSelection.site.longitude);
+						$('#latitude').html(fev.data.currentSelection.site.latitude_dd);
+						$('#longitude').html(fev.data.currentSelection.site.longitude_dd);
 						$('#hdatum').html(translateToDisplayValue(fev.data.currentSelection.site.hdatum_id, 'datum_id', 'datum_name', fev.data.horizontalDatums));
 						$('#hcollect_method').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
 						$('#address').html(fev.data.currentSelection.site.address);
@@ -2721,8 +2721,11 @@ $(document).on('ready', function () {
 								$('#housing_serial_number').html(fev.data.currentSelection.instrument_housing_serial_number ? fev.data.currentSelection.instrument_housing_serial_number : '---');
 								$('#housing_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.housing_type_id, 'housing_type_id', 'type_name', fev.data.housingTypes));
 								$('#deployment_type').html(translateToDisplayValue(fev.data.currentSelection.instrument.deployment_type_id, 'deployment_type_id', 'method', fev.data.deploymentTypes));
+								$('#location_description').html('');
 								$('#location_description').html(fev.data.currentSelection.instrument.location_description);
+								$('#interval').html('');
 								$('#interval').html(fev.data.currentSelection.instrument.interval + ' seconds');
+								$('#vented').html('');
 								$('#vented').html(fev.data.currentSelection.instrument.vented);
 
 								var deployedInstrumentStatusID;
@@ -2732,19 +2735,112 @@ $(document).on('ready', function () {
 								for (var i = 0; i < fev.data.currentSelection.instrument.instrument_status.length; i++) {
 									if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Deployed') {
 										// creates a named field (with object value) for the deployed instrument status
+										let status = fev.data.currentSelection.instrument.instrument_status[i];
 										fev.data.currentSelection.instrument.deployed = fev.data.currentSelection.instrument.instrument_status[i];
 										deployedInstrumentStatusID = fev.data.currentSelection.instrument.deployed.instrument_status_id;
+										let opMeasurementUrl = 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + deployedInstrumentStatusID + '/OPMeasurements.json';
+
 										$('#deploy_date').html(moment(fev.data.currentSelection.instrument.deployed.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+										$('#deployed_note').html('');
 										$('#deployed_note').html(fev.data.currentSelection.instrument.deployed.notes);
+
+										// sensor elevation
+										if (status.sensor_elevation !== undefined) {
+											$('#deployed_elev').html(status.sensor_elevation)
+										} else {
+											$('#deployed_elev').html('---')
+										}
+
+										// ground elevation
+										if (status.gs_elevation !== undefined) {
+											$('#deployed_gs_elev').html(status.gs_elevation)
+										} else {
+											$('#deployed_gs_elev').html('---')
+										}
+
+										// water elevation
+										if (status.ws_elevation !== undefined) {
+											$('#deployed_ws_elev').html(status.ws_elevation)
+										} else {
+											$('#deployed_ws_elev').html('---')
+										}
+
+										// getting op measurements
+											$.ajax({
+												url: opMeasurementUrl,
+												dataType: 'json',
+												headers: { 'Accept': '*/*' },
+												success: function (opMeasurement) {
+													let op = opMeasurement[0];
+													// water elevation
+													if (op.ground_surface !== undefined) {
+														$('#deployed_ground_surface').html(op.ground_surface)
+													} else {
+														$('#deployed_ground_surface').html('---')
+													}
+													if (op.offset_correction !== undefined) {
+														$('#deployed_offset').html(op.offset_correction)
+													} else {
+														$('#deployed_offset').html('---')
+													}
+												}
+											}
+										)
 
 									}
 									if (fev.data.currentSelection.instrument.instrument_status[i].status == 'Retrieved') {
 										// creates a named field (with object value) for the deployed instrument status
+										let status = fev.data.currentSelection.instrument.instrument_status[i];
 										fev.data.currentSelection.instrument.retrieved = fev.data.currentSelection.instrument.instrument_status[i];
 										retrievedInstrumentStatusID = fev.data.currentSelection.instrument.retrieved.instrument_status_id;
+										let opMeasurementUrl = 'https://stn.wim.usgs.gov/STNServices/InstrumentStatus/' + retrievedInstrumentStatusID + '/OPMeasurements.json';
 										$('#ret_sensor_status').html(fev.data.currentSelection.instrument.retrieved.status);
+										$('#retrieved_note').html('');
 										$('#retrieved_note').html(fev.data.currentSelection.instrument.retrieved.notes);
 										$('#retrieved_date').html(moment(fev.data.currentSelection.instrument.retrieved.time_stamp, 'YYYY-MM-DDTHH:mm:ss').format('l LT'));
+
+										// sensor elevation
+										if (status.sensor_elevation !== undefined) {
+											$('#retrieved_elev').html(status.sensor_elevation)
+										} else {
+											$('#retrieved_elev').html('---')
+										}
+
+										// ground elevation
+										if (status.gs_elevation !== undefined) {
+											$('#retrieved_gs_elev').html(status.gs_elevation)
+										} else {
+											$('#retrieved_gs_elev').html('---')
+										}
+
+										// water elevation
+										if (status.ws_elevation !== undefined) {
+											$('#retrieved_ws_elev').html(status.ws_elevation)
+										} else {
+											$('#retrieved_ws_elev').html('---')
+										}
+
+										// getting op measurements
+										$.ajax({
+											url: opMeasurementUrl,
+											dataType: 'json',
+											headers: { 'Accept': '*/*' },
+											success: function (opMeasurement) {
+												let op = opMeasurement[0];
+												// water elevation
+												if (op.ground_surface !== undefined) {
+													$('#retrieved_ground_surface').html(op.ground_surface)
+												} else {
+													$('#retrieved_ground_surface').html('---')
+												}
+												if (op.offset_correction !== undefined) {
+													$('#retrieved_offset').html(op.offset_correction)
+												} else {
+													$('#retrieved_offset').html('---')
+												}
+											}
+										}
+									)
 									}
 								}
 
@@ -3520,8 +3616,8 @@ $(document).on('ready', function () {
 				peak.eachLayer(function (myMarker) {
 					myMarker.unbindLabel();
 					var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-					myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction:'right' });
-				
+					myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction: 'right' });
+
 				});
 				$('#peakCheckbox').click();
 				peakLabels = false;
@@ -3531,7 +3627,7 @@ $(document).on('ready', function () {
 				hwm.eachLayer(function (myMarker) {
 					myMarker.unbindLabel();
 					var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
-					myMarker.bindLabel(labelText, { className: 'hwmLabelColor', direction:'left' });
+					myMarker.bindLabel(labelText, { className: 'hwmLabelColor', direction: 'left' });
 				});
 				$('#hwmToggle').click();
 				hwmLabels = false;
@@ -3692,7 +3788,7 @@ function togglePeakLabels() {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-				myMarker.bindLabel(labelText, { noHide: true, className: 'peakLabelColor', direction:'right' });
+				myMarker.bindLabel(labelText, { noHide: true, className: 'peakLabelColor', direction: 'right' });
 				myMarker.showLabel();
 			});
 			peakLabels = true;
@@ -3702,7 +3798,7 @@ function togglePeakLabels() {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
-				myMarker.bindLabel(labelText, {className: 'peakLabelColor', direction:'right' });
+				myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction: 'right' });
 			});
 			peakLabels = false;
 			return;
@@ -3718,9 +3814,9 @@ function toggleHWMLabels() {
 		document.getElementById("hwmToggle").disabled = false;
 		if (hwmLabels === false) {
 			hwm.eachLayer(function (myMarker) {
-				myMarker.unbindLabel({className: 'hwmLabelColor'});
+				myMarker.unbindLabel({ className: 'hwmLabelColor' });
 				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
-				myMarker.bindLabel(labelText, { noHide: true, className: 'hwmLabelColor', direction:'left' });
+				myMarker.bindLabel(labelText, { noHide: true, className: 'hwmLabelColor', direction: 'left' });
 				myMarker.showLabel();
 			});
 			hwmLabels = true;
@@ -3730,13 +3826,13 @@ function toggleHWMLabels() {
 			hwm.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
 				var labelText = myMarker.feature.properties.elev_ft !== undefined ? myMarker.feature.properties.elev_ft.toString() : 'No Value';
-				myMarker.bindLabel(labelText, {className: 'hwmLabelColor', direction:'left' });
+				myMarker.bindLabel(labelText, { className: 'hwmLabelColor', direction: 'left' });
 			});
 			hwmLabels = false;
 			return;
 		}
 	}
-} 
+}
 
 function enlargeImage() {
 	$('.imagepreview').attr('src', $('.hydroImage').attr('src'));
