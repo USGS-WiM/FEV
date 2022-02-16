@@ -581,8 +581,8 @@ $(document).on('ready', function () {
 
 						$('#site_no').html(fev.data.currentSelection.site.site_no);
 						$('#site_description').html(fev.data.currentSelection.site.site_description);
-						$('#latitude').html(fev.data.currentSelection.site.latitude);
-						$('#longitude').html(fev.data.currentSelection.site.longitude);
+						$('#latitude').html(fev.data.currentSelection.site.latitude_dd);
+						$('#longitude').html(fev.data.currentSelection.site.longitude_dd);
 						$('#hdatum').html(translateToDisplayValue(fev.data.currentSelection.site.hdatum_id, 'datum_id', 'datum_name', fev.data.horizontalDatums));
 						$('#hcollect_method').html(translateToDisplayValue(fev.data.currentSelection.site.hcollect_method_id, 'hcollect_method_id', 'hcollect_method', fev.data.horizontalCollectionMethods));
 						$('#address').html(fev.data.currentSelection.site.address);
