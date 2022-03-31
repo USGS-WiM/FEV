@@ -17,7 +17,8 @@
     "highcharts": "^9.3.1",
     "moment": "^2.14.1",
     "bootstrap-datepicker": "^1.6.4",
-    "Leaflet.label": "^0.2.1"
+    "Leaflet.label": "^0.2.1",
+    "leaflet-draw": "~0.4.14"
   },
   "overrides": {
     "select2": {
