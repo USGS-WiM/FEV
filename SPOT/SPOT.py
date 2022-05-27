@@ -15,5 +15,5 @@ url = config.get('general', 'url')
 token_header = { 'token': config.get('general', 'token')}
 response = requests.get(url, headers=token_header)
 
-print("Content-type: application/json", end="\r\n\r\n", flush=True)
-print(json.dumps(response.json()))
+print("Access-Control-Allow-Origin: *", end="\r\n\r\n")
+print(json.dumps(response.json(), indent=4))
