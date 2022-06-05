@@ -702,6 +702,88 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
   });
 }
 
+//get SOFAR data 
+function getSofarData(type, name, url, markerIcon){
+  console.log("in sofar query")
+  //create a geoJSON to populate with coordinates of NOAA tides gages
+    var sofarGeoJSON = {
+      features: [
+        { type: "Feature", geometry: { coordinates: [0, 0], type: "Point" } },
+      ],
+    };
+
+    var currentMarker = L.geoJson(false, {
+      pointToLayer: function (feature, latlng) {
+        markerCoords.push(latlng);
+        var marker = L.marker(latlng, {
+          icon: markerIcon,
+        });
+        return marker;
+      },
+      onEachFeature: function (feature, latlng) {
+
+        var popupContent =
+        '<table class="table table-condensed table-striped table-hover wim-table">' +
+        '<caption class="popup-title">' +
+        "SOFAR" +
+        ' | <span style="color:gray"> ' +
+        feature.properties.buoyID +
+        '<tr><td><strong>Peak Period: </strong></td><td><span>' +
+        feature.properties.peakPeriod +
+        "</span></td></tr>" +
+        '<tr><td><strong>Significant Waveheight: </strong></td><td><span>' +
+        feature.properties.sigWaveHeight +
+        "</td></tr>" +
+        "</table>";
+        latlng.bindPopup(popupContent);
+      },
+    });
+
+    // SOFAR Proxy Query
+    $.get("https://luigi.wim.usgs.gov/cgi-bin/fev_sofar.py", function(data) {
+      var returnedData = JSON.parse(data);
+      console.log(returnedData);
+      if (returnedData.data !== undefined) {
+        var latitude = returnedData.data.track[0].latitude;
+        var longitude = returnedData.data.track[0].longitude;
+        var peakPeriod = returnedData.data.waves[0].peakPeriod;
+        var buoyID = returnedData.data.spotterId;
+        var sigWaveHeight = returnedData.data.waves[0].significantWaveHeight;
+
+        //check that there are lat/lng coordinates
+        if (isNaN(latitude) || isNaN(longitude)) {
+          console.error(
+            "latitude or longitude value for point: ",
+            data.stations[i],
+            "is null"
+          );
+        } else {
+          sofarGeoJSON.features[0] = {
+            type: "Feature",
+            properties: {
+              peakPeriod: peakPeriod,
+              buoyID: buoyID,
+              sigWaveHeight: sigWaveHeight
+            },
+            geometry: {
+              coordinates: [longitude, latitude],
+              type: "Point",
+            },
+          };
+        }
+        //get the data from the new geoJSON
+        currentMarker.addData(sofarGeoJSON);
+        currentMarker.eachLayer(function (layer) {
+          layer.addTo(sofar);
+        });
+        //plot tides gages on map
+        //.addTo(map);
+        checkLayerCount(layerCount);
+      }
+    })
+  }
+
+
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
 function populateEventDates(eventID) {
   for (var i = 0; i < fev.data.events.length; i++) {
@@ -1235,8 +1317,8 @@ function filterMapData(event, isUrlParam) {
       getSofarData(
         layer.ID,
         layer.Name,
-        "https://api.sofarocean.com /api/wave-data?spotterId=SPOT-0222",
-        peakMarkerIcon
+        "https://luigi.wim.usgs.gov/cgi-bin/fev_sofar.py",
+        sofarBuoyMarkerIcon
       );
     setTimeout(() => {
       if (layer.ID == "tides")
@@ -2219,6 +2301,12 @@ var fev = fev || {
 			"Name": "NOAA Tides and Currents Stations",
 			"Type": "real-time",
 			"Category": "real-time"
+		},
+		{
+			"ID": "sofar",
+			"Name": "SOFAR Buoys",
+			"Type": "real-time",
+			"Category": "real-time"
 		}
 	],
 	markerClasses: {
@@ -2234,7 +2322,9 @@ var fev = fev || {
 		peak: 'wmm-diamond wmm-blue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless',
 		nwis: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless',
 		nwisTidal: 'wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
-		noaaTides: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless'
+		noaaTides: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
+		sofarBuoys: 'sofarIconStatic',
+
 	}
 };
 
@@ -2255,6 +2345,7 @@ var peakMarkerIcon = L.divIcon({ name: "Peak Summary", className: fev.markerClas
 var nwisMarkerIcon = L.divIcon({ name: "NWIS", className: fev.markerClasses.nwis, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisTidalMarkerIcon = L.divIcon({ name: "NWIS Tidal", className: fev.markerClasses.nwisTidal, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var tidesMarkerIcon = L.divIcon({ name: "NOAA Tides and Current Stations", className: fev.markerClasses.noaaTides, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+var sofarBuoyMarkerIcon = L.divIcon({ name: "SOFAR Buoys", className: 'sofarIcon', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 
 // rain layer uses an icon
 var nwisRainMarkerIcon = L.icon({ name: "Real-time Rain Gage", className: 'nwisMarker', iconUrl: 'images/nwis_rain.png', iconAnchor: [7, 10], popupAnchor: [0, 2], iconSize: [25, 25] });
@@ -2268,6 +2359,7 @@ var hwm = L.layerGroup();
 var peak = L.layerGroup();
 var cameras = L.layerGroup();
 var tides = L.layerGroup();
+var sofar = L.layerGroup();
 
 // var editableLayers = new L.FeatureGroup();
 // var drawnItems = new L.FeatureGroup();
@@ -2359,7 +2451,6 @@ var zoomMargin;
 $(document).on('ready', function () {
 	//for jshint
 	'use strict';
-
 	//Start with the rain and stream gage checkboxes disabled
 	var streamgageCheckBox = document.getElementById("streamGageToggle");
 	streamgageCheckBox.disabled = true;
@@ -2610,7 +2701,10 @@ $(document).on('ready', function () {
 			}
 			else if (layer.ID == 'tides') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.noaaTides + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
-			} else {
+			} else if (layer.ID == 'sofar') {
+				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.sofarBuoys + "'></div><label> " + layer.Name + "</label></div>"] = window[layer.ID];
+			} 
+			else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
 		}
