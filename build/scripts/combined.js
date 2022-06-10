@@ -82,8 +82,8 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
             "</span></td></tr>" +
             '<tr><td><strong>City: </strong></td><td><span id="city">' +
             (feature.properties.city == "" ||
-            feature.properties.city == null ||
-            feature.properties.city == undefined
+              feature.properties.city == null ||
+              feature.properties.city == undefined
               ? "<i>No city recorded</i>"
               : feature.properties.city) +
             "</span></td></tr>" +
@@ -139,8 +139,8 @@ function displaySensorGeoJSON(type, name, url, markerIcon) {
             data.features[i].geometry.coordinates[0] <=
             fev.vars.extentNorth &&
             fev.vars.extentWest <=
-              data.features[i].geometry.coordinates[1] <=
-              fev.vars.extentEast) ||
+            data.features[i].geometry.coordinates[1] <=
+            fev.vars.extentEast) ||
           data.features[i].geometry.coordinates[0] == 0 ||
           data.features[i].geometry.coordinates[1] == 0
         ) {
@@ -178,7 +178,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
       markerCoords.push(latlng);
       var marker = L.marker(latlng, {
         icon: markerIcon,
-      }).bindLabel(labelText, {className: 'hwmLabelColor', direction:'left' });;
+      }).bindLabel(labelText, { className: 'hwmLabelColor', direction: 'left' });;
       return marker;
     },
     onEachFeature: function (feature, latlng) {
@@ -230,7 +230,7 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
         //'<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">'+ (feature.properties.approval_id == undefined || feature.properties.approval_id == 0 ? 'Provisional  <button type="button" class="btn btn-sm data-disclaim"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'  : 'Approved')+ '</span></td></tr>'+
         '<tr><td><strong>Approval status: </strong></td><td><span id="hwmStatus">' +
         (feature.properties.approval_id == undefined ||
-        feature.properties.approval_id == 0
+          feature.properties.approval_id == 0
           ? '<button type="button" class="btn btn-sm data-disclaim" title="Click to view provisional data statement">Provisional <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></button>'
           : "Approved") +
         "</span></td></tr>" +
@@ -297,8 +297,8 @@ function displayHWMGeoJSON(type, name, url, markerIcon) {
             data.features[i].geometry.coordinates[0] <=
             fev.vars.extentNorth &&
             fev.vars.extentWest <=
-              data.features[i].geometry.coordinates[1] <=
-              fev.vars.extentEast) ||
+            data.features[i].geometry.coordinates[1] <=
+            fev.vars.extentEast) ||
           data.features[i].geometry.coordinates[0] == 0 ||
           data.features[i].geometry.coordinates[1] == 0
         ) {
@@ -333,7 +333,7 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
       markerCoords.push(latlng);
       var marker = L.marker(latlng, {
         icon: markerIcon,
-      }).bindLabel(labelText, {className: 'peakLabelColor', direction:'right' });
+      }).bindLabel(labelText, { className: 'peakLabelColor', direction: 'right' });
       return marker;
     },
     onEachFeature: function (feature, latlng) {
@@ -421,8 +421,8 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
             data.features[i].geometry.coordinates[0] <=
             fev.vars.extentNorth &&
             fev.vars.extentWest <=
-              data.features[i].geometry.coordinates[1] <=
-              fev.vars.extentEast) ||
+            data.features[i].geometry.coordinates[1] <=
+            fev.vars.extentEast) ||
           data.features[i].geometry.coordinates[0] == 0 ||
           data.features[i].geometry.coordinates[1] == 0
         ) {
@@ -703,85 +703,29 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
 }
 
 //get SOFAR data 
-function getSofarData(type, name, url, markerIcon){
-  console.log("in sofar query")
-  //create a geoJSON to populate with coordinates of NOAA tides gages
-    var sofarGeoJSON = {
-      features: [
-        { type: "Feature", geometry: { coordinates: [0, 0], type: "Point" } },
-      ],
-    };
-
-    var currentMarker = L.geoJson(false, {
-      pointToLayer: function (feature, latlng) {
-        markerCoords.push(latlng);
-        var marker = L.marker(latlng, {
-          icon: markerIcon,
-        });
-        return marker;
-      },
-      onEachFeature: function (feature, latlng) {
-
-        var popupContent =
-        '<table class="table table-condensed table-striped table-hover wim-table">' +
-        '<caption class="popup-title">' +
-        "SOFAR" +
-        ' | <span style="color:gray"> ' +
-        feature.properties.buoyID +
-        '<tr><td><strong>Peak Period: </strong></td><td><span>' +
-        feature.properties.peakPeriod +
-        "</span></td></tr>" +
-        '<tr><td><strong>Significant Waveheight: </strong></td><td><span>' +
-        feature.properties.sigWaveHeight +
-        "</td></tr>" +
-        "</table>";
-        latlng.bindPopup(popupContent);
-      },
-    });
-
-    // SOFAR Proxy Query
-    $.get("https://luigi.wim.usgs.gov/cgi-bin/fev_sofar.py", function(data) {
-      var returnedData = JSON.parse(data);
-      console.log(returnedData);
+function getSofarData(type, name, url, markerIcon) {
+  var sofarmarkers = {};
+  $.ajax({
+    //url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
+    url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
+    dataType: "json",
+    headers: { token: 'def82079001ced6cee31666cdd58f8' },
+    success: function (returnedData) {
       if (returnedData.data !== undefined) {
-        var latitude = returnedData.data.track[0].latitude;
-        var longitude = returnedData.data.track[0].longitude;
-        var peakPeriod = returnedData.data.waves[0].peakPeriod;
         var buoyID = returnedData.data.spotterId;
-        var sigWaveHeight = returnedData.data.waves[0].significantWaveHeight;
-
-        //check that there are lat/lng coordinates
-        if (isNaN(latitude) || isNaN(longitude)) {
-          console.error(
-            "latitude or longitude value for point: ",
-            data.stations[i],
-            "is null"
-          );
-        } else {
-          sofarGeoJSON.features[0] = {
-            type: "Feature",
-            properties: {
-              peakPeriod: peakPeriod,
-              buoyID: buoyID,
-              sigWaveHeight: sigWaveHeight
-            },
-            geometry: {
-              coordinates: [longitude, latitude],
-              type: "Point",
-            },
-          };
-        }
-        //get the data from the new geoJSON
-        currentMarker.addData(sofarGeoJSON);
-        currentMarker.eachLayer(function (layer) {
-          layer.addTo(sofar);
-        });
-        //plot tides gages on map
-        //.addTo(map);
-        checkLayerCount(layerCount);
+        var lat = returnedData.data.track[0].latitude;
+        var lon = returnedData.data.track[0].longitude;
+        sofarmarkers[buoyID] = L.marker([lat, lon], { icon: sofarBuoyMarkerIcon });
+        sofarmarkers[buoyID].data = { data: returnedData.data.waves, buoyID: buoyID, humidity: returnedData.data.humidity }
+        sofarbouys.addLayer(sofarmarkers[buoyID]);
+        console.log(sofarmarkers[buoyID])
       }
-    })
-  }
+    },
+    error: function (json) {
+
+    },
+  });
+}
 
 
 ///this function sets the current event's start and end dates as global vars. may be better as a function called on demand when date compare needed for NWIS graph setup
@@ -803,13 +747,13 @@ function populateEventDates(eventID) {
           : fev.data.events[i].event_end_date.substr(0, 10);
       console.log(
         "Selected event is " +
-          fev.data.events[i].event_name +
-          ". START date is " +
-          fev.vars.currentEventStartDate_str +
-          " and END date is " +
-          fev.vars.currentEventEndDate_str +
-          ". Event is active = " +
-          fev.vars.currentEventActive
+        fev.data.events[i].event_name +
+        ". START date is " +
+        fev.vars.currentEventStartDate_str +
+        " and END date is " +
+        fev.vars.currentEventEndDate_str +
+        ". Event is active = " +
+        fev.vars.currentEventActive
       );
     }
   }
@@ -897,8 +841,8 @@ function filterMapData(event, isUrlParam) {
         //sensorTypeSelectionsTextArray.push($('#sensorTypeSelect').select2('data')[i].text);
         $("#stateDisplay").append(
           '<span class="label label-default">' +
-            $("#stateSelect").select2("data")[i].text +
-            "</span>"
+          $("#stateSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -916,8 +860,8 @@ function filterMapData(event, isUrlParam) {
         //sensorTypeSelectionsTextArray.push($('#sensorTypeSelect').select2('data')[i].text);
         $("#countyDisplay").append(
           '<span class="label label-default">' +
-            $("#countySelect").select2("data")[i].text +
-            "</span>"
+          $("#countySelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -951,8 +895,8 @@ function filterMapData(event, isUrlParam) {
         //sensorTypeSelectionsTextArray.push($('#sensorTypeSelect').select2('data')[i].text);
         $("#sensorTypeDisplay").append(
           '<span class="label label-default">' +
-            $("#sensorTypeSelect").select2("data")[i].text +
-            "</span>"
+          $("#sensorTypeSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -974,8 +918,8 @@ function filterMapData(event, isUrlParam) {
         //sensorStatusSelectionsTextArray.push($('#sensorStatusSelect').select2('data')[i].text)
         $("#sensorStatusDisplay").append(
           '<span class="label label-default">' +
-            $("#sensorStatusSelect").select2("data")[i].text +
-            "</span>"
+          $("#sensorStatusSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -998,8 +942,8 @@ function filterMapData(event, isUrlParam) {
         //collectConditionSelectionsTextArray.push($('#collectionConditionSelect').select2('data')[i].text)
         $("#collectConditionDisplay").append(
           '<span class="label label-default">' +
-            $("#collectionConditionSelect").select2("data")[i].text +
-            "</span>"
+          $("#collectionConditionSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -1018,8 +962,8 @@ function filterMapData(event, isUrlParam) {
         //deployTypeSelectionsTextArray.push($('#deployTypeSelect').select2('data')[i].text)
         $("#deployTypeDisplay").append(
           '<span class="label label-default">' +
-            $("#deployTypeSelect").select2("data")[i].text +
-            "</span>"
+          $("#deployTypeSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -1097,8 +1041,8 @@ function filterMapData(event, isUrlParam) {
         //hwmTypeSelectionsTextArray.push($('#hwmTypeSelect').select2('data')[i].text)
         $("#hwmTypeDisplay").append(
           '<span class="label label-default">' +
-            $("#hwmTypeSelect").select2("data")[i].text +
-            "</span>"
+          $("#hwmTypeSelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -1116,8 +1060,8 @@ function filterMapData(event, isUrlParam) {
         //hwmQualitySelectionsTextArray.push($('#hwmQualitySelect').select2('data')[i].text)
         $("#hwmQualityDisplay").append(
           '<span class="label label-default">' +
-            $("#hwmQualitySelect").select2("data")[i].text +
-            "</span>"
+          $("#hwmQualitySelect").select2("data")[i].text +
+          "</span>"
         );
       }
     }
@@ -1295,7 +1239,7 @@ function filterMapData(event, isUrlParam) {
         layer.ID,
         layer.Name,
         fev.urls[layer.ID + "GeoJSONViewURL"] +
-          fev.queryStrings.sensorsQueryString,
+        fev.queryStrings.sensorsQueryString,
         window[layer.ID + "MarkerIcon"]
       );
     if (layer.ID == "hwm")
@@ -1310,7 +1254,7 @@ function filterMapData(event, isUrlParam) {
         layer.ID,
         layer.Name,
         fev.urls.peaksFilteredGeoJSONViewURL +
-          fev.queryStrings.peaksQueryString,
+        fev.queryStrings.peaksQueryString,
         peakMarkerIcon
       );
     if (layer.ID == "sofar")
@@ -1541,8 +1485,8 @@ function queryNWISgraphRDG(e) {
     "</span></td></tr>" +
     '<tr><td><strong>City: </strong></td><td><span id="city">' +
     (e.layer.feature.properties.city == "" ||
-    e.layer.feature.properties.city == null ||
-    e.layer.feature.properties.city == undefined
+      e.layer.feature.properties.city == null ||
+      e.layer.feature.properties.city == undefined
       ? "<i>No city recorded</i>"
       : e.layer.feature.properties.city) +
     "</span></td></tr>" +
@@ -1585,7 +1529,7 @@ function queryNWISgraphRDG(e) {
           fev.vars.currentEventEndDate_str = moment().format("YYYY-MM-DD");
           console.log(
             "Selected event is active, so end date is today, " +
-              fev.vars.currentEventEndDate_str
+            fev.vars.currentEventEndDate_str
           );
         }
 
@@ -1613,8 +1557,8 @@ function queryNWISgraphRDG(e) {
           $("#rdgNWISLink").prop("href", rdgNWIS_URL);
           $("#rdgNWISLink").html(
             "Site " +
-              usgsSiteID +
-              ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i>'
+            usgsSiteID +
+            ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i>'
           );
 
           ///now have valid start and end date strings, so proceed with getting the graph (for water level, generically defined, PCs 62620,00065,00067
@@ -1626,9 +1570,9 @@ function queryNWISgraphRDG(e) {
           //}
           $.getJSON(
             "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
-              usgsSiteID +
-              "&parameterCd=62620,00065,00067" +
-              timeQueryRange,
+            usgsSiteID +
+            "&parameterCd=62620,00065,00067" +
+            timeQueryRange,
             function (data) {
               if (data.data == undefined) {
                 console.log("No NWIS RDG data available for this time period");
@@ -1736,24 +1680,24 @@ function queryNWISgraph(e) {
   e.layer
     .bindPopup(
       '<label class="popup-title">NWIS Site ' +
-        e.layer.data.siteCode +
-        "</br>" +
-        e.layer.data.siteName +
-        '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        e.layer.data.siteCode +
-        '"><b>Site ' +
-        e.layer.data.siteCode +
-        ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
+      e.layer.data.siteCode +
+      "</br>" +
+      e.layer.data.siteName +
+      '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+      e.layer.data.siteCode +
+      '"><b>Site ' +
+      e.layer.data.siteCode +
+      ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
       { minWidth: 350 }
     )
     .openPopup();
 
   $.getJSON(
     "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
-      e.layer.data.siteCode +
-      "&parameterCd=" +
-      parameterCodeList +
-      timeQueryRange,
+    e.layer.data.siteCode +
+    "&parameterCd=" +
+    parameterCodeList +
+    timeQueryRange,
     function (data) {
       //if (data.data[0].time_series_data.length <= 0) console.log("No NWIS graph data available for this time period");
 
@@ -1768,7 +1712,7 @@ function queryNWISgraph(e) {
         $("#graphLoadMessage").hide();
         $(".popup-title").hide();
         $("#graphContainer").show();
-
+ 
         //create chart
         Highcharts.setOptions({ global: { useUTC: false } });
         $("#graphContainer").highcharts({
@@ -1824,6 +1768,124 @@ function queryNWISgraph(e) {
   );
 }
 
+function querySofarGraph(e) {
+  let sigWaveData = []
+  let startDate = moment().subtract(5, 'days').toISOString();
+  let endDate = moment().toISOString();
+  // SOFAR Query
+  $.ajax({
+    //url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
+    url: "https://api.sofarocean.com/api/wave-data?spotterId=SPOT-0222&startDate=" + startDate + "&endDate=" + endDate + "&limit=20",
+    dataType: "json",
+    headers: { token: 'def82079001ced6cee31666cdd58f8' },
+    success: function (data) {
+      var returnedData = data;
+      fev.data.sofarWaveData = returnedData;
+      fev.data.sofarWaveData.latest = e.layer.data.data;
+      returnedData.data.waves.forEach(filterWaveData);
+
+      function filterWaveData(entry) {
+				sigWaveData.push([moment(entry.timestamp).valueOf(), entry.significantWaveHeight])
+			}
+
+      if (returnedData.data == undefined) {
+        console.log("No SOFAR data available for this time period");
+        $("#sofargraphLoadMessage").hide();
+        $("#noDataMessage").show();
+      } else {
+        $("#sofargraphLoadMessage").hide();
+        $("#view-more-sofar").removeAttr("disabled");
+        $("#sofarGraphContainer").show();
+        Highcharts.setOptions({ global: { useUTC: false } });
+        $("#sofarGraphContainer").highcharts({
+          chart: {
+            type: "line",
+            width: 400
+          },
+          title: {
+            margin: 65,
+            text: "Significant Wave Height (m), past month to today",
+            align: "left",
+            style: {
+              color: "rgba(0,0,0,0.6)",
+              fontSize: "small",
+              fontWeight: "bold",
+              fontFamily: "Open Sans, sans-serif",
+            },
+            //text: null
+          },
+          credits: {
+            enabled: true,
+            text: "SOFAR",
+            href: "https://weather.sofarocean.com/",
+          },
+          xAxis: {
+            type: "datetime",
+            labels: {
+              formatter: function () {
+                return Highcharts.dateFormat("%m/%d/%y", this.value);
+              },
+              //rotation: -90,
+              align: "center",
+            },
+          },
+          yAxis: {
+            title: { text: "wave height, meters" },
+          },
+          legend: {
+            align: 'center',
+            verticalAlign: 'top',
+            floating: true,
+            x: 0,
+            y: 30
+        },
+          series: [
+            {
+              name: 'wave height',
+              showInLegend: true,
+              data: sigWaveData,
+              tooltip: {
+                pointFormat: "wave height: {point.y} meters",
+              },
+            },
+          ],
+        });
+      }
+    },
+    error: function (json) {
+
+    },
+  });
+ 
+  //var peakPeriod = returnedData.data.waves[0].peakPeriod;
+  //var buoyID = returnedData.data.spotterId;
+  //var sigWaveHeight = returnedData.data.waves[0].significantWaveHeight;
+  e.layer
+    .bindPopup(
+      '<div id="periodData" class="tabcontent">' + '<table class="table table-condensed table-striped table-hover wim-table">' +
+      '<caption class="popup-title">' +
+      "SOFAR" +
+      ' | <span style="color:gray">' +
+      e.layer.data.buoyID +
+      '<tr><td><strong>Latest Significant Waveheight: </strong></td><td><span>' +
+      e.layer.data.data[0].significantWaveHeight +
+      "</span></td></tr>" +
+      /* '<tr><td><strong>Significant Waveheight: </strong></td><td><span>' +
+      e.layer.data.data[0].significantWaveHeight +
+      "</td></tr>" + */
+      "</table>"+ '</div>' +
+      '<div id="waveGraphDiv"></div><p id="sofargraphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span></p><div id="sofarGraphContainer" style="display:none;"></div>' +
+      '<div id="noDataMessage" style="width:100%;display:none;"><b><span>Sofar wave data not available to graph</span></b></div></div></span>' +
+      '<button id="view-more-sofar" type="button" disabled class="btn btn-sm sofar-data-btn" title="Click to view more SOFAR details" value="' +
+      e.layer.data.data +
+      '">View More Data</button>',
+      /* '<div id="sofarGraphContainer" style="width:600px; height:300px;"></div>', */
+      { minWidth: "auto" }
+    )
+    .openPopup();
+
+}
+
 function queryNWISgraphTides(e) {
   var popupContent = "";
   //$.each(e.layer.data.parameters, function( index, parameter ) {
@@ -1859,24 +1921,24 @@ function queryNWISgraphTides(e) {
   e.layer
     .bindPopup(
       '<label class="popup-title">NWIS Site ' +
-        e.layer.data.siteCode +
-        "</br>" +
-        e.layer.data.siteName +
-        '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        e.layer.data.siteCode +
-        '"><b>Site ' +
-        e.layer.data.siteCode +
-        ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
+      e.layer.data.siteCode +
+      "</br>" +
+      e.layer.data.siteName +
+      '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+      e.layer.data.siteCode +
+      '"><b>Site ' +
+      e.layer.data.siteCode +
+      ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
       { minWidth: 350 }
     )
     .openPopup();
 
   $.getJSON(
     "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
-      e.layer.data.siteCode +
-      "&parameterCd=" +
-      parameterCodeList +
-      timeQueryRange,
+    e.layer.data.siteCode +
+    "&parameterCd=" +
+    parameterCodeList +
+    timeQueryRange,
     function (data) {
       //if (data.data[0].time_series_data.length <= 0) console.log("No NWIS graph data available for this time period");
 
@@ -1985,24 +2047,24 @@ function queryNWISRaingraph(e) {
   e.layer
     .bindPopup(
       '<label class="popup-title">NWIS Site ' +
-        e.layer.data.siteCode +
-        "</br>" +
-        e.layer.data.siteName +
-        '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        e.layer.data.siteCode +
-        '"><b>Site ' +
-        e.layer.data.siteCode +
-        ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
+      e.layer.data.siteCode +
+      "</br>" +
+      e.layer.data.siteName +
+      '</span></label></br><p id="graphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+      e.layer.data.siteCode +
+      '"><b>Site ' +
+      e.layer.data.siteCode +
+      ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>',
       { minWidth: 350 }
     )
     .openPopup();
 
   $.getJSON(
     "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
-      e.layer.data.siteCode +
-      "&parameterCd=" +
-      parameterCodeList +
-      timeQueryRange,
+    e.layer.data.siteCode +
+    "&parameterCd=" +
+    parameterCodeList +
+    timeQueryRange,
     function (data) {
       //if (data.data[0].time_series_data.length <= 0) console.log("No NWIS graph data available for this time period");
 
@@ -2210,7 +2272,8 @@ var fev = fev || {
 			site: {},
 			instrument: {},
 			hwm: {}
-		}
+		},
+		sofarWaveData: []
 	},
 	urls: {
 		jsonSensorsURLRoot: stnServicesURL + '/Instruments/FilteredInstruments.json',
@@ -2302,12 +2365,12 @@ var fev = fev || {
 			"Type": "real-time",
 			"Category": "real-time"
 		},
-		{
+		/* {
 			"ID": "sofar",
 			"Name": "SOFAR Buoys",
 			"Type": "real-time",
 			"Category": "real-time"
-		}
+		} */
 	],
 	markerClasses: {
 		baro: 'wmm-diamond wmm-yellow wmm-icon-diamond wmm-icon-black wmm-size-20',
@@ -2388,6 +2451,7 @@ var allWatersheds = L.esri.dynamicMapLayer({
 var rdg = L.featureGroup();
 var USGSRainGages = L.featureGroup();
 var USGSTideGages = L.featureGroup();
+var sofarbouys = L.featureGroup();
 var USGSrtGages = L.featureGroup();
 var noaaService = L.esri.dynamicMapLayer({
 	url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/wwa_meteocean_tropicalcyclones_trackintensityfcsts_time/MapServer",
@@ -2701,9 +2765,9 @@ $(document).on('ready', function () {
 			}
 			else if (layer.ID == 'tides') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.noaaTides + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
-			} else if (layer.ID == 'sofar') {
+			} /* else if (layer.ID == 'sofar') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.sofarBuoys + "'></div><label> " + layer.Name + "</label></div>"] = window[layer.ID];
-			} 
+			}  */
 			else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -2748,8 +2812,254 @@ $(document).on('ready', function () {
 			var siteHWMArray = e.target.value.split(",");
 			var siteID = siteHWMArray[0];
 			var hwmID = siteHWMArray[1];
-			// TODO: adapt for HWM
 			populateCurrentSelectionData('hwm', siteID, hwmID);
+		});
+
+		$('.sofar-data-btn').on('click', function (e) {
+			console.log(fev.data.sofarWaveData)
+			let peakPeriodData = [];
+			let meanPeriodData = [];
+			let peakDir = [];
+			let meanDir = [];
+			let peakDirSpread = [];
+			let meanDirSpread = [];
+			$('#sofarDataModal').modal('show');
+
+			fev.data.sofarWaveData.data.waves.forEach(filterWaveData);
+
+			function filterWaveData(entry) {
+				peakPeriodData.push([moment(entry.timestamp).valueOf(), entry.peakPeriod]);
+				meanPeriodData.push([moment(entry.timestamp).valueOf(), entry.meanPeriod]);
+				peakDir.push([moment(entry.timestamp).valueOf(), entry.peakDirection]);
+				meanDir.push([moment(entry.timestamp).valueOf(), entry.meanDirection]);
+				peakDirSpread.push([moment(entry.timestamp).valueOf(), entry.peakDirectionalSpread]);
+				meanDirSpread.push([moment(entry.timestamp).valueOf(), entry.meanDirectionalSpread]);
+			}
+
+			$('#pd').html(fev.data.sofarWaveData.latest[0].peakDirection);
+			$('#pp').html(fev.data.sofarWaveData.latest[0].peakPeriod);
+			$('#ps').html(fev.data.sofarWaveData.latest[0].peakDirectionalSpread);
+			$('#md').html(fev.data.sofarWaveData.latest[0].meanDirection);
+			$('#mp').html(fev.data.sofarWaveData.latest[0].meanPeriod);
+			$('#ms').html(fev.data.sofarWaveData.latest[0].meanDirectionalSpread);
+
+			if (peakPeriodData == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessage").hide();
+				$("#noDataMessage").show();
+			  } else {
+				$("#graphLoadMessage").hide();
+				$("#sigWaveGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#sigWaveGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Period (s)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				  series: [
+					{
+					  name: 'Peak Period',
+					  showInLegend: true,
+					  data: peakPeriodData,
+					  tooltip: {
+						pointFormat: "time: {point.y} seconds",
+					  },
+					},
+					{
+					  name: 'Mean Period',
+					  showInLegend: true,
+					  data: meanPeriodData,
+					  tooltip: {
+						pointFormat: "time: {point.y} seconds",
+					  },
+					},
+				  ],
+				});
+			};
+			// END PEAK AND MEAN PERIOD GRAPH
+
+			// DIRECTION GRAPH
+			if (peakDir == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessagePeakDir").hide();
+				$("#noDataMessagePeakDir").show();
+			  } else {
+				$("#graphLoadMessagePeakDir").hide();
+				$("#peakDirGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#peakDirGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Direction (deg)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				series: [
+					{
+					  name: 'Peak Direction',
+					  showInLegend: true,
+					  data: peakDir,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+					{
+					  name: 'Mean Direction',
+					  showInLegend: true,
+					  data: meanDir,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+				  ],
+				});
+			};
+			// END DIRECTION GRAPH
+
+			// SPREAD GRAPH
+			if (peakDir == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessagePeakDirSpread").hide();
+				$("#noDataMessagePeakDirSpread").show();
+			  } else {
+				$("#graphLoadMessagePeakDirSpread").hide();
+				$("#peakDirSpreadGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#peakDirSpreadGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Spread (deg)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				series: [
+					{
+					  name: 'Peak Spread',
+					  showInLegend: true,
+					  data: peakDirSpread,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+					{
+					  name: 'Mean Spread',
+					  showInLegend: true,
+					  data: meanDirSpread,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+				  ],
+				});
+			};
+			// END SPREAD GRAPH
 		});
 
 		function populateCurrentSelectionData(type, siteID, objectID) {
@@ -3687,6 +3997,13 @@ $(document).on('ready', function () {
 			}
 		})
 
+		$.each(sofarbouys.getLayers(), function (index, marker) {
+			var popup = marker.getPopup();
+			if (popup) {
+				foundPopup = popup._isOpen;
+			}
+		})
+
 		//When zoom is less than 9, uncheck and disable rain and stream checkboxes
 		if (map.getZoom() < 9) {
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
@@ -3793,8 +4110,8 @@ $(document).on('ready', function () {
 		queryNWISgraphTides(e);
 	});
 
-	rdg.on('click', function (e) {
-		queryNWISgraphRDG(e);
+	sofarbouys.on('click', function (e) {
+		querySofarGraph(e);
 	});
 
 	//begin latLngScale utility logic/////////////////////////////////////////////////////////////////////////////////////////
@@ -4005,6 +4322,17 @@ function clickNwisTidalGage() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (nwisTidalCheckbox.checked == false) {
 		USGSTideGages.clearLayers(map);
+	}
+}
+function clickSofar() {
+	var sofarCheckbox = document.getElementById("sofarToggle");
+	if (sofarCheckbox.checked == true) {
+		sofarbouys.addTo(map);
+		getSofarData();
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (sofarCheckbox.checked == false) {
+		sofarbouys.clearLayers(map);
 	}
 }
 

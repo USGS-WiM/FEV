@@ -34,7 +34,8 @@ var fev = fev || {
 			site: {},
 			instrument: {},
 			hwm: {}
-		}
+		},
+		sofarWaveData: []
 	},
 	urls: {
 		jsonSensorsURLRoot: stnServicesURL + '/Instruments/FilteredInstruments.json',
@@ -126,12 +127,12 @@ var fev = fev || {
 			"Type": "real-time",
 			"Category": "real-time"
 		},
-		{
+		/* {
 			"ID": "sofar",
 			"Name": "SOFAR Buoys",
 			"Type": "real-time",
 			"Category": "real-time"
-		}
+		} */
 	],
 	markerClasses: {
 		baro: 'wmm-diamond wmm-yellow wmm-icon-diamond wmm-icon-black wmm-size-20',
@@ -212,6 +213,7 @@ var allWatersheds = L.esri.dynamicMapLayer({
 var rdg = L.featureGroup();
 var USGSRainGages = L.featureGroup();
 var USGSTideGages = L.featureGroup();
+var sofarbouys = L.featureGroup();
 var USGSrtGages = L.featureGroup();
 var noaaService = L.esri.dynamicMapLayer({
 	url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/wwa_meteocean_tropicalcyclones_trackintensityfcsts_time/MapServer",
@@ -525,9 +527,9 @@ $(document).on('ready', function () {
 			}
 			else if (layer.ID == 'tides') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.noaaTides + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
-			} else if (layer.ID == 'sofar') {
+			} /* else if (layer.ID == 'sofar') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.sofarBuoys + "'></div><label> " + layer.Name + "</label></div>"] = window[layer.ID];
-			} 
+			}  */
 			else {
 				realTimeOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
@@ -572,8 +574,254 @@ $(document).on('ready', function () {
 			var siteHWMArray = e.target.value.split(",");
 			var siteID = siteHWMArray[0];
 			var hwmID = siteHWMArray[1];
-			// TODO: adapt for HWM
 			populateCurrentSelectionData('hwm', siteID, hwmID);
+		});
+
+		$('.sofar-data-btn').on('click', function (e) {
+			console.log(fev.data.sofarWaveData)
+			let peakPeriodData = [];
+			let meanPeriodData = [];
+			let peakDir = [];
+			let meanDir = [];
+			let peakDirSpread = [];
+			let meanDirSpread = [];
+			$('#sofarDataModal').modal('show');
+
+			fev.data.sofarWaveData.data.waves.forEach(filterWaveData);
+
+			function filterWaveData(entry) {
+				peakPeriodData.push([moment(entry.timestamp).valueOf(), entry.peakPeriod]);
+				meanPeriodData.push([moment(entry.timestamp).valueOf(), entry.meanPeriod]);
+				peakDir.push([moment(entry.timestamp).valueOf(), entry.peakDirection]);
+				meanDir.push([moment(entry.timestamp).valueOf(), entry.meanDirection]);
+				peakDirSpread.push([moment(entry.timestamp).valueOf(), entry.peakDirectionalSpread]);
+				meanDirSpread.push([moment(entry.timestamp).valueOf(), entry.meanDirectionalSpread]);
+			}
+
+			$('#pd').html(fev.data.sofarWaveData.latest[0].peakDirection);
+			$('#pp').html(fev.data.sofarWaveData.latest[0].peakPeriod);
+			$('#ps').html(fev.data.sofarWaveData.latest[0].peakDirectionalSpread);
+			$('#md').html(fev.data.sofarWaveData.latest[0].meanDirection);
+			$('#mp').html(fev.data.sofarWaveData.latest[0].meanPeriod);
+			$('#ms').html(fev.data.sofarWaveData.latest[0].meanDirectionalSpread);
+
+			if (peakPeriodData == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessage").hide();
+				$("#noDataMessage").show();
+			  } else {
+				$("#graphLoadMessage").hide();
+				$("#sigWaveGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#sigWaveGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Period (s)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				  series: [
+					{
+					  name: 'Peak Period',
+					  showInLegend: true,
+					  data: peakPeriodData,
+					  tooltip: {
+						pointFormat: "time: {point.y} seconds",
+					  },
+					},
+					{
+					  name: 'Mean Period',
+					  showInLegend: true,
+					  data: meanPeriodData,
+					  tooltip: {
+						pointFormat: "time: {point.y} seconds",
+					  },
+					},
+				  ],
+				});
+			};
+			// END PEAK AND MEAN PERIOD GRAPH
+
+			// DIRECTION GRAPH
+			if (peakDir == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessagePeakDir").hide();
+				$("#noDataMessagePeakDir").show();
+			  } else {
+				$("#graphLoadMessagePeakDir").hide();
+				$("#peakDirGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#peakDirGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Direction (deg)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				series: [
+					{
+					  name: 'Peak Direction',
+					  showInLegend: true,
+					  data: peakDir,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+					{
+					  name: 'Mean Direction',
+					  showInLegend: true,
+					  data: meanDir,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+				  ],
+				});
+			};
+			// END DIRECTION GRAPH
+
+			// SPREAD GRAPH
+			if (peakDir == undefined) {
+				console.log("No SOFAR data available for this time period");
+				$("#graphLoadMessagePeakDirSpread").hide();
+				$("#noDataMessagePeakDirSpread").show();
+			  } else {
+				$("#graphLoadMessagePeakDirSpread").hide();
+				$("#peakDirSpreadGraphContainer").show();
+				Highcharts.setOptions({ global: { useUTC: false } });
+				$("#peakDirSpreadGraphContainer").highcharts({
+				  chart: {
+					type: "line",
+					width: 400
+				  },
+				  title: {
+					margin: 65,
+					text: "Spread (deg)",
+					align: "left",
+					style: {
+					  color: "rgba(0,0,0,0.6)",
+					  fontSize: "small",
+					  fontWeight: "bold",
+					  fontFamily: "Open Sans, sans-serif",
+					},
+					//text: null
+				  },
+				  credits: {
+					enabled: true,
+					text: "SOFAR",
+					href: "https://weather.sofarocean.com/",
+				  },
+				  xAxis: {
+					type: "datetime",
+					labels: {
+					  formatter: function () {
+						return Highcharts.dateFormat("%m/%d/%y", this.value);
+					  },
+					  //rotation: -90,
+					  align: "center",
+					},
+				  },
+				  yAxis: {
+					title: { text: "time, seconds" },
+				  },
+				  legend: {
+					align: 'center',
+					verticalAlign: 'top',
+					floating: true,
+					x: 0,
+					y: 30
+				},
+				series: [
+					{
+					  name: 'Peak Spread',
+					  showInLegend: true,
+					  data: peakDirSpread,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+					{
+					  name: 'Mean Spread',
+					  showInLegend: true,
+					  data: meanDirSpread,
+					  tooltip: {
+						pointFormat: "degrees: {point.y}",
+					  },
+					},
+				  ],
+				});
+			};
+			// END SPREAD GRAPH
 		});
 
 		function populateCurrentSelectionData(type, siteID, objectID) {
@@ -1511,6 +1759,13 @@ $(document).on('ready', function () {
 			}
 		})
 
+		$.each(sofarbouys.getLayers(), function (index, marker) {
+			var popup = marker.getPopup();
+			if (popup) {
+				foundPopup = popup._isOpen;
+			}
+		})
+
 		//When zoom is less than 9, uncheck and disable rain and stream checkboxes
 		if (map.getZoom() < 9) {
 			var streamgageCheckBox = document.getElementById("streamGageToggle");
@@ -1617,8 +1872,8 @@ $(document).on('ready', function () {
 		queryNWISgraphTides(e);
 	});
 
-	rdg.on('click', function (e) {
-		queryNWISgraphRDG(e);
+	sofarbouys.on('click', function (e) {
+		querySofarGraph(e);
 	});
 
 	//begin latLngScale utility logic/////////////////////////////////////////////////////////////////////////////////////////
@@ -1829,6 +2084,17 @@ function clickNwisTidalGage() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (nwisTidalCheckbox.checked == false) {
 		USGSTideGages.clearLayers(map);
+	}
+}
+function clickSofar() {
+	var sofarCheckbox = document.getElementById("sofarToggle");
+	if (sofarCheckbox.checked == true) {
+		sofarbouys.addTo(map);
+		getSofarData();
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (sofarCheckbox.checked == false) {
+		sofarbouys.clearLayers(map);
 	}
 }
 

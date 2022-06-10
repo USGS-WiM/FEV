@@ -704,94 +704,27 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
 
 //get SOFAR data 
 function getSofarData(type, name, url, markerIcon) {
-  console.log("in sofar query")
-  //create a geoJSON to populate with coordinates of NOAA tides gages
-  var sofarGeoJSON = {
-    features: [
-      { type: "Feature", geometry: { coordinates: [0, 0], type: "Point" } },
-    ],
-  };
-
-  var currentMarker = L.geoJson(false, {
-    pointToLayer: function (feature, latlng) {
-      markerCoords.push(latlng);
-      var marker = L.marker(latlng, {
-        icon: markerIcon,
-      });
-      return marker;
-    },
-    onEachFeature: function (feature, latlng) {
-
-      var popupContent =
-        '<table class="table table-condensed table-striped table-hover wim-table">' +
-        '<caption class="popup-title">' +
-        "SOFAR" +
-        ' | <span style="color:gray"> ' +
-        feature.properties.buoyID +
-        '<tr><td><strong>Peak Period: </strong></td><td><span>' +
-        feature.properties.peakPeriod +
-        "</span></td></tr>" +
-        '<tr><td><strong>Significant Waveheight: </strong></td><td><span>' +
-        feature.properties.sigWaveHeight +
-        "</td></tr>" +
-        "</table>";
-      latlng.bindPopup(popupContent);
-    },
-  });
-
-  // SOFAR Query
+  var sofarmarkers = {};
   $.ajax({
+    //url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
     url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
     dataType: "json",
-    headers: { token: '' },
-    success: function (data) {
-      var returnedData = data;
-      console.log(returnedData);
+    headers: { token: '' }, // remove token id before pushing to github
+    success: function (returnedData) {
       if (returnedData.data !== undefined) {
-        var latitude = returnedData.data.track[0].latitude;
-        var longitude = returnedData.data.track[0].longitude;
-        var peakPeriod = returnedData.data.waves[0].peakPeriod;
         var buoyID = returnedData.data.spotterId;
-        var sigWaveHeight = returnedData.data.waves[0].significantWaveHeight;
-
-        //check that there are lat/lng coordinates
-        if (isNaN(latitude) || isNaN(longitude)) {
-          console.error(
-            "latitude or longitude value for point: ",
-            data.stations[i],
-            "is null"
-          );
-        } else {
-          sofarGeoJSON.features[0] = {
-            type: "Feature",
-            properties: {
-              peakPeriod: peakPeriod,
-              buoyID: buoyID,
-              sigWaveHeight: sigWaveHeight
-            },
-            geometry: {
-              coordinates: [longitude, latitude],
-              type: "Point",
-            },
-          };
-        }
-        //get the data from the new geoJSON
-        currentMarker.addData(sofarGeoJSON);
-        currentMarker.eachLayer(function (layer) {
-          layer.addTo(sofar);
-        });
-        //plot tides gages on map
-        //.addTo(map);
-        checkLayerCount(layerCount);
+        var lat = returnedData.data.track[0].latitude;
+        var lon = returnedData.data.track[0].longitude;
+        sofarmarkers[buoyID] = L.marker([lat, lon], { icon: sofarBuoyMarkerIcon });
+        sofarmarkers[buoyID].data = { data: returnedData.data.waves, buoyID: buoyID, humidity: returnedData.data.humidity }
+        sofarbouys.addLayer(sofarmarkers[buoyID]);
+        console.log(sofarmarkers[buoyID])
       }
     },
     error: function (json) {
 
     },
   });
-  $.get("https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222", function (data) {
-
-  })
 }
 
 
@@ -1779,7 +1712,7 @@ function queryNWISgraph(e) {
         $("#graphLoadMessage").hide();
         $(".popup-title").hide();
         $("#graphContainer").show();
-
+ 
         //create chart
         Highcharts.setOptions({ global: { useUTC: false } });
         $("#graphContainer").highcharts({
@@ -1833,6 +1766,124 @@ function queryNWISgraph(e) {
       }
     }
   );
+}
+
+function querySofarGraph(e) {
+  let sigWaveData = []
+  let startDate = moment().subtract(5, 'days').toISOString();
+  let endDate = moment().toISOString();
+  // SOFAR Query
+  $.ajax({
+    //url: "https://api.sofarocean.com/api/latest-data?spotterId=SPOT-0222",
+    url: "https://api.sofarocean.com/api/wave-data?spotterId=SPOT-0222&startDate=" + startDate + "&endDate=" + endDate + "&limit=20",
+    dataType: "json",
+    headers: { token: '' }, // remove token id before pushing to github
+    success: function (data) {
+      var returnedData = data;
+      fev.data.sofarWaveData = returnedData;
+      fev.data.sofarWaveData.latest = e.layer.data.data;
+      returnedData.data.waves.forEach(filterWaveData);
+
+      function filterWaveData(entry) {
+				sigWaveData.push([moment(entry.timestamp).valueOf(), entry.significantWaveHeight])
+			}
+
+      if (returnedData.data == undefined) {
+        console.log("No SOFAR data available for this time period");
+        $("#sofargraphLoadMessage").hide();
+        $("#noDataMessage").show();
+      } else {
+        $("#sofargraphLoadMessage").hide();
+        $("#view-more-sofar").removeAttr("disabled");
+        $("#sofarGraphContainer").show();
+        Highcharts.setOptions({ global: { useUTC: false } });
+        $("#sofarGraphContainer").highcharts({
+          chart: {
+            type: "line",
+            width: 400
+          },
+          title: {
+            margin: 65,
+            text: "Significant Wave Height (m), past month to today",
+            align: "left",
+            style: {
+              color: "rgba(0,0,0,0.6)",
+              fontSize: "small",
+              fontWeight: "bold",
+              fontFamily: "Open Sans, sans-serif",
+            },
+            //text: null
+          },
+          credits: {
+            enabled: true,
+            text: "SOFAR",
+            href: "https://weather.sofarocean.com/",
+          },
+          xAxis: {
+            type: "datetime",
+            labels: {
+              formatter: function () {
+                return Highcharts.dateFormat("%m/%d/%y", this.value);
+              },
+              //rotation: -90,
+              align: "center",
+            },
+          },
+          yAxis: {
+            title: { text: "wave height, meters" },
+          },
+          legend: {
+            align: 'center',
+            verticalAlign: 'top',
+            floating: true,
+            x: 0,
+            y: 30
+        },
+          series: [
+            {
+              name: 'wave height',
+              showInLegend: true,
+              data: sigWaveData,
+              tooltip: {
+                pointFormat: "wave height: {point.y} meters",
+              },
+            },
+          ],
+        });
+      }
+    },
+    error: function (json) {
+
+    },
+  });
+ 
+  //var peakPeriod = returnedData.data.waves[0].peakPeriod;
+  //var buoyID = returnedData.data.spotterId;
+  //var sigWaveHeight = returnedData.data.waves[0].significantWaveHeight;
+  e.layer
+    .bindPopup(
+      '<div id="periodData" class="tabcontent">' + '<table class="table table-condensed table-striped table-hover wim-table">' +
+      '<caption class="popup-title">' +
+      "SOFAR" +
+      ' | <span style="color:gray">' +
+      e.layer.data.buoyID +
+      '<tr><td><strong>Latest Significant Waveheight: </strong></td><td><span>' +
+      e.layer.data.data[0].significantWaveHeight +
+      "</span></td></tr>" +
+      /* '<tr><td><strong>Significant Waveheight: </strong></td><td><span>' +
+      e.layer.data.data[0].significantWaveHeight +
+      "</td></tr>" + */
+      "</table>"+ '</div>' +
+      '<div id="waveGraphDiv"></div><p id="sofargraphLoadMessage"><span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span></p><div id="sofarGraphContainer" style="display:none;"></div>' +
+      '<div id="noDataMessage" style="width:100%;display:none;"><b><span>Sofar wave data not available to graph</span></b></div></div></span>' +
+      '<button id="view-more-sofar" type="button" disabled class="btn btn-sm sofar-data-btn" title="Click to view more SOFAR details" value="' +
+      e.layer.data.data +
+      '">View More Data</button>',
+      /* '<div id="sofarGraphContainer" style="width:600px; height:300px;"></div>', */
+      { minWidth: "auto" }
+    )
+    .openPopup();
+
 }
 
 function queryNWISgraphTides(e) {
