@@ -443,9 +443,11 @@ function displayPeaksGeoJSON(type, name, url, markerIcon) {
       peaksCheckBox.checked = true;
     }
   });
+  checkLayerCount(layerCount);
 }
 
 function populateCameraLayer(type, name, url, markerIcon) {
+  layerCount++;
   // USGS Coastal Cameras layer
   var cameraLocations = [
     {
@@ -595,6 +597,7 @@ function populateCameraLayer(type, name, url, markerIcon) {
   cameraFeatures.eachLayer(function (layer) {
     layer.addTo(cameras);
   });
+  checkLayerCount(layerCount);
 }
 //get NOAA tides gages and plot on map
 function displayTidesGeoJSON(type, name, url, markerIcon) {
@@ -611,7 +614,7 @@ function displayTidesGeoJSON(type, name, url, markerIcon) {
   };
   var currentMarker = L.geoJson(false, {
     pointToLayer: function (feature, latlng) {
-      markerCoords.push(latlng);
+      //markerCoords.push(latlng);
       var marker = L.marker(latlng, {
         icon: markerIcon,
       });
@@ -734,7 +737,7 @@ function populateEventDates(eventID) {
 }
 
 function checkLayerCount(layerCount) {
-  if (layerCount == fev.layerList.length) {
+  if (layerCount == (fev.layerList.length - 1)) {
     if (markerCoords.length > 0) {
       map.fitBounds(markerCoords);
     }
