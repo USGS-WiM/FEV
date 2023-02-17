@@ -673,6 +673,7 @@ a.lgi-zoom:hover {
 #mapDiv {
     min-height: 100%;
     max-height: 100%;
+    z-index: 0;
 }
 
 .opacity {
@@ -807,6 +808,7 @@ input[type="radio"] {
 
 #legendElement {
     top: 0px !important;
+    z-index: 10000;
 }
 
 .popup-title {
@@ -1322,10 +1324,20 @@ input[type='checkbox'] {
 .hwmLabelColor {
     color: rgb(131, 73, 35);
 }
+.hwmUSACELabelColor {
+    color: rgb(218, 10, 10);
+}
 .peakLabelColor {
     color: blue;
 }
 .hwmLabelToggle {
+    height: 13px; 
+    margin-left: 120px; 
+    position: relative; 
+    left: 10px;
+    bottom: 8px;
+}
+.hwmUSACELabelToggle {
     height: 13px; 
     margin-left: 120px; 
     position: relative; 

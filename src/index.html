@@ -190,8 +190,11 @@
                     </div>
                     <div class="alert alert-danger eventSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
                             aria-hidden="true"></i> Please choose an event to proceed.</div>
-
                     <br>
+                    <div>
+                        Looking for additional data? Check out our <a href="https://stn.wim.usgs.gov/STNDataPortal"
+                            target="_blank">Data Portal</a>.
+                    </div>
                     <!--<form id="welcome-optout-form" class="form-inline">-->
                     <!--<input id="welcome-optout" type="checkbox">  Don't show me this again<br>-->
                     <!--</form>-->
@@ -692,7 +695,7 @@
                         <h3>Graphed Data for Past Month</h3>
                         <div class="col-md-6" class="sofar-data-table-div">
                             <!-- START PERIOD GRAPH -->
-                            <p id="graphLoadMessage">
+                            <p id="periodgraphLoadMessage">
                                 <span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span>
                             </p>
                             <div id="sigWaveGraphContainer" style="display:none;"></div>
@@ -739,7 +742,6 @@
                 </div>
                 <div class="modal-body sensor-modal-body" style="text-align: center;">
                     <div class="row">
-                        <h3>Test </h3>
                         <div class="col-md-6" class="sensor-data-table-div">
 
                             <h4>Site Information</h4>
@@ -1454,7 +1456,7 @@
                             </h4>
                         </div>
                         <div id="legendCollapse" class="panel-collapse " role="tabpanel">
-                            <div id="legendDiv" class="panel-body legend-panel-body">
+                            <div id="legendDiv" style="max-width: 300px" class="panel-body legend-panel-body">
                                 <div id="realTimeToggleDiv">
                                     <b>Real-time Event Data</b></br>
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
@@ -1503,12 +1505,24 @@
                                             </div>
                                         </label>
                                     </div>
+                                    <!-- <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id="nbdToggle" onclick="clickNDBs()" />
+                                            <div class='legend-icon'>
+                                                <div class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
+                                                </div>
+                                                <label>NOAA National Buoy</label>
+                                            </div>
+                                        </label>
+                                    </div> -->
                                 </div>
                                 <div id="observedToggleDiv">
                                     <b>Observed Event Data</b>
                                 </div>
                                 <label class='hwmLabelToggle switch'><input id='hwmToggle' type='checkbox'><span
                                         onclick='toggleHWMLabels()' class='slider round'></span></label>
+                                <!-- <label class='hwmUSACELabelToggle switch'><input id='hwmUSACEToggle' type='checkbox'><span
+                                            onclick='toggleHWMLabels()' class='slider round'></span></label> -->
                                 <div class="observedMargin"></div>
                                 <div id="interpretedToggleDiv">
                                     <b>Interpreted Event Data</b>

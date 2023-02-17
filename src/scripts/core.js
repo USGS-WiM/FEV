@@ -109,6 +109,12 @@ var fev = fev || {
 			"Type": "observed",
 			"Category": "observed"
 		},
+		/* {
+			"ID": "hwmUSACE",
+			"Name": "USACE High Water Mark",
+			"Type": "observed",
+			"Category": "observed"
+		}, */
 		{
 			"ID": "peak",
 			"Name": "Peak Summary",
@@ -144,10 +150,13 @@ var fev = fev || {
 		waveheight: 'wmm-circle wmm-purple wmm-icon-diamond wmm-icon-black wmm-size-20 wmm-borderless',
 		hwm: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20',
 		hwm_legend: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-15',
+		//hwmUSACE: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-20',
+		//hwmUSACE_legend: 'wmm-diamond wmm-A0522D wmm-icon-circle wmm-icon-A0522D wmm-size-15',
 		peak: 'wmm-diamond wmm-blue wmm-icon-noicon wmm-icon-green wmm-size-15 wmm-borderless',
 		nwis: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless',
 		nwisTidal: 'wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
 		noaaTides: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
+		ndBuoys: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
 		sofarBuoys: 'sofarIconStatic',
 
 	}
@@ -166,10 +175,12 @@ var rdgMarkerIcon = L.divIcon({ name: "Rapid Deployment Gage", className: fev.ma
 var stormtideMarkerIcon = L.divIcon({ name: "Storm Tide Sensor", className: fev.markerClasses.stormtide, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var waveheightMarkerIcon = L.divIcon({ name: "Wave Height Sensor", className: fev.markerClasses.waveheight, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var hwmMarkerIcon = L.divIcon({ name: "Hight Water Mark", className: fev.markerClasses.hwm, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+//var hwmUSACEMarkerIcon = L.divIcon({ name: "Hight Water Mark", className: fev.markerClasses.hwmUSACE, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var peakMarkerIcon = L.divIcon({ name: "Peak Summary", className: fev.markerClasses.peak, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisMarkerIcon = L.divIcon({ name: "NWIS", className: fev.markerClasses.nwis, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var nwisTidalMarkerIcon = L.divIcon({ name: "NWIS Tidal", className: fev.markerClasses.nwisTidal, iconAnchor: [7, 10], popupAnchor: [0, 2] });
 var tidesMarkerIcon = L.divIcon({ name: "NOAA Tides and Current Stations", className: fev.markerClasses.noaaTides, iconAnchor: [7, 10], popupAnchor: [0, 2] });
+/* var ndbIcon = L.divIcon({ name: "NOAA National Data Buoy", className: fev.markerClasses.ndBuoys, iconAnchor: [7, 10], popupAnchor: [0, 2] }); */
 var sofarBuoyMarkerIcon = L.divIcon({ name: "SOFAR Buoys", className: 'sofarIcon', iconAnchor: [7, 10], popupAnchor: [0, 2] });
 
 // rain layer uses an icon
@@ -181,9 +192,11 @@ var met = L.layerGroup();
 var stormtide = L.layerGroup();
 var waveheight = L.layerGroup();
 var hwm = L.layerGroup();
+//var hwmUSACE = L.layerGroup();
 var peak = L.layerGroup();
 var cameras = L.layerGroup();
 var tides = L.layerGroup();
+//var nbd = L.layerGroup();
 var sofar = L.layerGroup();
 
 // var editableLayers = new L.FeatureGroup();
@@ -521,6 +534,9 @@ $(document).on('ready', function () {
 	//loop thru layer list and add the legend item to the appropriate heading
 	$.each(fev.layerList, function (index, layer) {
 
+		//prevents map zooming when mouse is on map layers
+		L.DomEvent.disableScrollPropagation(document.getElementById('legendElement'))
+
 		if (layer.Category == 'real-time') {
 			if (layer.ID == 'rdg') {
 				realTimeOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.rdg + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
@@ -544,10 +560,12 @@ $(document).on('ready', function () {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.met + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
 			} else if (layer.ID == 'waveheight') {
 				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.waveheight + "'></div><label>" + layer.Name + "</label></div>"] = window[layer.ID];
-			} else if (layer.ID == 'hwm') {
+			} /* else if (layer.ID == 'hwmUSACE') {
+				observedOverlays["<div class='legend-icon'><div class='" + fev.markerClasses.hwmUSACE_legend + "'></div><label>" + layer.Name + "</label>" + "</div>"] = window[layer.ID];
+			} */ else if (layer.ID == 'hwm') {
 				//leaflet doesn't like to have an input element in the layer div, so creating negative margin to overlap label toggle element
 				observedOverlays["<div class='legend-icon' style='margin-bottom:-40px'><div class='" + fev.markerClasses.hwm_legend + "'></div><label>" + layer.Name + "</label>" + "</div>"] = window[layer.ID];
-			} else {
+			}  else {
 				observedOverlays["<img class='legendSwatch' src='images/" + layer.ID + ".png'>&nbsp;" + layer.Name] = window[layer.ID];
 			}
 		}
@@ -607,10 +625,10 @@ $(document).on('ready', function () {
 
 			if (peakPeriodData == undefined) {
 				console.log("No SOFAR data available for this time period");
-				$("#graphLoadMessage").hide();
+				$("#periodgraphLoadMessage").hide();
 				$("#noDataMessage").show();
 			  } else {
-				$("#graphLoadMessage").hide();
+				$("#periodgraphLoadMessage").hide();
 				$("#sigWaveGraphContainer").show();
 				Highcharts.setOptions({ global: { useUTC: false } });
 				$("#sigWaveGraphContainer").highcharts({
@@ -1788,7 +1806,7 @@ $(document).on('ready', function () {
 			if (peakLabels === true) {
 				peak.eachLayer(function (myMarker) {
 					myMarker.unbindLabel();
-					var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+					var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toFixed(2) : 'No Value';
 					myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction: 'right' });
 
 				});
@@ -1871,6 +1889,10 @@ $(document).on('ready', function () {
 	USGSTideGages.on('click', function (e) {
 		queryNWISgraphTides(e);
 	});
+	
+	rdg.on('click', function (e) {
+		queryNWISgraphRDG(e);
+	});
 
 	sofarbouys.on('click', function (e) {
 		querySofarGraph(e);
@@ -1892,6 +1914,8 @@ $(document).on('ready', function () {
 
 	//displays map scale on scale change (i.e. zoom level)
 	map.on('zoomend', function () {
+		L.DomEvent.disableScrollPropagation(document.getElementById('legendElement'));
+		L.DomEvent.disableClickPropagation(document.getElementById('legendElement'));
 		var mapZoom = map.getZoom();
 		var mapScale = scaleLookup(mapZoom);
 		$('#scale')[0].innerHTML = mapScale;
@@ -1960,7 +1984,7 @@ function togglePeakLabels() {
 		if (peakLabels === false) {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
-				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toFixed(2) : 'No Value';
 				myMarker.bindLabel(labelText, { noHide: true, className: 'peakLabelColor', direction: 'right' });
 				myMarker.showLabel();
 			});
@@ -1970,7 +1994,7 @@ function togglePeakLabels() {
 		if (peakLabels === true) {
 			peak.eachLayer(function (myMarker) {
 				myMarker.unbindLabel();
-				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toString() : 'No Value';
+				var labelText = myMarker.feature.properties.peak_stage !== undefined ? myMarker.feature.properties.peak_stage.toFixed(2) : 'No Value';
 				myMarker.bindLabel(labelText, { className: 'peakLabelColor', direction: 'right' });
 			});
 			peakLabels = false;
@@ -1983,8 +2007,10 @@ function togglePeakLabels() {
 function toggleHWMLabels() {
 	if (map.getZoom() < 9) {
 		document.getElementById("hwmToggle").disabled = true;
+		/* document.getElementById("hwmUSACEToggle").disabled = true; */
 	} else if (map.getZoom() >= 9) {
 		document.getElementById("hwmToggle").disabled = false;
+		/* document.getElementById("hwmUSACEToggle").disabled = false; */
 		if (hwmLabels === false) {
 			hwm.eachLayer(function (myMarker) {
 				myMarker.unbindLabel({ className: 'hwmLabelColor' });
@@ -2095,6 +2121,16 @@ function clickSofar() {
 	//Remove symbol and layer name from legend when box is unchecked
 	if (sofarCheckbox.checked == false) {
 		sofarbouys.clearLayers(map);
+	}
+}
+function clickNDBs() {
+	var NDBCheckbox = document.getElementById("nbdToggle");
+	if (NDBCheckbox.checked == true) {
+		getNDB();
+	}
+	//Remove symbol and layer name from legend when box is unchecked
+	if (NDBCheckbox.checked == false) {
+		ndb.clearLayers(map);
 	}
 }
 
