@@ -21,7 +21,7 @@
     "gulp-useref": "^0.4.3",
     "gulp-util": "^2.2.14",
     "open": "6.0.0",
-    "wiredep": "^1.4.4"
+    "wiredep": "^1.8.6"
   },
   "dependencies": {
     "bootstrap-datepicker": "^1.6.4",
