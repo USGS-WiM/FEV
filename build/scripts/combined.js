@@ -3692,7 +3692,7 @@ $(document).on('ready', function () {
 								$('#hwm_marker').html(translateToDisplayValue(fev.data.currentSelection.hwm.marker_id, 'marker_id', 'marker1', fev.data.markerTypes));
 								$('#hwm_environment').html(fev.data.currentSelection.hwm.hwm_environment);
 								$('#hwm_quality').html(translateToDisplayValue(fev.data.currentSelection.hwm.hwm_quality_id, 'hwm_quality_id', 'hwm_quality', fev.data.hwmQualities));
-								$('#hwm_bank').html(fev.data.currentSelection.hwm.hwm_bank);
+								$('#hwm_bank').html(fev.data.currentSelection.hwm.bank);
 								$('#hwm_location_description').html(fev.data.currentSelection.hwm.hwm_locationdescription);
 								$('#hwm_latitude').html(fev.data.currentSelection.hwm.latitude_dd);
 								$('#hwm_longitude').html(fev.data.currentSelection.hwm.longitude_dd);
