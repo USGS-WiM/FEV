@@ -673,6 +673,7 @@ a.lgi-zoom:hover {
 #mapDiv {
     min-height: 100%;
     max-height: 100%;
+    z-index: 0;
 }
 
 .opacity {
@@ -807,6 +808,7 @@ input[type="radio"] {
 
 #legendElement {
     top: 0px !important;
+    z-index: 10000;
 }
 
 .popup-title {
@@ -1322,6 +1324,9 @@ input[type='checkbox'] {
 .hwmLabelColor {
     color: rgb(131, 73, 35);
 }
+.hwmUSACELabelColor {
+    color: rgb(218, 10, 10);
+}
 .peakLabelColor {
     color: blue;
 }
@@ -1332,6 +1337,185 @@ input[type='checkbox'] {
     left: 10px;
     bottom: 8px;
 }
+.hwmUSACELabelToggle {
+    height: 13px; 
+    margin-left: 120px; 
+    position: relative; 
+    left: 10px;
+    bottom: 8px;
+}
 .observedMargin {
     margin-bottom: 10px;
 }
+
+/* Marker CSS */
+.sofarIcon{
+    position: relative;
+  }
+  .sofarIcon:after {
+    content: '';
+    overflow: visible;
+    display: block;
+    transition: 0.1s;
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    margin-left: 5.5px;
+    
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid #f2ff3d;
+    background-color: transparent;
+    left: -20px;
+    top: -20px;
+    height: 0;
+    width: 0;
+    
+    
+    
+  
+  
+  
+  }
+  
+  /* Icon */
+  .sofarIcon:before {
+    font-size: 8px;
+    color: #0400ff;
+    line-height: 8px;
+    font-weight: 600;
+    text-align: center;
+    height: 10px;
+    width: 10px;
+    
+    top: -5px;
+    left: -5px;
+    
+    margin-left: 5.5px;
+    z-index: 1;
+    position: absolute;
+    content: " ";
+    background-color: #0400ff;
+    border-radius: 50%;
+  }
+  
+  /* Animations */
+  
+  .sofarIcon:before{
+    -webkit-animation: marker-bounce 2s ease-in-out 0s infinite normal none;
+    animation: marker-bounce 2s ease-in-out 0s infinite normal none;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  .sofarIcon:after{
+    -webkit-animation: marker-bounce 2s ease-in-out 0s infinite normal none;
+    animation: marker-bounce 2s ease-in-out 0s infinite normal none;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  @-webkit-keyframes marker-bounce {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    50% {
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
+    }
+    10% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  @keyframes marker-bounce {
+    0% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    50% {
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
+    }
+    10% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+  }
+  @-webkit-keyframes marker-bounce-rotate {
+    0% {
+      -webkit-transform: translateY(0) rotate(-45deg);
+      transform: translateY(0) rotate(-45deg);
+    }
+    50% {
+      -webkit-transform: translateY(-10px) rotate(-45deg);
+      transform: translateY(-10px) rotate(-45deg);
+    }
+    10% {
+      -webkit-transform: translateY(0) rotate(-45deg);
+      transform: translateY(0) rotate(-45deg);
+    }
+  }
+  @keyframes marker-bounce-rotate {
+    0% {
+      -webkit-transform: translateY(0) rotate(-45deg);
+      transform: translateY(0) rotate(-45deg);
+    }
+    50% {
+      -webkit-transform: translateY(-10px) rotate(-45deg);
+      transform: translateY(-10px) rotate(-45deg);
+    }
+    10% {
+      -webkit-transform: translateY(0) rotate(-45deg);
+      transform: translateY(0) rotate(-45deg);
+    }
+  }
+
+  .sofarIconStatic{
+    position: absolute !important;
+    margin-left: 4px;
+    margin-top: 10px;
+  }
+  .sofarIconStatic:after {
+    content: '';
+    overflow: visible;
+    display: block;
+    transition: 0.1s;
+    margin: 0 auto;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    margin-left: 5.5px;
+    
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 26.6px solid #f2ff3d;
+    background-color: transparent;
+    left: -15px;
+    top: -15px;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Icon */
+  .sofarIconStatic:before {
+    font-size: 6px;
+    color: #f2ff3d;
+    line-height: 6px;
+    font-weight: 600;
+    text-align: center;
+    height: 8px;
+    width: 8px;
+    
+    top: -4px;
+    left: -4px;
+    
+    margin-left: 5.5px;
+    z-index: 1;
+    position: absolute;
+    content: " ";
+    background-color: #f2ff3d;
+    border-radius: 50%;
+  }

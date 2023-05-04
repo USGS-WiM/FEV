@@ -149,7 +149,8 @@
                 </div>
                 <div class="modal-footer">
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #ffd1d1">OK</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            style="background-color: #ffd1d1">OK</button>
                     </div>
                 </div>
             </div>
@@ -189,8 +190,13 @@
                     </div>
                     <div class="alert alert-danger eventSelectAlert" role="alert"><i class="fa fa-exclamation-triangle"
                             aria-hidden="true"></i> Please choose an event to proceed.</div>
-
                     <br>
+                    <div>
+                        Visit the <span><a href="https://stn.wim.usgs.gov/STNDataPortal" target="_blank">STN
+                                Data
+                                Portal <i class="fa fa-external-link" aria-hidden="true"></i></a></span> for
+                        broader data retrieval capability.
+                    </div>
                     <!--<form id="welcome-optout-form" class="form-inline">-->
                     <!--<input id="welcome-optout" type="checkbox">  Don't show me this again<br>-->
                     <!--</form>-->
@@ -286,7 +292,8 @@
                                             class="fa fa-external-link" aria-hidden="true"></i></a></span> for more
                                 information, including full documentation of available endpoints and examples. See the
                                 <a href="https://my.usgs.gov/confluence/display/WSN/STN+Data+Dictionary+-+Top+Level"
-                                    target="_blank">STN Data Dictionary</a> for field names and definitions.</p>
+                                    target="_blank">STN Data Dictionary</a> for field names and definitions.
+                            </p>
 
                             <p>This application integrates with the <span><a href="https://waterdata.usgs.gov/nwis"
                                         target="_blank">USGS National Water Information System (NWIS) database <i
@@ -296,10 +303,17 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="disclaimerTabPane"></br>
                             <h3>Disclaimers</h3>
-                            <p>These data are preliminary or provisional and are subject to revision. They are being provided to meet the need for timely best science. The data have not received final approval by the U.S. Geological Survey (USGS) and are provided on the condition that neither the USGS nor the U.S. Government shall be held liable for any damages resulting from the authorized or unauthorized use of the data.
+                            <p>These data are preliminary or provisional and are subject to revision. They are being
+                                provided to meet the need for timely best science. The data have not received final
+                                approval by the U.S. Geological Survey (USGS) and are provided on the condition that
+                                neither the USGS nor the U.S. Government shall be held liable for any damages resulting
+                                from the authorized or unauthorized use of the data.
                             </p>
 
-                            <p>Inundated areas shown should not be used for navigation, regulatory, permitting, or other legal purposes. The U.S. Geological Survey provides these maps "as-is" for a quick reference, emergency planning tool but assumes no legal liability or responsibility resulting from the use of this information.</p>
+                            <p>Inundated areas shown should not be used for navigation, regulatory, permitting, or other
+                                legal purposes. The U.S. Geological Survey provides these maps "as-is" for a quick
+                                reference, emergency planning tool but assumes no legal liability or responsibility
+                                resulting from the use of this information.</p>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="faqTabPane"></br>
                             <h3>Frequently Asked Questions</h3>
@@ -310,12 +324,13 @@
                                     </div>
                                 </div>
                                 <div class="faq-body" id="faq1body">
-                                    The <a target="_blank"
-                                    href="https://stn.wim.usgs.gov/FEV/">Flood Event Viewer</a> or FEV was created by the USGS to provide public access to
+                                    The <a target="_blank" href="https://stn.wim.usgs.gov/FEV/">Flood Event Viewer</a>
+                                    or FEV was created by the USGS to provide public access to
                                     coordinated, short snippets (lengths) of coastal and riverine water-level and
                                     highwater mark records corresponding to major storms or other short-term events.
-                                    Long-term records for permanent USGS streamgages are available at the USGS <a target="_blank"
-                                    href="https://waterdata.usgs.gov/nwis">National Water Information System</a> (NWIS).
+                                    Long-term records for permanent USGS streamgages are available at the USGS <a
+                                        target="_blank" href="https://waterdata.usgs.gov/nwis">National Water
+                                        Information System</a> (NWIS).
                                 </div>
                             </div>
                             <div class="faq-modal-body">
@@ -338,10 +353,7 @@
                                     </div>
                                 </div>
                                 <div class="faq-body" id="faq3body">
-                                    The storm tide is defined as the water level caused by the combination of the
-                                    astronomical tide and storm surge. The low-pass filter is a tool used to remove wave
-                                    noise from the data. This provides a more accurate representation of the storm tide
-                                    water level at the site
+                                    The storm tide is defined as the water level caused by the combination of the astronomical tide and storm surge. The USGS uses the Butterworth Filter (low-pass filter) to estimate the storm tide at the site.  To learn more about the Butterworth Filter utilized by the USGS, please visit <a href="https://code.usgs.gov/wavelab/wavelab/-/blob/master/README.md" target="_blank"> WaveLab</a>. 
                                 </div>
                             </div>
                             <div class="faq-modal-body">
@@ -634,256 +646,90 @@
     </div>
     <!-- end filters modal ---------------------------------------------------------------------------------- -->
 
-    <!-- begin sensor data modal ---------------------------------------------------------------------------------- -->
-    <div class="modal fade overflow-y-hidden" id="sensorDataModal" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog sensor-modal-dialog modal-lg">
+    <!-- begin sofar data modal ---------------------------------------------------------------------------------- -->
+    <div class="modal fade" id="sofarDataModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog sofar-modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h4 class="modal-title">Site and Sensor Detail</h4>
+                    <h4 class="modal-title"> SOFAR Details</h4>
                 </div>
                 <div class="modal-body sensor-modal-body" style="text-align: center;">
                     <div class="row">
-                        <div class="col-md-6" class="sensor-data-table-div">
-
-                            <h4>Site Information</h4>
-                            <table class="table table-striped table-condensed sensor-data-table">
+                        <h3>Latest Data</h3>
+                        <div class="col-md-6" class="sofar-data-table-div">
+                            <h4>Peak Data</h4>
+                            <table class="table table-striped table-condensed sofar-data-table">
                                 <tr>
-                                    <td>Site Number</td>
-                                    <td id="site_no" class="sensor-data-value"></td>
+                                    <td>Direction</td>
+                                    <td id="pd" class="sofar-data-value"></td>
                                 </tr>
                                 <tr>
-                                    <td>Site Description</td>
-                                    <td id="site_description" class="sensor-data-value"></td>
+                                    <td>Period</td>
+                                    <td id="pp" class="sofar-data-value"></td>
                                 </tr>
                                 <tr>
-                                    <td>Latitude</td>
-                                    <td id="latitude" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Longitude</td>
-                                    <td id="longitude" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Horizontal Datum</td>
-                                    <td id="hdatum" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Horizontal Collection Method</td>
-                                    <td id="hcollect_method" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Address</td>
-                                    <td id="address" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>City</td>
-                                    <td id="city" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>State</td>
-                                    <td id="state" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>ZIP Code</td>
-                                    <td id="zip" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>County</td>
-                                    <td id="county" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Waterbody</td>
-                                    <td id="waterbody" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Drainage Area (sq mi)</td>
-                                    <td id="drainage_area" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Station ID for USGS gage</td>
-                                    <td id="usgs_sid" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Station ID for NOAA gage</td>
-                                    <td id="noaa_sid" class="sensor-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Other Station ID</td>
-                                    <td id="other_sid" class="sensor-data-value"></td>
-                                </tr>
-                            </table>
-
-                            <h4>Peak Summaries</h4>
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Elevation (ft)</th>
-                                        <th>Date/Time</th>
-                                        <th>Event</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="peakSummaryTableBody">
-                                    <!-- <tr ng-repeat="p in peaks">
-                                        <td>{{p.peak_stage}}</td>
-                                        <td>{{p.peak_date | date: 'MM/dd/yyyy HH:mm a'}}</td>
-                                        <td>{{p.event_name}}</td>
-                                    </tr> -->
-                                </tbody>
-                            </table>
-
-                            <h4>Sensor Information</h4>
-
-                            <span>Event: <span id="event"></span></span><br>
-                            <label for="deployedSensorTable">Deployed Status Information</label>
-                            <table class="table table-striped table-condensed sensor-data-table"
-                                id="deployedSensorTable">
-                                <!-- Begin Deployed Sensor status section -->
-                                <!-- <tr>
-                                    <th>Deployed Status Information</th>
-                                </tr> -->
-                                <tr>
-                                    <td>Sensor Type</td>
-                                    <td id="sensor_type" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Sensor Brand</td>
-                                    <td id="sensorBrand" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Serial Number</td>
-                                    <td id="serial_number" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Housing Serial Number</td>
-                                    <td id="housing_serial_number" class="instrument-data-value">Smith</td>
-                                </tr>
-                                <tr>
-                                    <td>Housing Type</td>
-                                    <td id="housing_type" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Deployment Type</td>
-                                    <td id="deployment_type" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Location Description</td>
-                                    <td id="location_description" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Interval</td>
-                                    <td id="interval" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Vented</td>
-                                    <td id="vented" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Deploy Date</td>
-                                    <td id="deploy_date" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Note</td>
-                                    <td id="deployed_note" class="instrument-data-value"></td>
-                                </tr>
-                                <!-- End Deployed Sensor status section -->
-                            </table>
-
-                            <!-- Tapedowns and related fields -->
-                            <tr>
-                                <td><b>Deployed Tapedowns</b></td>
-                            </tr>
-                            <table class="table table-striped table-condensed sensor-data-table">
-                                <tr>
-                                    <td>Sensor Elevation</td>
-                                    <td id="deployed_elev" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Offset Correction</td>
-                                    <td id="deployed_offset" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Water Surface Elevation</td>
-                                    <td id="deployed_ws_elev" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Ground Surface</td>
-                                    <td id="deployed_ground_surface" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Ground Elevation</td>
-                                    <td id="deployed_gs_elev" class="instrument-data-value"></td>
-                                </tr>
-                            </table>
-                            <label for="retrievedSensorTable">Retrieved Status Information</label>
-                            <table class="table table-striped table-condensed sensor-data-table">
-                                <!-- Begin Retrieved Sensor status section -->
-                                <tr>
-                                    <td>Status</td>
-                                    <td id="ret_sensor_status" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Collection Condition</td>
-                                    <td id="instCollection" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Note</td>
-                                    <td id="retrieved_note" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Retrieve Date</td>
-                                    <td id="retrieved_date" class="instrument-data-value"></td>
-                                </tr>
-
-                                <!-- End Retrieved Sensor status section -->
-                            </table>
-
-                            <!-- Tapedowns and related fields -->
-                            <tr>
-                                <td><b>Retrieved Tapedowns</b></td>
-                            </tr>
-                            <table class="table table-striped table-condensed sensor-data-table">
-                                <tr>
-                                    <td>Sensor Elevation</td>
-                                    <td id="retrieved_elev" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Offset Correction</td>
-                                    <td id="retrieved_offset" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Water Surface Elevation</td>
-                                    <td id="retrieved_ws_elev" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Ground Surface</td>
-                                    <td id="retrieved_ground_surface" class="instrument-data-value"></td>
-                                </tr>
-                                <tr>
-                                    <td>Ground Elevation</td>
-                                    <td id="retrieved_gs_elev" class="instrument-data-value"></td>
+                                    <td>Spread</td>
+                                    <td id="ps" class="sofar-data-value"></td>
                                 </tr>
                             </table>
                         </div>
-
-                        <!-- Begin sensor files section -->
-                        <div class="col-md-6" style="text-align: left;">
-                            <h3>Sensor Files</h3>
-                            <!-- list of existing photo files for this hwm -->
-                            <label>Data Files</label>
-                            <div id=dataFilesList></div>
-                            <label>Photo Files</label>
-                            <div id=photoFilesList></div>
-
+                        <div class="col-md-6" class="sofar-data-table-div">
+                            <h4>Mean Data</h4>
+                            <table class="table table-striped table-condensed sofar-data-table">
+                                <tr>
+                                    <td>Direction</td>
+                                    <td id="md" class="sofar-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Period</td>
+                                    <td id="mp" class="sofar-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Spread</td>
+                                    <td id="ms" class="sofar-data-value"></td>
+                                </tr>
+                            </table>
                         </div>
-                        <!-- End sensor files section -->
+                        <h3>Graphed Data for Past Month</h3>
+                        <div class="col-md-6" class="sofar-data-table-div">
+                            <!-- START PERIOD GRAPH -->
+                            <p id="periodgraphLoadMessage">
+                                <span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span>
+                            </p>
+                            <div id="sigWaveGraphContainer" style="display:none;"></div>
+                            <div id="noDataMessage" style="width:100%;display:none;">
+                                <b><span>Sofar wave data not available to graph</span></b>
+                            </div>
+                        </div>
+                        <div class="col-md-6" class="sofar-data-table-div">
+                            <!-- START PEAK PERIOD GRAPH -->
+                            <p id="graphLoadMessagePeakDir">
+                                <span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span>
+                            </p>
+                            <div id="peakDirGraphContainer" style="display:none;"></div>
+                            <div id="noDataMessagePeakDir" style="width:100%;display:none;">
+                                <b><span>Sofar wave data not available to graph</span></b>
+                            </div>
+                        </div>
+                        <div class="col-md-6" class="sofar-data-table-div">
+                            <!-- START PEAK PERIOD GRAPH -->
+                            <p id="graphLoadMessagePeakDirSpread">
+                                <span><i class="fa fa-lg fa-cog fa-spin fa-fw"></i> Sofar data graph loading...</span>
+                            </p>
+                            <div id="peakDirSpreadGraphContainer" style="display:none;"></div>
+                            <div id="noDataMessagePeakDirSpread" style="width:100%;display:none;">
+                                <b><span>Sofar wave data not available to graph</span></b>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- end sensor data modal ---------------------------------------------------------------------------------- -->
+    </div>
+    <!-- end sofar data modal ---------------------------------------------------------------------------------- -->
 
     <!-- begin hwm data modal ---------------------------------------------------------------------------------- -->
     <div class="modal fade overflow-y-hidden" id="hwmDataModal" style="display: none;" aria-hidden="true">
@@ -1087,7 +933,256 @@
         </div>
     </div>
     <!-- end hwm data modal ---------------------------------------------------------------------------------- -->
+    <!-- begin sensor data modal ---------------------------------------------------------------------------------- -->
+    <div class="modal fade overflow-y-hidden" id="sensorDataModal" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog sensor-modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Site and Sensor Detail</h4>
+                </div>
+                <div class="modal-body sensor-modal-body" style="text-align: center;">
+                    <div class="row">
+                        <div class="col-md-6" class="sensor-data-table-div">
 
+                            <h4>Site Information</h4>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Site Number</td>
+                                    <td id="site_no" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Site Description</td>
+                                    <td id="site_description" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Latitude</td>
+                                    <td id="latitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude</td>
+                                    <td id="longitude" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Datum</td>
+                                    <td id="hdatum" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizontal Collection Method</td>
+                                    <td id="hcollect_method" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td id="address" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td id="city" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td id="state" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>ZIP Code</td>
+                                    <td id="zip" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>County</td>
+                                    <td id="county" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Waterbody</td>
+                                    <td id="waterbody" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Drainage Area (sq mi)</td>
+                                    <td id="drainage_area" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Station ID for USGS gage</td>
+                                    <td id="usgs_sid" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Station ID for NOAA gage</td>
+                                    <td id="noaa_sid" class="sensor-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Other Station ID</td>
+                                    <td id="other_sid" class="sensor-data-value"></td>
+                                </tr>
+                            </table>
+
+                            <h4>Peak Summaries</h4>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Elevation (ft)</th>
+                                        <th>Date/Time</th>
+                                        <th>Event</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="peakSummaryTableBody">
+                                    <!-- <tr ng-repeat="p in peaks">
+                                    <td>{{p.peak_stage}}</td>
+                                    <td>{{p.peak_date | date: 'MM/dd/yyyy HH:mm a'}}</td>
+                                    <td>{{p.event_name}}</td>
+                                </tr> -->
+                                </tbody>
+                            </table>
+
+                            <h4>Sensor Information</h4>
+
+                            <span>Event: <span id="event"></span></span><br>
+                            <label for="deployedSensorTable">Deployed Status Information</label>
+                            <table class="table table-striped table-condensed sensor-data-table"
+                                id="deployedSensorTable">
+                                <!-- Begin Deployed Sensor status section -->
+                                <!-- <tr>
+                                <th>Deployed Status Information</th>
+                            </tr> -->
+                                <tr>
+                                    <td>Sensor Type</td>
+                                    <td id="sensor_type" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor Brand</td>
+                                    <td id="sensorBrand" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Serial Number</td>
+                                    <td id="serial_number" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Housing Serial Number</td>
+                                    <td id="housing_serial_number" class="instrument-data-value">Smith</td>
+                                </tr>
+                                <tr>
+                                    <td>Housing Type</td>
+                                    <td id="housing_type" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Deployment Type</td>
+                                    <td id="deployment_type" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Location Description</td>
+                                    <td id="location_description" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Interval</td>
+                                    <td id="interval" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Vented</td>
+                                    <td id="vented" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Deploy Date</td>
+                                    <td id="deploy_date" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Note</td>
+                                    <td id="deployed_note" class="instrument-data-value"></td>
+                                </tr>
+                                <!-- End Deployed Sensor status section -->
+                            </table>
+
+                            <!-- Tapedowns and related fields -->
+                            <tr>
+                                <td><b>Deployed Tapedowns</b></td>
+                            </tr>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Sensor Elevation</td>
+                                    <td id="deployed_elev" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Offset Correction</td>
+                                    <td id="deployed_offset" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Water Surface Elevation</td>
+                                    <td id="deployed_ws_elev" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Surface</td>
+                                    <td id="deployed_ground_surface" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Elevation</td>
+                                    <td id="deployed_gs_elev" class="instrument-data-value"></td>
+                                </tr>
+                            </table>
+                            <label for="retrievedSensorTable">Retrieved Status Information</label>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <!-- Begin Retrieved Sensor status section -->
+                                <tr>
+                                    <td>Status</td>
+                                    <td id="ret_sensor_status" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Collection Condition</td>
+                                    <td id="instCollection" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Note</td>
+                                    <td id="retrieved_note" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Retrieve Date</td>
+                                    <td id="retrieved_date" class="instrument-data-value"></td>
+                                </tr>
+
+                                <!-- End Retrieved Sensor status section -->
+                            </table>
+
+                            <!-- Tapedowns and related fields -->
+                            <tr>
+                                <td><b>Retrieved Tapedowns</b></td>
+                            </tr>
+                            <table class="table table-striped table-condensed sensor-data-table">
+                                <tr>
+                                    <td>Sensor Elevation</td>
+                                    <td id="retrieved_elev" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Offset Correction</td>
+                                    <td id="retrieved_offset" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Water Surface Elevation</td>
+                                    <td id="retrieved_ws_elev" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Surface</td>
+                                    <td id="retrieved_ground_surface" class="instrument-data-value"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ground Elevation</td>
+                                    <td id="retrieved_gs_elev" class="instrument-data-value"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Begin sensor files section -->
+                        <div class="col-md-6" style="text-align: left;">
+                            <h3>Sensor Files</h3>
+                            <!-- list of existing photo files for this hwm -->
+                            <label>Data Files</label>
+                            <div id=dataFilesList></div>
+                            <label>Photo Files</label>
+                            <div id=photoFilesList></div>
+
+                        </div>
+                        <!-- End sensor files section -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end sensor data modal ---------------------------------------------------------------------------------- -->
     <!-- Begin page content -->
     <div class="container-fluid keepit100">
         <div class="row keepit100">
@@ -1274,7 +1369,8 @@
                                 <a href="https://my.usgs.gov/confluence/display/WSN/STN+Data+Dictionary+-+Top+Level"
                                     target="_blank" style="cursor: pointer;">STN Data Dictionary</a> for field names
                                 and
-                                definitions.</p>
+                                definitions.
+                            </p>
                             <div id="sensorDownloadButtons">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-default dropdown-toggle"
@@ -1359,7 +1455,7 @@
                             </h4>
                         </div>
                         <div id="legendCollapse" class="panel-collapse " role="tabpanel">
-                            <div id="legendDiv" class="panel-body legend-panel-body">
+                            <div id="legendDiv" style="max-width: 300px" class="panel-body legend-panel-body">
                                 <div id="realTimeToggleDiv">
                                     <b>Real-time Event Data</b></br>
                                     <div id="rtScaleAlert" class='alert alert-warning rtScaleAlertClass' role='alert'>
@@ -1367,7 +1463,8 @@
                                         <!-- <br> -->
                                         zoom level 9
                                         and
-                                        above. Please zoom in to view.</div>
+                                        above. Please zoom in to view.
+                                    </div>
                                     <div style="text-align: left; margin-left: 6px;">
                                         <label>
                                             <input type="checkbox" id=streamGageToggle onclick="clickStreamGage()" />
@@ -1389,19 +1486,42 @@
                                         <label>
                                             <input type="checkbox" id="nwisTidalGageToggle"
                                                 onclick="clickNwisTidalGage()" />
-                                                <div class='legend-icon'>
-                                                    <div
-                                                        class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
-                                                    </div>
-                                                    <label>Tidal Gage</label>
+                                            <div class='legend-icon'>
+                                                <div
+                                                    class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
                                                 </div>
+                                                <label>Tidal Gage</label>
+                                            </div>
                                         </label>
                                     </div>
+                                    <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id="sofarToggle" onclick="clickSofar()" />
+                                            <div class='legend-icon'>
+                                                <div class='sofarIconStatic'>
+                                                </div>
+                                                <label>SOFAR Buoy</label>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <!-- <div style="text-align: left; margin-left: 6px;">
+                                        <label>
+                                            <input type="checkbox" id="nbdToggle" onclick="clickNDBs()" />
+                                            <div class='legend-icon'>
+                                                <div class='wmm-square wmm-altorange wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
+                                                </div>
+                                                <label>NOAA National Buoy</label>
+                                            </div>
+                                        </label>
+                                    </div> -->
                                 </div>
                                 <div id="observedToggleDiv">
                                     <b>Observed Event Data</b>
                                 </div>
-                                <label class='hwmLabelToggle switch'><input id='hwmToggle' type='checkbox'><span onclick='toggleHWMLabels()' class='slider round'></span></label>
+                                <label class='hwmLabelToggle switch'><input id='hwmToggle' type='checkbox'><span
+                                        onclick='toggleHWMLabels()' class='slider round'></span></label>
+                                <!-- <label class='hwmUSACELabelToggle switch'><input id='hwmUSACEToggle' type='checkbox'><span
+                                            onclick='toggleHWMLabels()' class='slider round'></span></label> -->
                                 <div class="observedMargin"></div>
                                 <div id="interpretedToggleDiv">
                                     <b>Interpreted Event Data</b>
@@ -1416,9 +1536,11 @@
                                             <label>Peak Summary</label>
                                         </div>
                                     </label>
-                                <label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;' class='switch'><input id='peakCheckbox' type='checkbox'><span onclick='togglePeakLabels()' class='slider round'></label>
+                                    <label id='peakLabelToggle' style='display: inline-flex;left: 10px;bottom: 8px;'
+                                        class='switch'><input id='peakCheckbox' type='checkbox'><span
+                                            onclick='togglePeakLabels()' class='slider round'></label>
                                 </div>
-                                    <div id="supportingToggleDiv" style="margin-top: 10px">
+                                <div id="supportingToggleDiv" style="margin-top: 10px">
                                     <b>Supporting Layers</b>
                                     <div id="noTrackAdvisory"></div>
 
